@@ -321,6 +321,33 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
 </style>
+
+<!-- 1. 메타(Meta) 픽셀 기본 코드 -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '여기에_메타_픽셀_ID_입력');
+fbq('track', 'PageView');
+</script>
+
+<!-- 2. 틱톡(TikTok) 픽셀 기본 코드 -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+  ttq.load('여기에_틱톡_픽셀_ID_입력');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+
+<!-- 3. 세일즈스마트리(SalesSmartly) 연동 스크립트 (관리자에서 복사한 주소로 교체) -->
+<script src="https://assets.salesmartly.com/js/project_XXXXXX_XXXXXX.js" defer></script>
+
 </head>
 <body>
 
@@ -788,7 +815,11 @@ document.getElementById('yr').textContent=new Date().getFullYear();
 
 (function(){
   const p=new URLSearchParams(location.search);
-  if(p.get('hidebar')==='1')document.getElementById('brandBar').style.display='none';
+  const bar=document.getElementById('brandBar');
+  // 기본은 무조건 숨김! ?admin=1 을 붙였을 때만 프리셋 바 노출
+  if(p.get('admin')==='1') bar.style.display='block';
+  else bar.style.display='none';
+
   const b=p.get('brand');
   if(b)document.querySelectorAll('.brand-t').forEach(e=>e.textContent=b);
 })();
@@ -825,6 +856,21 @@ function go(n){
   document.getElementById('s'+n).classList.add('on');
   const m={1:{t:'STEP 01. 기본 소득 정보',p:'1 / 3 단계',w:'33%'},2:{t:'STEP 02. 회생 및 신용 상태',p:'2 / 3 단계',w:'66%'},3:{t:'STEP 03. 희망 금액',p:'3 / 3 단계',w:'90%'},4:{t:'내부전산 가조회 분석 중',p:'분석중',w:'95%'},5:{t:'가조회 산출 완료',p:'완료',w:'100%'}};
   if(m[n]){document.getElementById('siText').textContent=m[n].t;document.getElementById('siPct').textContent=m[n].p;document.getElementById('pBar').style.width=m[n].w}
+
+  // 추가된 부분: 5단계(결과화면)에 오면 휴대폰 맨 아래 버튼도 '1:1 상담 연결'로 자동 변경
+  const mbarBtn = document.querySelector('.mbar .btn');
+  const mbarTitle = document.querySelector('.mbar-t b');
+  if(mbarBtn && mbarTitle){
+    if(n === 5){
+      mbarTitle.textContent = '최대 ' + S.calculatedLimit.toLocaleString() + '만원 산출 완료';
+      mbarBtn.innerHTML = '1:1 전산설계 상담 연결';
+      mbarBtn.onclick = function(){ triggerChat(); };
+    } else {
+      mbarTitle.textContent = 'CB스코어 자체설계 한도';
+      mbarBtn.innerHTML = '무료 한도 산출';
+      mbarBtn.onclick = function(){ document.getElementById('calcSec').scrollIntoView({behavior:'smooth'}); };
+    }
+  }
 }
 
 function analyze(){
@@ -881,11 +927,38 @@ function cp(t){if(navigator.clipboard&&window.isSecureContext)navigator.clipboar
 
 function showToast(){const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 
+let pixelFired = false; // 1인당 1회만 픽셀 카운팅하기 위한 스위치
+
 function triggerChat(){
-  const f=buildForm();cp(f);showToast();
-  try{if(window.fbq)fbq('track','Lead',{content_name:'CB_PreCheck',value:S.requestedAmount,currency:'KRW'});if(window.ttq)ttq.track('SubmitForm',{content_name:'CB_PreCheck'})}catch(e){}
+  const f = buildForm();
+  const nm = document.getElementById('cNm').value.trim() || '가조회고객';
+  const ph = document.getElementById('cPh').value.trim() || '';
+  cp(f); showToast();
+
+  // 해결 1: 처음 눌렀을 때 딱 1번만 메타/틱톡 픽셀 전환 전송
+  if(!pixelFired){
+    pixelFired = true;
+    try{
+      if(window.fbq) fbq('track','Lead',{content_name:'CB_PreCheck',value:S.requestedAmount,currency:'KRW'});
+      if(window.ttq) ttq.track('SubmitForm',{content_name:'CB_PreCheck',value:S.requestedAmount,currency:'KRW'});
+    }catch(e){}
+  }
+
+  // 해결 2: 고객이 붙여넣기를 안 해도 세일즈스마트리 상담원 화면에 가조회 내역 자동 박제 후 채팅창 오픈
+  if(window.ssq){
+    window.ssq.push(['setLoginInfo', {
+      user_id: ph || ('user_' + Date.now()),
+      user_name: nm + ' (' + S.requestedAmount + '만/' + S.rehab + ')',
+      phone: ph,
+      description: f // 여기에 <내부시스템 가조회 접수내역> 전체가 자동으로 들어감!
+    }]);
+    window.ssq.push(['chatOpen']);
+    return;
+  }
   if(window.SalesSmartly&&typeof window.SalesSmartly.open==='function'){window.SalesSmartly.open();return}
   if(typeof window.ss==='function'){try{window.ss('open');return}catch(e){}}
+
+  // (세일즈스마트리 스크립트 넣기 전 테스트용 모달)
   document.getElementById('chatSum').textContent=f;
   document.getElementById('chatIn').value='조회 결과 확인했습니다. 진행 방법 안내 부탁드립니다.';
   document.getElementById('chatM').classList.add('open');
