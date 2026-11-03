@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>내부시스템 가조회 & 맞춤 한도 설계</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#f6f7fb;
+  --surface:#fff;
+  --surface-alt:#f0f2f8;
+  --border:#e2e5ee;
+  --border-light:#eceef5;
+  --text-primary:#1a1d2b;
+  --text-secondary:#5a5f73;
+  --text-tertiary:#8b90a3;
+  --accent:#2563eb;
+  --accent-dark:#1d4ed8;
+  --accent-light:#dbeafe;
+  --accent-glow:rgba(37,99,235,.15);
+  --success:#059669;
+  --success-light:#d1fae5;
+  --amber:#d97706;
+  --amber-light:#fef3c7;
+  --radius:14px;
+  --radius-sm:10px;
+  --radius-lg:20px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 16px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 40px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.04);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color-scheme: light;
+}
+
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#111318;--surface:#1a1d26;--surface-alt:#22252f;
+    --border:#2a2e3a;--border-light:#252830;
+    --text-primary:#e8eaf0;--text-secondary:#9ba0b4;--text-tertiary:#6b7085;
+    --accent:#3b82f6;--accent-dark:#60a5fa;--accent-light:rgba(59,130,246,.15);
+    --accent-glow:rgba(59,130,246,.12);
+    --success:#34d399;--success-light:rgba(52,211,153,.12);
+    --amber:#fbbf24;--amber-light:rgba(251,191,36,.12);
+    --shadow-sm:0 1px 3px rgba(0,0,0,.2);
+    --shadow-md:0 4px 16px rgba(0,0,0,.25);
+    --shadow-lg:0 10px 40px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111318;--surface:#1a1d26;--surface-alt:#22252f;
+  --border:#2a2e3a;--border-light:#252830;
+  --text-primary:#e8eaf0;--text-secondary:#9ba0b4;--text-tertiary:#6b7085;
+  --accent:#3b82f6;--accent-dark:#60a5fa;--accent-light:rgba(59,130,246,.15);
+  --accent-glow:rgba(59,130,246,.12);
+  --success:#34d399;--success-light:rgba(52,211,153,.12);
+  --amber:#fbbf24;--amber-light:rgba(251,191,36,.12);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.2);
+  --shadow-md:0 4px 16px rgba(0,0,0,.25);
+  --shadow-lg:0 10px 40px rgba(0,0,0,.35);
+}
+
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text-primary);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+  word-break:keep-all;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  min-height:100vh;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--surface)}
+
+/* ---- Header ---- */
+.header{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+  background:var(--surface);border-bottom:1px solid var(--border-light);
+  backdrop-filter:blur(12px);
+}
+.header-inner{
+  max-width:640px;margin:0 auto;padding:0 20px;
+  height:56px;display:flex;align-items:center;justify-content:space-between;
+}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--accent);display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:15px;
+}
+.logo-text{font-weight:800;font-size:16px;letter-spacing:-.02em;color:var(--text-primary)}
+.status-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;
+  background:var(--success-light);color:var(--success);
+}
+.status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ---- Brand Toolbar ---- */
+.brand-bar{
+  background:var(--surface-alt);border-bottom:1px solid var(--border-light);
+  padding:8px 20px;overflow-x:auto;white-space:nowrap;
+}
+.brand-bar-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:8px;font-size:11px}
+.brand-bar-label{color:var(--text-tertiary);font-weight:600;flex-shrink:0}
+.brand-btn{
+  padding:5px 14px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text-secondary);font-size:11px;font-weight:600;
+  cursor:pointer;transition:all .15s;flex-shrink:0;
+}
+.brand-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.brand-btn:not(.active):hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---- Hero ---- */
+.hero{max-width:640px;margin:0 auto;padding:32px 20px 24px;text-align:center}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  background:var(--accent-light);color:var(--accent);margin-bottom:16px;
+}
+.hero h1{font-size:24px;font-weight:800;line-height:1.35;letter-spacing:-.03em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{font-size:14px;color:var(--text-secondary);margin-top:10px;max-width:420px;margin-left:auto;margin-right:auto}
+
+/* ---- Card ---- */
+.card{
+  max-width:520px;margin:0 auto 40px;padding:0;
+  background:var(--surface);border-radius:var(--radius-lg);
+  border:1px solid var(--border-light);
+  box-shadow:var(--shadow-lg);overflow:hidden;
+}
+.progress-track{height:3px;background:var(--surface-alt)}
+.progress-fill{height:3px;background:var(--accent);transition:width .4s cubic-bezier(.4,0,.2,1)}
+.card-body{padding:28px 24px 32px}
+@media(min-width:480px){.card-body{padding:32px 32px 36px}}
+
+/* ---- Steps ---- */
+.step{display:none;animation:step-in .35s ease forwards}
+.step.active{display:block}
+@keyframes step-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.step-label{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.02em;margin-bottom:4px}
+.step-title{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.step-desc{font-size:12px;color:var(--text-tertiary);margin-bottom:20px}
+
+/* ---- Form Controls ---- */
+.field-label{display:block;font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:8px}
+
+.option-grid{display:grid;gap:8px}
+.option-grid.cols-2{grid-template-columns:1fr 1fr}
+.option-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+.option-grid.cols-4{grid-template-columns:1fr 1fr 1fr 1fr}
+
+.opt-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  padding:14px 8px;border-radius:var(--radius);
+  border:2px solid var(--border);background:var(--surface);
+  font-size:12px;font-weight:700;color:var(--text-primary);
+  cursor:pointer;transition:all .15s;text-align:center;
+}
+.opt-btn:hover{border-color:var(--accent);background:var(--accent-glow)}
+.opt-btn.selected{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+.opt-btn .icon{font-size:20px;line-height:1}
+
+.mini-btn{
+  padding:10px 6px;border-radius:var(--radius-sm);
+  border:2px solid var(--border);background:var(--surface);
+  font-size:11px;font-weight:700;color:var(--text-primary);
+  cursor:pointer;transition:all .15s;text-align:center;
+}
+.mini-btn:hover{border-color:var(--accent)}
+.mini-btn.selected{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+
+.field-select{
+  width:100%;padding:10px 14px;border-radius:var(--radius-sm);
+  border:1px solid var(--border);background:var(--surface);
+  font-size:13px;font-weight:600;color:var(--text-primary);
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%235a5f73' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.field-select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+
+.field-group{
+  padding:16px;border-radius:var(--radius);
+  border:1px solid var(--border-light);background:var(--surface-alt);
+}
+
+.amount-display{
+  text-align:center;padding:20px;border-radius:var(--radius);
+  background:var(--accent-light);margin-bottom:16px;
+}
+.amount-display span{display:block;font-size:11px;color:var(--accent);font-weight:600;margin-bottom:4px}
+.amount-display strong{font-size:32px;font-weight:900;color:var(--accent);letter-spacing:-.03em}
+
+/* ---- Buttons ---- */
+.btn-row{display:flex;gap:10px;margin-top:24px}
+.btn{
+  flex:1;padding:14px 20px;border-radius:var(--radius);
+  border:none;font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .15s;
+}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-dark)}
+.btn-secondary{background:var(--surface-alt);color:var(--text-secondary);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--border-light)}
+.btn-cta{
+  background:var(--accent);color:#fff;
+  box-shadow:0 4px 20px rgba(37,99,235,.3);
+}
+.btn-cta:hover{background:var(--accent-dark);box-shadow:0 6px 24px rgba(37,99,235,.35)}
+.btn-kakao{background:#FEE500;color:#3C1E1E;font-weight:700}
+.btn-kakao:hover{background:#fdd835}
+.btn-wide{flex:2}
+
+/* ---- Loading (Step 4) ---- */
+.loader-wrap{text-align:center;padding:30px 0}
+.spinner{
+  width:80px;height:80px;margin:0 auto 24px;position:relative;
+}
+.spinner-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:3px solid var(--border-light);border-top-color:var(--accent);
+  animation:spin .9s linear infinite;
+}
+.spinner-inner{
+  position:absolute;inset:12px;border-radius:50%;
+  background:var(--accent-light);display:flex;align-items:center;justify-content:center;
+  font-size:24px;color:var(--accent);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-bar{height:4px;background:var(--surface-alt);border-radius:4px;max-width:200px;margin:20px auto 0;overflow:hidden}
+.loader-fill{height:4px;background:var(--accent);border-radius:4px;width:0;transition:width .4s}
+
+/* ---- Result (Step 5) ---- */
+.result-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;
+  background:var(--success-light);color:var(--success);margin-bottom:12px;
+}
+.result-heading{font-size:20px;font-weight:800;text-align:center;line-height:1.4;letter-spacing:-.02em}
+.result-heading em{font-style:normal;color:var(--accent)}
+.result-sub{font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:6px;margin-bottom:20px}
+
+.result-panel{
+  background:var(--text-primary);color:var(--bg);
+  border-radius:var(--radius);padding:20px;margin-bottom:20px;
+  font-size:12px;line-height:1.7;
+}
+.result-panel-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:10px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1);
+  font-weight:700;color:var(--accent);font-size:12px;
+}
+.result-panel-tag{
+  font-size:10px;padding:3px 8px;border-radius:6px;
+  background:rgba(37,99,235,.15);color:var(--accent);font-weight:600;
+}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;margin-bottom:14px}
+.result-grid span{color:rgba(255,255,255,.5)}
+.result-grid strong{color:#fff;font-weight:600}
+.result-section-title{
+  color:var(--amber);font-weight:700;padding-top:12px;
+  border-top:1px solid rgba(255,255,255,.1);margin-bottom:8px;font-size:12px;
+}
+.result-row{display:flex;justify-content:space-between;padding:3px 0}
+.result-row .label{color:rgba(255,255,255,.45)}
+.result-row .value{font-weight:700;color:#fff}
+.result-row .value.highlight{color:var(--success);font-size:14px}
+
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.input-field{
+  padding:10px 14px;border-radius:var(--radius-sm);
+  border:1px solid var(--border);background:var(--surface);
+  font-size:12px;font-weight:600;color:var(--text-primary);
+}
+.input-field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.input-field::placeholder{color:var(--text-tertiary);font-weight:500}
+
+.note{font-size:11px;color:var(--text-tertiary);text-align:center;margin-top:12px;line-height:1.6}
+
+/* ---- Features ---- */
+.features{max-width:640px;margin:0 auto;padding:0 20px 40px}
+.features-title{font-size:16px;font-weight:800;text-align:center;margin-bottom:20px;letter-spacing:-.02em}
+.features-grid{display:grid;gap:12px}
+@media(min-width:600px){.features-grid{grid-template-columns:1fr 1fr 1fr}}
+.feature-card{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:18px;border-radius:var(--radius);
+  background:var(--surface);border:1px solid var(--border-light);
+}
+.feature-icon{
+  width:42px;height:42px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.feature-card h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.feature-card p{font-size:12px;color:var(--text-tertiary);line-height:1.5}
+
+/* ---- FAQ ---- */
+.faq{max-width:520px;margin:0 auto;padding:0 20px 40px}
+.faq-title{font-size:16px;font-weight:800;text-align:center;margin-bottom:20px;letter-spacing:-.02em}
+.faq-item{
+  background:var(--surface);border:1px solid var(--border-light);
+  border-radius:var(--radius);margin-bottom:8px;overflow:hidden;
+}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 18px;cursor:pointer;font-size:13px;font-weight:700;gap:12px;
+}
+.faq-q svg{flex-shrink:0;width:16px;height:16px;color:var(--text-tertiary);transition:transform .2s}
+.faq-q.open svg{transform:rotate(180deg)}
+.faq-a{
+  padding:0 18px 16px;font-size:12px;color:var(--text-secondary);
+  line-height:1.7;border-top:1px solid var(--border-light);
+  display:none;
+}
+.faq-a.open{display:block;animation:step-in .25s ease}
+
+/* ---- Footer ---- */
+.site-footer{
+  background:var(--surface-alt);border-top:1px solid var(--border-light);
+  padding:40px 20px;margin-top:20px;
+}
+.footer-inner{max-width:640px;margin:0 auto;font-size:11px;color:var(--text-tertiary);line-height:1.7}
+.footer-brand{font-size:14px;font-weight:800;color:var(--text-primary);margin-bottom:16px}
+.footer-warn{
+  background:var(--amber-light);color:var(--amber);
+  padding:14px 16px;border-radius:var(--radius-sm);margin-bottom:16px;
+  font-size:11px;line-height:1.7;font-weight:600;
+}
+.footer-legal{color:var(--text-tertiary);font-size:11px;line-height:1.7}
+.footer-copy{margin-top:16px;padding-top:16px;border-top:1px solid var(--border-light);font-size:10px}
+
+/* ---- Mobile Bottom Bar ---- */
+.mobile-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:40;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+  background:var(--surface);border-top:1px solid var(--border-light);
+  backdrop-filter:blur(12px);display:flex;align-items:center;gap:12px;
+}
+@media(min-width:640px){.mobile-bar{display:none}}
+.mobile-bar-text{flex-shrink:0}
+.mobile-bar-text small{display:block;font-size:10px;color:var(--accent);font-weight:600}
+.mobile-bar-text span{font-size:12px;font-weight:700}
+.mobile-bar .btn{font-size:12px;padding:12px 16px}
+
+/* ---- Chat Modal ---- */
+.modal-overlay{
+  position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);
+  backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal-overlay.open{display:flex}
+.chat-modal{
+  width:100%;max-width:400px;max-height:85vh;
+  background:var(--surface);border-radius:var(--radius-lg);
+  overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:var(--shadow-lg);
+}
+.chat-header{
+  background:var(--accent);color:#fff;padding:16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.chat-header-info{display:flex;align-items:center;gap:10px}
+.chat-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+.chat-name{font-size:13px;font-weight:700}
+.chat-status{font-size:10px;opacity:.8;display:flex;align-items:center;gap:4px}
+.chat-close{
+  width:32px;height:32px;border-radius:50%;border:none;
+  background:rgba(255,255,255,.1);color:#fff;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--surface-alt)}
+.chat-bubble{
+  max-width:85%;padding:12px 14px;border-radius:14px;
+  font-size:12px;line-height:1.6;
+}
+.chat-bubble.incoming{
+  background:var(--surface);border:1px solid var(--border-light);
+  color:var(--text-primary);align-self:flex-start;border-top-left-radius:4px;
+}
+.chat-bubble.outgoing{
+  background:var(--accent);color:#fff;align-self:flex-end;
+  border-bottom-right-radius:4px;white-space:pre-line;font-size:11px;
+}
+.chat-input-row{
+  padding:12px;border-top:1px solid var(--border-light);
+  display:flex;gap:8px;background:var(--surface);
+}
+.chat-input{
+  flex:1;padding:10px 14px;border-radius:var(--radius-sm);
+  border:1px solid var(--border);background:var(--surface-alt);
+  font-size:12px;color:var(--text-primary);
+}
+.chat-input:focus{outline:none;border-color:var(--accent)}
+.chat-send{
+  padding:10px 16px;border-radius:var(--radius-sm);
+  background:var(--accent);color:#fff;border:none;
+  font-size:12px;font-weight:700;cursor:pointer;
+}
+
+/* spacing helper */
+.mb-12{margin-bottom:12px}
+.mb-16{margin-bottom:16px}
+.mb-20{margin-bottom:20px}
+.mb-24{margin-bottom:24px}
+.gap-8{gap:8px}
+.gap-12{gap:12px}
+.text-center{text-align:center}
+
+/* body bottom pad for mobile bar */
+@media(max-width:639px){body{padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}}
+</style>
+</head>
+<body>
+
+<!-- Brand Toolbar -->
+<div class="brand-bar">
+  <div class="brand-bar-inner">
+    <span class="brand-bar-label">브랜드 변경 →</span>
+    <button class="brand-btn active" onclick="setBrand('바른한도플랜','내부심사 맞춤 금융 솔루션')">바른한도플랜</button>
+    <button class="brand-btn" onclick="setBrand('핀포커스','스마트 CB스코어 컨설팅')">핀포커스</button>
+    <button class="brand-btn" onclick="setBrand('모두의한도','개인회생·기대출 맞춤설계')">모두의한도</button>
+    <button class="brand-btn" onclick="setBrand('든든파이낸스','1:1 전산설계 승인 솔루션')">든든파이낸스</button>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text" id="brandName">바른한도플랜</span>
+    </div>
+    <span class="status-pill">
+      <span class="status-dot"></span>
+      내부시스템 가동중
+    </span>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">🛡️ 신용조회 알람 없는 자체 내부시스템 가조회</div>
+  <h1>
+    개인회생 · 기대출 과다 · DSR 초과<br>
+    <em>자체설계 최대 한도</em> 지금 산출
+  </h1>
+  <p>일반 심사 부결이셨나요? CB스코어 상향 맞춤 설계로 보증인 없이 승인 플랜을 도와드립니다.</p>
+</section>
+
+<!-- Multi-Step Card -->
+<section style="padding:0 16px">
+<div class="card">
+  <div class="progress-track"><div class="progress-fill" id="progressBar" style="width:20%"></div></div>
+  <div class="card-body">
+
+    <!-- STEP 1 -->
+    <div class="step active" id="step1">
+      <div class="step-label">Step 1 — 기본 소득 정보</div>
+      <div class="step-title">직장여부와 월 소득을 선택해주세요</div>
+      <div class="step-desc">겸직의 경우 합산 월평균소득 기준입니다.</div>
+
+      <div class="field-label">직장여부</div>
+      <div class="option-grid cols-2 mb-16">
+        <button class="opt-btn selected" data-group="job" onclick="pick(this,'job','직장인')">
+          <span class="icon">💼</span>직장인
+        </button>
+        <button class="opt-btn" data-group="job" onclick="pick(this,'job','직장인 겸 설계사/투잡')">
+          <span class="icon">👔</span>직장인 겸 설계사/투잡
+        </button>
+        <button class="opt-btn" data-group="job" onclick="pick(this,'job','개인/법인 사업자')">
+          <span class="icon">🏪</span>개인/법인 사업자
+        </button>
+        <button class="opt-btn" data-group="job" onclick="pick(this,'job','설계사/프리랜서')">
+          <span class="icon">💻</span>설계사 / 프리랜서
+        </button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="mb-20">
+        <div class="field-group">
+          <div class="field-label">4대보험 가입 유무</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <button class="mini-btn selected" data-group="ins" onclick="pick(this,'insurance','유')">유 (가입중)</button>
+            <button class="mini-btn" data-group="ins" onclick="pick(this,'insurance','무')">무 (미가입)</button>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">월평균소득 (합산)</div>
+          <select class="field-select" onchange="state.income=this.value">
+            <option value="200">월 200만원 내외</option>
+            <option value="300">월 300만원 내외</option>
+            <option value="400">월 400만원 내외</option>
+            <option value="500" selected>월 500만원 내외</option>
+            <option value="600">월 600만원 이상</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%" onclick="goStep(2)">
+        다음 단계로 →
+      </button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" id="step2">
+      <div class="step-label">Step 2 — 회생 및 신용 상태</div>
+      <div class="step-title">개인회생 · 파산면책 및 평점 체크</div>
+      <div class="step-desc">신용점수를 모르셔도 내부시스템 가조회로 파악 가능합니다.</div>
+
+      <div class="field-group mb-16">
+        <div class="field-label">개인회생 상태</div>
+        <div class="option-grid cols-2 gap-8">
+          <button class="mini-btn selected" data-group="rehab" onclick="pick(this,'rehab','회생 36회이상')">회생중 (36회 이상)</button>
+          <button class="mini-btn" data-group="rehab" onclick="pick(this,'rehab','회생 36회미만')">회생중 (36회 미만)</button>
+          <button class="mini-btn" data-group="rehab" onclick="pick(this,'rehab','회생 진행예정/인가전')">회생 인가전/개시</button>
+          <button class="mini-btn" data-group="rehab" onclick="pick(this,'rehab','없음 (일반/기대출과다)')">해당 없음 (일반)</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="mb-20">
+        <div class="field-group">
+          <div class="field-label">파산면책 여부</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <button class="mini-btn selected" data-group="bk" onclick="pick(this,'bankruptcy','없음')">없음</button>
+            <button class="mini-btn" data-group="bk" onclick="pick(this,'bankruptcy','있음')">있음 (면책)</button>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">나이스(NICE) 평점</div>
+          <select class="field-select" onchange="state.niceScore=this.value">
+            <option value="모름" selected>모름 (가조회 희망)</option>
+            <option value="600점 미만">600점 미만</option>
+            <option value="600~700점대">600 ~ 700점대</option>
+            <option value="700점 이상">700점 이상</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goStep(1)">이전</button>
+        <button class="btn btn-primary btn-wide" onclick="goStep(3)">필요 금액 설정 →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="step3">
+      <div class="step-label">Step 3 — 희망 한도 및 기대출</div>
+      <div class="step-title">필요하신 대출 금액은 얼마인가요?</div>
+      <div class="step-desc">CB스코어 상향 시 산출 가능한 최대 한도를 계산합니다.</div>
+
+      <div class="amount-display">
+        <span>필요 대출 신청 금액</span>
+        <strong id="amountDisplay">1,000 만원</strong>
+      </div>
+
+      <div class="option-grid cols-4 mb-16">
+        <button class="mini-btn" onclick="setAmt(500,this)">500만</button>
+        <button class="mini-btn selected" onclick="setAmt(1000,this)">1,000만</button>
+        <button class="mini-btn" onclick="setAmt(2000,this)">2,000만</button>
+        <button class="mini-btn" onclick="setAmt(3000,this)">3,000만+</button>
+      </div>
+
+      <div class="field-group mb-20">
+        <div class="field-label">현재 기대출 총액 (대부/금융권 합산)</div>
+        <div class="option-grid cols-3 gap-8">
+          <button class="mini-btn selected" data-group="loan" onclick="pick(this,'existingLoan','2,000만원 미만')">2천만 미만</button>
+          <button class="mini-btn" data-group="loan" onclick="pick(this,'existingLoan','2,000~4,000만원')">2천~4천만</button>
+          <button class="mini-btn" data-group="loan" onclick="pick(this,'existingLoan','4,000만원 이상')">4천만 이상</button>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goStep(2)">이전</button>
+        <button class="btn btn-primary btn-wide" onclick="runAnalysis()">⚡ 내부시스템 가조회 시작</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Loading -->
+    <div class="step" id="step4">
+      <div class="loader-wrap">
+        <div class="spinner">
+          <div class="spinner-ring"></div>
+          <div class="spinner-inner">🔍</div>
+        </div>
+        <div class="step-title" id="loadTitle">자체 내부시스템 가조회 진행 중...</div>
+        <div class="step-desc" style="margin-bottom:0">외부 신용조회 알람 없이 CB스코어 상향 시 가능한 한도를 산출합니다.</div>
+        <div class="loader-bar"><div class="loader-fill" id="loadBar"></div></div>
+      </div>
+    </div>
+
+    <!-- STEP 5: Result -->
+    <div class="step" id="step5">
+      <div class="text-center">
+        <div class="result-badge">✅ 내부시스템 가조회 산출 완료</div>
+        <div class="result-heading">CB스코어 전산설계 시<br><em id="headlineLimit">최대 14,000,000원</em> 산출 가능</div>
+        <div class="result-sub">보증인 불필요 · 서류 접수 시 빠르면 2~3일 내 수령</div>
+      </div>
+
+      <div class="result-panel">
+        <div class="result-panel-head">
+          <span>〈 현재 내부시스템 가조회 내역 〉</span>
+          <span class="result-panel-tag">신용알람 미발생</span>
+        </div>
+        <div class="result-grid">
+          <span>• 직장여부: <strong id="rJob">직장인</strong></span>
+          <span>• 월평균소득: <strong id="rIncome">500만원</strong></span>
+          <span>• 4대보험: <strong id="rIns">유</strong></span>
+          <span>• 나이스평점: <strong id="rNice">모름</strong></span>
+          <span>• 파산면책: <strong id="rBk">없음</strong></span>
+          <span>• 개인회생: <strong id="rRehab">회생 36회이상</strong></span>
+        </div>
+        <div class="result-section-title">[자체설계 산출사항]</div>
+        <div class="result-row"><span class="label">자체설계 최대 한도:</span><span class="value highlight" id="rLimit">14,000,000원</span></div>
+        <div class="result-row"><span class="label">예상 대출금리:</span><span class="value">연 4.62% ~ (차등적용)</span></div>
+        <div class="result-row"><span class="label">상환기간:</span><span class="value">1 ~ 10년 설정 가능</span></div>
+        <div class="result-row"><span class="label">상환방식:</span><span class="value">〈원리금균등〉 〈만기일시〉</span></div>
+      </div>
+
+      <div class="field-group mb-16">
+        <div class="field-label" style="display:flex;justify-content:space-between;align-items:center">
+          <span>📋 상담원 전달용 간편 양식 (자동복사)</span>
+          <span style="font-size:10px;color:var(--accent)">입력 시 상담 시간 단축</span>
+        </div>
+        <div class="input-row" style="margin-bottom:0">
+          <input type="text" id="clientName" class="input-field" placeholder="고객성명 (예: 김효진)">
+          <input type="tel" id="clientPhone" class="input-field" placeholder="전화번호 (숫자만)">
+        </div>
+      </div>
+
+      <button class="btn btn-cta mb-12" style="width:100%" onclick="triggerChat()">
+        💬 조회양식 복사 후 1:1 전산설계 상담하기
+      </button>
+      <button class="btn btn-kakao" style="width:100%" onclick="openKakao()">
+        💛 카카오톡으로 조회양식 보내고 상담하기
+      </button>
+
+      <div class="note">
+        * 버튼 클릭 시 조회 양식이 자동 복사됩니다. 상담창에 붙여넣기하시면 즉시 이자 계산서 산출 및 진행 안내를 도와드립니다.
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- Features -->
+<section class="features">
+  <div class="features-title"><span class="brand-text">바른한도플랜</span>만의 진행 방식</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon" style="background:var(--accent-light);color:var(--accent)">🔕</div>
+      <div>
+        <h4>신용조회 알람 없는 내부가조회</h4>
+        <p>자체 내부시스템 가조회로 진행되어 신용조회 알람이 울리지 않으며 평점 하락이 없습니다.</p>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:var(--success-light);color:var(--success)">📈</div>
+      <div>
+        <h4>CB스코어 상향 전산작업 설계</h4>
+        <p>회생 중·기대출 과다·DSR 초과 분들을 위해 보증인 없이 내부 심사 평점을 상향시킵니다.</p>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:var(--amber-light);color:var(--amber)">⏱️</div>
+      <div>
+        <h4>빠르면 2~3일 내 신속 수령</h4>
+        <p>주거래/제휴 금융권 지정 및 비대면 실명인증으로 빠르면 2~3일, 늦어도 4~7일 내 수령 가능합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-title">자주 묻는 질문</div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>조회했는데 왜 신용조회 알람이 안 오나요?</span>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="faq-a">
+      정식 서류 접수 전 고객님의 신용도를 보호하기 위해 자체 내부시스템 가조회로 한도를 먼저 산출합니다. 외부 신용조회 알람이 발송되지 않으며 불필요한 조회 이력이 남지 않습니다.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>개인회생 중이고 DSR 초과 상태인데 보증인이 필요한가요?</span>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="faq-a">
+      보증인은 전혀 없으셔도 됩니다. 금융권 내부 심사 기준인 CB스코어 점수를 상향시키는 전산 설계 방식으로 진행되며, 복잡한 서류 작업은 당사에서 체계적으로 지원해 드립니다.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>상환 방식과 대출금 수령까지 걸리는 시간은?</span>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="faq-a">
+      상환기간은 1년~10년까지 설정 가능하며, 원리금균등상환과 만기일시상환 중 선택하실 수 있습니다. 전산 등록 및 비대면 실명인증을 마치면 빠르면 2~3일, 늦으면 4~7일 내에 수령 가능합니다.
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand brand-text">바른한도플랜</div>
+    <div class="footer-warn">
+      ⚠️ 과도한 빚은 당신에게 큰 불행을 안겨줄 수 있습니다.
+    </div>
+    <div class="footer-legal">
+      • 대출 시 귀하의 신용등급 또는 개인신용평점이 하락할 수 있습니다. (내부시스템 가조회는 신용평점에 영향 없음)<br>
+      • 대출 금리: 연 4.62% ~ 최고 연 19.9% 이내 (법정 최고금리 연 20% 이내 준수)<br>
+      • 상환 기간: 1년 ~ 최장 10년 | 상환 방식: 원리금균등상환, 만기일시상환
+    </div>
+    <div class="footer-copy">© <span id="yr"></span> <span class="brand-text">바른한도플랜</span>. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- Mobile Bottom Bar -->
+<div class="mobile-bar">
+  <div class="mobile-bar-text">
+    <small>신용알람 없는 내부가조회</small>
+    <span>자체설계 최대 한도 산출</span>
+  </div>
+  <button class="btn btn-primary" style="flex:1" onclick="window.scrollTo({top:150,behavior:'smooth'})">지금 바로 조회하기 →</button>
+</div>
+
+<!-- Chat Modal -->
+<div class="modal-overlay" id="chatModal">
+  <div class="chat-modal">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">🎧</div>
+        <div>
+          <div class="chat-name">이재훈 팀장 · 1:1 전산설계 상담</div>
+          <div class="chat-status"><span class="status-dot" style="width:5px;height:5px"></span> 내부시스템 가조회 결과 연동됨</div>
+        </div>
+      </div>
+      <button class="chat-close" onclick="closeChat()">✕</button>
+    </div>
+    <div class="chat-body">
+      <div class="chat-bubble incoming">
+        안녕하세요 ^^ 대출신청문의 주셨을까요?<br>방금 홈페이지에서 입력하신 <b>내부시스템 가조회 양식</b>이 클립보드에 복사되었습니다.
+      </div>
+      <div class="chat-bubble outgoing" id="chatSummary"></div>
+      <div class="chat-bubble incoming">
+        고객님 같은 경우에는 현재 회생/기대출 상태로 인해 일반 진행이 어려우시나, 금융권 내부 심사인 <b>CB스코어 점수를 상향시켜 진행하는 방식</b>으로 <b>최대 <span id="modalLimit">1,400만원</span>(금리 4.62%)</b>까지 산출되십니다.<br><br>
+        대출 받으실 금액 및 상환기간 말씀해주시면 바로 이자 계산서 산출 및 진행 도와드리겠습니다!
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" class="chat-input" id="chatInput" placeholder="여기에 붙여넣기(Ctrl+V) 또는 메시지 입력...">
+      <button class="chat-send" onclick="alert('실제 SalesSmartly 스크립트 연동 시 상담원 채팅창으로 즉시 전송됩니다.')">전송</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+const state={
+  job:'직장인',income:'500',insurance:'유',niceScore:'모름',
+  bankruptcy:'없음',rehab:'회생 36회이상',
+  requestedAmount:1000,existingLoan:'2,000만원 미만',calculatedLimit:1400
+};
+
+function pick(el,key,val){
+  const group=el.dataset.group;
+  if(group){
+    el.closest('.option-grid,.field-group').querySelectorAll(`[data-group="${group}"]`).forEach(b=>{b.classList.remove('selected')});
+  }else{
+    el.parentElement.querySelectorAll('.mini-btn,.opt-btn').forEach(b=>b.classList.remove('selected'));
+  }
+  el.classList.add('selected');
+  state[key]=val;
+}
+
+function setAmt(val,el){
+  state.requestedAmount=val;
+  state.calculatedLimit=val===1000?1400:Math.round(val*1.4);
+  document.getElementById('amountDisplay').textContent=val.toLocaleString()+' 만원';
+  el.parentElement.querySelectorAll('.mini-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function goStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  const widths={1:'20%',2:'40%',3:'60%',4:'85%',5:'100%'};
+  document.getElementById('progressBar').style.width=widths[n]||'20%';
+}
+
+function runAnalysis(){
+  goStep(4);
+  const bar=document.getElementById('loadBar');
+  const title=document.getElementById('loadTitle');
+  let p=10;bar.style.width=p+'%';
+  const iv=setInterval(()=>{
+    p+=25;if(p>100)p=100;
+    bar.style.width=p+'%';
+    if(p>=40&&p<80)title.textContent='CB스코어 상향 전산작업 한도 산출 중...';
+    else if(p>=80)title.textContent='내부시스템 가조회 산출 완료!';
+    if(p>=100){clearInterval(iv);setTimeout(()=>{renderResult();goStep(5)},400)}
+  },400);
+}
+
+function renderResult(){
+  const lim=(state.calculatedLimit*10000).toLocaleString()+'원';
+  document.getElementById('headlineLimit').textContent='최대 '+lim;
+  document.getElementById('rJob').textContent=state.job;
+  document.getElementById('rIncome').textContent=state.income+'만원';
+  document.getElementById('rIns').textContent=state.insurance;
+  document.getElementById('rNice').textContent=state.niceScore;
+  document.getElementById('rBk').textContent=state.bankruptcy;
+  document.getElementById('rRehab').textContent=state.rehab;
+  document.getElementById('rLimit').textContent=lim;
+  document.getElementById('modalLimit').textContent=state.calculatedLimit.toLocaleString()+'만원';
+}
+
+function buildForm(){
+  const n=document.getElementById('clientName').value.trim()||'미입력';
+  const p=document.getElementById('clientPhone').value.trim()||'미입력';
+  return `고객성명: ${n}\n전화번호: ${p}\n필요금액: ${state.requestedAmount}만원\n직장여부: ${state.job}\n월평균소득: ${state.income}\n4대보험: ${state.insurance}\n나이스평점: ${state.niceScore}\n파산면책: ${state.bankruptcy}\n개인회생: ${state.rehab}\n기대출규모: ${state.existingLoan}`;
+}
+
+function copyText(t){
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).catch(()=>{})}
+  else{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a)}
+}
+
+function triggerChat(){
+  const form=buildForm();
+  copyText(form);
+  try{if(window.fbq)fbq('track','Lead',{content_name:'Pre-Check',value:state.requestedAmount});if(window.ttq)ttq.track('SubmitForm')}catch(e){}
+  if(window.SalesSmartly&&typeof window.SalesSmartly.open==='function'){window.SalesSmartly.open();return}
+  document.getElementById('chatSummary').textContent=form;
+  document.getElementById('chatInput').value='조회 결과 확인했습니다. 전산작업 진행 방법 안내 부탁드립니다.';
+  document.getElementById('chatModal').classList.add('open');
+}
+
+function closeChat(){document.getElementById('chatModal').classList.remove('open')}
+
+function openKakao(){
+  copyText(buildForm());
+  window.open('https://pf.kakao.com','_blank');
+}
+
+function toggleFaq(el){
+  const a=el.nextElementSibling;
+  const isOpen=a.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-q.open').forEach(q=>q.classList.remove('open'));
+  document.querySelectorAll('.faq-a.open').forEach(x=>x.classList.remove('open'));
+  if(!isOpen){el.classList.add('open');a.classList.add('open')}
+}
+
+function setBrand(name,slogan){
+  document.getElementById('brandName').textContent=name;
+  document.querySelectorAll('.brand-text').forEach(el=>el.textContent=name);
+  document.querySelectorAll('.brand-btn').forEach(b=>{
+    b.classList.toggle('active',b.textContent.trim()===name);
+  });
+}
+</script>
+</body>
+</html>
