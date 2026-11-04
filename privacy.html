@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>개인정보처리방침 | 주식회사 엘아이</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f6fa;--surface:#fff;--border:#e3e6ef;--divider:#eef0f6;
+  --ink-1:#0a0e1a;--ink-2:#1a2033;--ink-3:#3d4660;--ink-4:#6b7280;
+  --blue-600:#1e5bd6;--blue-500:#2e6ff2;--blue-50:#eef4ff;
+  --navy-700:#1a2454;
+  --font:'Inter','Noto Sans KR',-apple-system,sans-serif;
+  color-scheme:light;
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a0e1a;--surface:#131826;--border:#242b3f;--divider:#1c2234;
+    --ink-1:#f1f3fa;--ink-2:#d6dae7;--ink-3:#9ba2b8;--ink-4:#6b7390;
+    --blue-600:#5b8df3;--blue-50:rgba(46,111,242,.1);
+  }
+}
+body{font-family:var(--font);background:var(--bg);color:var(--ink-1);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);min-height:100vh}
+
+.hdr{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .hdr{background:rgba(19,24,38,.9)}}
+.hdr-in{max-width:720px;margin:0 auto;padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:8px;transition:.15s}
+.back:hover{background:var(--blue-50);color:var(--blue-600)}
+.htitle{font-size:14px;font-weight:800;letter-spacing:-.02em}
+
+.wrap{max-width:720px;margin:0 auto;padding:32px 20px 60px}
+.doc-title{font-size:26px;font-weight:900;letter-spacing:-.03em;margin-bottom:6px;color:var(--ink-1)}
+.doc-sub{font-size:13px;color:var(--ink-4);margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid var(--divider)}
+.doc-sub b{color:var(--ink-2)}
+
+.sect{margin-bottom:32px}
+.sect h2{font-size:16px;font-weight:800;color:var(--blue-600);margin-bottom:12px;padding-left:12px;border-left:3px solid var(--blue-500);letter-spacing:-.02em}
+.sect p{font-size:13.5px;color:var(--ink-2);margin-bottom:10px;line-height:1.8}
+.sect ul{list-style:none;padding-left:0;margin-bottom:12px}
+.sect li{position:relative;padding-left:16px;font-size:13px;color:var(--ink-2);margin-bottom:6px;line-height:1.7}
+.sect li::before{content:"•";position:absolute;left:4px;color:var(--blue-500);font-weight:800}
+.sect .box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin:12px 0;font-size:13px}
+.sect .box b{color:var(--ink-1);font-weight:700}
+.sect .tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:12.5px;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.sect .tbl th{background:var(--blue-50);color:var(--blue-600);font-weight:800;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:12px}
+.sect .tbl td{padding:10px 12px;border-bottom:1px solid var(--divider);color:var(--ink-2);vertical-align:top}
+.sect .tbl tr:last-child td{border-bottom:0}
+
+.ft{background:#060912;color:#6b7390;padding:28px 20px;font-size:11px;line-height:1.7}
+.ft-in{max-width:720px;margin:0 auto}
+.ft b{color:#fff;font-weight:800;font-size:13px;display:block;margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="/" class="back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      홈으로
+    </a>
+    <span class="htitle">개인정보처리방침</span>
+    <span style="width:60px"></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="doc-title">개인정보처리방침</h1>
+  <p class="doc-sub"><b>주식회사 엘아이</b> (이하 "회사")는 「개인정보 보호법」 등 관련 법령을 준수하며, 이용자의 개인정보를 소중하게 보호합니다.<br>최종 개정일: 2026년 11월 4일</p>
+
+  <section class="sect">
+    <h2>1. 수집하는 개인정보 항목 및 수집 방법</h2>
+    <p>회사는 서비스 제공을 위해 아래와 같이 최소한의 개인정보만을 수집합니다.</p>
+    <table class="tbl">
+      <thead><tr><th>구분</th><th>수집 항목</th><th>수집 방법</th></tr></thead>
+      <tbody>
+        <tr><td><b>필수</b></td><td>성명, 연락처(휴대폰 번호)</td><td>홈페이지 상담 신청</td></tr>
+        <tr><td><b>상담 중</b></td><td>직업, 월평균 소득, 신용 상태, 기대출 규모 등 상담에 필요한 정보</td><td>1:1 상담 채팅</td></tr>
+        <tr><td><b>자동</b></td><td>IP 주소, 쿠키, 서비스 이용 기록, 접속 로그, 기기 정보</td><td>웹서비스 이용 과정에서 자동 수집</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sect">
+    <h2>2. 개인정보의 수집 및 이용 목적</h2>
+    <ul>
+      <li>금융 컨설팅 상담 서비스 제공 및 안내</li>
+      <li>본인 확인 및 상담 이력 관리</li>
+      <li>서비스 품질 향상 및 통계 분석</li>
+      <li>법령상 의무 이행 및 분쟁 해결</li>
+    </ul>
+    <div class="box">※ 회사는 이용자의 개인정보를 <b>대출 심사·실행 등의 목적으로 직접 처리하지 않으며</b>, 상담 과정에서 수집된 정보는 상담 목적 외 용도로 사용되지 않습니다.</div>
+  </section>
+
+  <section class="sect">
+    <h2>3. 개인정보의 보유 및 이용 기간</h2>
+    <p>회사는 법령에 따른 보존 의무가 없는 한, 수집·이용 목적이 달성된 후 지체 없이 개인정보를 파기합니다.</p>
+    <table class="tbl">
+      <thead><tr><th>보유 정보</th><th>보유 기간</th><th>근거</th></tr></thead>
+      <tbody>
+        <tr><td>상담 신청 정보</td><td>상담 종료 후 3년</td><td>전자상거래법</td></tr>
+        <tr><td>소비자 불만·분쟁 처리 기록</td><td>3년</td><td>전자상거래법</td></tr>
+        <tr><td>웹사이트 방문 기록</td><td>3개월</td><td>통신비밀보호법</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sect">
+    <h2>4. 개인정보의 제3자 제공</h2>
+    <p>회사는 이용자의 개인정보를 원칙적으로 외부에 제공하지 않습니다. 다만 아래의 경우는 예외입니다.</p>
+    <ul>
+      <li>이용자가 사전에 동의한 경우</li>
+      <li>법령에 특별한 규정이 있거나 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우</li>
+    </ul>
+  </section>
+
+  <section class="sect">
+    <h2>5. 개인정보 처리 업무의 위탁</h2>
+    <p>회사는 원활한 서비스 제공을 위해 아래와 같이 개인정보 처리 업무를 위탁할 수 있습니다.</p>
+    <table class="tbl">
+      <thead><tr><th>수탁업체</th><th>위탁 업무</th></tr></thead>
+      <tbody>
+        <tr><td>SalesSmartly</td><td>온라인 1:1 상담 채팅 서비스 운영</td></tr>
+        <tr><td>Vercel Inc.</td><td>웹사이트 호스팅 및 운영</td></tr>
+        <tr><td>Meta Platforms, TikTok</td><td>광고 전환 측정 및 분석 (익명화된 이벤트 데이터)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="sect">
+    <h2>6. 이용자의 권리와 행사 방법</h2>
+    <p>이용자는 언제든지 아래의 권리를 행사하실 수 있습니다.</p>
+    <ul>
+      <li>개인정보 열람 요구</li>
+      <li>오류 등이 있을 경우 정정 요구</li>
+      <li>삭제 요구</li>
+      <li>처리 정지 요구</li>
+    </ul>
+    <p>권리 행사는 아래 개인정보 보호책임자에게 서면, 전화, 이메일로 요청하시면 지체 없이 조치하겠습니다.</p>
+  </section>
+
+  <section class="sect">
+    <h2>7. 쿠키(Cookie)의 운용</h2>
+    <p>회사는 서비스 이용 편의 제공을 위해 쿠키를 사용합니다. 이용자는 웹브라우저 설정을 통해 쿠키 저장을 거부할 수 있으나, 일부 서비스 이용에 제한이 있을 수 있습니다.</p>
+  </section>
+
+  <section class="sect">
+    <h2>8. 개인정보의 안전성 확보 조치</h2>
+    <ul>
+      <li>개인정보 취급 직원 최소화 및 교육</li>
+      <li>개인정보 처리시스템 접근 통제</li>
+      <li>개인정보 암호화 및 보안프로그램 설치</li>
+      <li>접속기록 보관 및 위변조 방지</li>
+    </ul>
+  </section>
+
+  <section class="sect">
+    <h2>9. 개인정보 보호책임자</h2>
+    <div class="box">
+      <b>개인정보 보호책임자</b><br>
+      • 성명: 노종구 (대표이사)<br>
+      • 소속: 주식회사 엘아이<br>
+      • 연락처: 1:1 상담 채팅으로 요청<br><br>
+      <b>개인정보 침해 신고·상담</b><br>
+      • 개인정보분쟁조정위원회: 1833-6972 (www.kopico.go.kr)<br>
+      • 개인정보침해신고센터: 118 (privacy.kisa.or.kr)<br>
+      • 경찰청 사이버수사국: 182 (ecrm.police.go.kr)
+    </div>
+  </section>
+
+  <section class="sect">
+    <h2>10. 개인정보처리방침 변경</h2>
+    <p>본 방침은 2026년 11월 4일부터 시행되며, 법령 및 회사 정책에 따라 변경될 수 있습니다. 변경 시 시행 7일 전에 홈페이지를 통해 공지합니다.</p>
+  </section>
+</main>
+
+<footer class="ft">
+  <div class="ft-in">
+    <b>주식회사 엘아이</b>
+    대표자: 노종구 | 사업자등록번호: 650-81-00293<br>
+    주소: 서울특별시 강남구 도산대로 445, 6층 (청담동) | 업종: 컨설팅
+  </div>
+</footer>
+
+</body>
+</html>
