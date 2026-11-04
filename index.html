@@ -970,60 +970,8 @@ function showToast(){const t=document.getElementById('toast');t.classList.add('s
 
 let pixelFired = false;
 
-let pixelFired = false;
-
-function openSalesSmartlyWidget(){
-  // 1. ssq 큐 방식
-  try{
-    if(window.ssq && typeof window.ssq.push === 'function'){
-      window.ssq.push(['chatOpen']);
-      return true;
-    }
-  }catch(e){}
-  
-  // 2. SalesSmartly 글로벌 함수
-  try{
-    if(typeof window.SalesSmartly === 'function'){
-      window.SalesSmartly('open');
-      return true;
-    }
-    if(window.SalesSmartly && typeof window.SalesSmartly.open === 'function'){
-      window.SalesSmartly.open();
-      return true;
-    }
-    if(window.SalesSmartly && typeof window.SalesSmartly.show === 'function'){
-      window.SalesSmartly.show();
-      return true;
-    }
-  }catch(e){}
-  
-  // 3. $ss 방식
-  try{
-    if(typeof window.$ss === 'function'){ window.$ss('open'); return true; }
-    if(window.$ss && typeof window.$ss.open === 'function'){ window.$ss.open(); return true; }
-  }catch(e){}
-  
-  // 4. 하단 우측 챗 버튼 DOM을 직접 클릭
-  const selectors = [
-    '#ss-chat-launcher','.ss-chat-launcher',
-    '[id*="salesmartly"]:not(iframe)','[class*="salesmartly"]:not(iframe)',
-    '[id*="ss-chat"]:not(iframe)','[class*="ss-chat"]:not(iframe)',
-    '[class*="SSLauncher"]','[id*="SSLauncher"]',
-    '.chat-widget-launcher','.chat-launcher',
-    'div[class*="launcher"]','div[id*="launcher"]'
-  ];
-  for(const sel of selectors){
-    const el = document.querySelector(sel);
-    if(el && el.offsetParent !== null){
-      try{ el.click(); return true; }catch(e){}
-    }
-  }
-  return false;
-}
-
-let pixelFired = false;
-
 function triggerChat(){
+  // 개인정보 동의 체크 확인
   const agree = document.getElementById('agreePrivacy');
   if(agree && !agree.checked){
     alert('개인정보 수집·이용 및 이용약관에 동의해주세요.');
@@ -1043,22 +991,19 @@ function triggerChat(){
     }catch(e){}
   }
 
-  // SalesSmartly 사용자 정보 사전 전달 (지원되는 경우)
-  try{
-    if(window.ssq && typeof window.ssq.push === 'function'){
-      window.ssq.push(['setLoginInfo', {
-        user_id: ph || ('user_' + Date.now()),
-        user_name: nm + ' (' + S.requestedAmount + '만/' + S.rehab + ')',
-        phone: ph,
-        description: f
-      }]);
-    }
-  }catch(e){}
+  if(window.ssq){
+    window.ssq.push(['setLoginInfo', {
+      user_id: ph || ('user_' + Date.now()),
+      user_name: nm + ' (' + S.requestedAmount + '만/' + S.rehab + ')',
+      phone: ph,
+      description: f
+    }]);
+    window.ssq.push(['chatOpen']);
+    return;
+  }
+  if(window.SalesSmartly&&typeof window.SalesSmartly.open==='function'){window.SalesSmartly.open();return}
+  if(typeof window.ss==='function'){try{window.ss('open');return}catch(e){}}
 
-  // 상담창 열기
-  if(openSalesSmartlyWidget()) return;
-
-  // 그래도 안 열리면 fallback 모달
   document.getElementById('chatSum').textContent=f;
   document.getElementById('chatIn').value='조회 결과 확인했습니다. 진행 방법 안내 부탁드립니다.';
   document.getElementById('chatM').classList.add('open');
