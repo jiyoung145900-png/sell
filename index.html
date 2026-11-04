@@ -396,7 +396,7 @@ fbq('track', 'PageView');
 <div class="tick-w">
   <div class="tick">
     <span class="tick-tag">LIVE</span>
-    <div class="tick-body" id="tickT"><b>김*진님 (회생 36회이상)</b> → <em>1,400만원 (4.62%)</em> 산출 완료</div>
+    <div class="tick-body" id="tickT"><b>김*진님 (회생 3회이상)</b> → <em>1,400만원 (4.62%)</em> 산출 완료</div>
   </div>
 </div>
 
@@ -468,8 +468,8 @@ fbq('track', 'PageView');
       <div class="fbox mb14">
         <div class="fl"><span>개인회생 상태</span><small>변제 회차 기준</small></div>
         <div class="og c2">
-          <button class="ch sel" data-g="rh" onclick="pk(this,'rehab','회생 36회이상')">회생 36회 이상</button>
-          <button class="ch" data-g="rh" onclick="pk(this,'rehab','회생 36회미만')">회생 36회 미만</button>
+          <button class="ch sel" data-g="rh" onclick="pk(this,'rehab','회생 3회이상')">회생 3회 이상</button>
+          <button class="ch" data-g="rh" onclick="pk(this,'rehab','회생 3회미만')">회생 3회 미만</button>
           <button class="ch" data-g="rh" onclick="pk(this,'rehab','회생 인가전/개시')">회생 인가전/개시</button>
           <button class="ch" data-g="rh" onclick="pk(this,'rehab','해당없음 (기대출)')">해당 없음</button>
         </div>
@@ -828,7 +828,7 @@ const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.t
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
 const ticks=[
-  '<b>김*진님 (회생 36회이상)</b> → <em>1,400만원</em> 산출 완료',
+  '<b>김*진님 (회생 3회이상)</b> → <em>1,400만원</em> 산출 완료',
   '<b>박*훈님 (기대출 4건)</b> → <em>2,100만원</em> 산출 완료',
   '<b>이*영님 (프리랜서)</b> → <em>1,000만원</em> 산출 완료',
   '<b>최*석님 (DSR 초과)</b> → <em>2,800만원</em> 산출 완료',
@@ -837,7 +837,7 @@ const ticks=[
 let ti=0;
 setInterval(()=>{const el=document.getElementById('tickT');if(!el)return;el.style.opacity='0';setTimeout(()=>{ti=(ti+1)%ticks.length;el.innerHTML=ticks[ti];el.style.opacity='1'},250)},3500);
 
-const S={job:'직장인',income:'500',insurance:'유',niceScore:'모름',bankruptcy:'없음',rehab:'회생 36회이상',requestedAmount:1000,existingLoan:'2,000만원 미만',calculatedLimit:1400,repayMethod:'원리금균등상환',repayYears:5};
+const S={job:'직장인',income:'500',insurance:'유',niceScore:'모름',bankruptcy:'없음',rehab:'회생 3회이상',requestedAmount:1000,existingLoan:'2,000만원 미만',calculatedLimit:1400,repayMethod:'원리금균등상환',repayYears:5};
 
 function pk(el,key,val){
   const g=el.dataset.g;
