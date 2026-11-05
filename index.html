@@ -981,28 +981,79 @@ function triggerChat(){
     }catch(e){}
   }
 
-  // 1) SalesMartly ssq 큐 방식 (괄호 없이!)
+  // 상담창 열기
   if (window.ssq && typeof window.ssq.push === 'function') {
-    window.ssq.push('chatOpen'); return;
+    window.ssq.push('chatOpen');
+  } else if (window.SalesMartly && window.SalesMartly.open) {
+    window.SalesMartly.open();
+  } else {
+    const widget = document.querySelector('.smartcbc-app__widget-btn, .smartcbc-cbc-btn, [class*="smartcbc"]:not(iframe)');
+    if (widget && widget.click) widget.click();
   }
-  // 2) SalesMartly 글로벌 (철자 주의: SalesMartly, S 없음)
-  if (window.SalesMartly && window.SalesMartly.open) {
-    window.SalesMartly.open(); return;
-  }
-  // 3) DOM 직접 클릭 - 실제 CSS 클래스는 smartcbc!
-  const widget = document.querySelector('.smartcbc-app__widget-btn, .smartcbc-cbc-btn, [class*="smartcbc"]:not(iframe)');
-  if (widget && widget.click) { widget.click(); return; }
-  // 4) 로딩 중이면 800ms 후 재시도
-  setTimeout(() => {
-    if (window.ssq) window.ssq.push('chatOpen');
-    else if (window.SalesMartly && window.SalesMartly.open) window.SalesMartly.open();
-    else {
-      // 그래도 안되면 내장 fallback 모달
-      document.getElementById('chatSum').textContent = f;
-      document.getElementById('chatIn').value = '조회 결과 확인했습니다. 진행 방법 안내 부탁드립니다.';
-      document.getElementById('chatM').classList.add('open');
+  
+  // 상담창 열리면 입력창에 자동 입력 시도
+  autoFillChatInput(f);
+}
+
+/* SalesMartly 입력창에 자동으로 가조회 내역 넣기 */
+function autoFillChatInput(text){
+  let attempts = 0;
+  const maxAttempts = 30;
+  
+  const tryFill = setInterval(() => {
+    attempts++;
+    
+    const selectors = [
+      '.smartcbc-chat-input textarea',
+      '.smartcbc-chat-input [contenteditable="true"]',
+      '[class*="smartcbc"] textarea',
+      '[class*="smartcbc"] [contenteditable="true"]',
+      '[class*="chat-input"] textarea',
+      '[class*="message-input"] textarea',
+      'iframe[src*="salesmartly"]'
+    ];
+    
+    for(const sel of selectors){
+      const el = document.querySelector(sel);
+      if(!el) continue;
+      
+      if(el.tagName === 'IFRAME'){
+        try{
+          const iframeDoc = el.contentDocument || el.contentWindow.document;
+          const inputInIframe = iframeDoc.querySelector('textarea, [contenteditable="true"]');
+          if(inputInIframe){
+            fillElement(inputInIframe, text);
+            clearInterval(tryFill);
+            console.log('[Chat] iframe 안 입력창에 자동 입력 완료');
+            return;
+          }
+        }catch(e){}
+        continue;
+      }
+      
+      fillElement(el, text);
+      clearInterval(tryFill);
+      console.log('[Chat] 입력창에 자동 입력 완료:', sel);
+      return;
     }
-  }, 800);
+    
+    if(attempts >= maxAttempts){
+      clearInterval(tryFill);
+      console.log('[Chat] 자동 입력 실패. 사용자가 Ctrl+V로 붙여넣으셔야 합니다.');
+    }
+  }, 500);
+}
+
+function fillElement(el, text){
+  el.focus();
+  if(el.tagName === 'TEXTAREA' || el.tagName === 'INPUT'){
+    el.value = text;
+    el.dispatchEvent(new Event('input', {bubbles: true}));
+    el.dispatchEvent(new Event('change', {bubbles: true}));
+  } else {
+    el.textContent = text;
+    el.dispatchEvent(new Event('input', {bubbles: true}));
+  }
 }
 
 function closeChat(){document.getElementById('chatM').classList.remove('open')}
