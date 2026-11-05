@@ -968,7 +968,12 @@ function triggerChat(){
   }
 
   const f = buildForm();
-  cp(f); showToast();
+  const nm = document.getElementById('cNm').value.trim() || '가조회고객';
+  const ph = document.getElementById('cPh').value.trim() || '';
+  
+  // 데스크탑용 백업 복사
+  cp(f); 
+  showToast();
 
   // 메타/틱톡 픽셀 전환 발송 (1회만)
   if(!pixelFired){
@@ -978,6 +983,19 @@ function triggerChat(){
       if(window.ttq) ttq.track('SubmitForm',{content_name:'CB_PreCheck',value:S.requestedAmount,currency:'KRW'});
     }catch(e){}
   }
+
+  // ★ SalesMartly 상담원 화면에 고객 정보 자동 전달
+  try{
+    if(window.ssq && typeof window.ssq.push === 'function'){
+      window.ssq.push('setLoginInfo', {
+        user_id: ph || ('user_' + Date.now()),  // 전화번호 or 임시 ID
+        user_name: nm + ' (' + S.requestedAmount + '만원/' + S.rehab + ')',
+        phone: ph,
+        description: f  // 가조회 내역 전체가 여기 들어감
+      });
+      console.log('[Chat] 고객 정보 전달 완료');
+    }
+  }catch(e){ console.warn('[Chat] setLoginInfo 실패:', e); }
 
   // SalesMartly 상담창 열기
   if (window.ssq && typeof window.ssq.push === 'function') {
