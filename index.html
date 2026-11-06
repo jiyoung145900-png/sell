@@ -351,12 +351,11 @@ fbq('track', 'PageView');
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1791927372095155&ev=PageView&noscript=1"
 /></noscript>
+
+<!-- 2. 틱톡(TikTok) 픽셀 기본 코드 -->
+<script>
 !function (w, d, t) {
-  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-
-
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
   ttq.load('DB5L0IBC77U6DDDLC4OG');
   ttq.page();
 }(window, document, 'ttq');
@@ -968,9 +967,7 @@ function showToast(){const t=document.getElementById('toast');t.classList.add('s
 
 let pixelFired = false;
 
-/* 기존 작동하던 랜딩의 방식 그대로 적용 */
 function triggerChat(){
-  // 개인정보 동의 체크 확인
   const agree = document.getElementById('agreePrivacy');
   if(agree && !agree.checked){
     alert('개인정보 수집·이용 및 이용약관에 동의해주세요.');
@@ -981,11 +978,9 @@ function triggerChat(){
   const nm = document.getElementById('cNm').value.trim() || '가조회고객';
   const ph = document.getElementById('cPh').value.trim() || '';
   
-  // 데스크탑용 백업 복사
   cp(f); 
   showToast();
 
-  // 메타/틱톡 픽셀 전환 발송 (1회만)
   if(!pixelFired){
     pixelFired = true;
     try{
@@ -994,20 +989,18 @@ function triggerChat(){
     }catch(e){}
   }
 
-  // ★ SalesMartly 상담원 화면에 고객 정보 자동 전달
   try{
     if(window.ssq && typeof window.ssq.push === 'function'){
       window.ssq.push('setLoginInfo', {
-        user_id: ph || ('user_' + Date.now()),  // 전화번호 or 임시 ID
+        user_id: ph || ('user_' + Date.now()),
         user_name: nm + ' (' + S.requestedAmount + '만원/' + S.rehab + ')',
         phone: ph,
-        description: f  // 가조회 내역 전체가 여기 들어감
+        description: f
       });
       console.log('[Chat] 고객 정보 전달 완료');
     }
   }catch(e){ console.warn('[Chat] setLoginInfo 실패:', e); }
 
-  // SalesMartly 상담창 열기
   if (window.ssq && typeof window.ssq.push === 'function') {
     window.ssq.push('chatOpen'); return;
   }
@@ -1017,7 +1010,6 @@ function triggerChat(){
   const widget = document.querySelector('.smartcbc-app__widget-btn, .smartcbc-cbc-btn, [class*="smartcbc"]:not(iframe)');
   if (widget && widget.click) { widget.click(); return; }
   
-  // 로딩 중이면 800ms 후 재시도
   setTimeout(() => {
     if (window.ssq) window.ssq.push('chatOpen');
     else if (window.SalesMartly && window.SalesMartly.open) window.SalesMartly.open();
@@ -1027,18 +1019,6 @@ function triggerChat(){
       document.getElementById('chatM').classList.add('open');
     }
   }, 800);
-}
-
-function fillElement(el, text){
-  el.focus();
-  if(el.tagName === 'TEXTAREA' || el.tagName === 'INPUT'){
-    el.value = text;
-    el.dispatchEvent(new Event('input', {bubbles: true}));
-    el.dispatchEvent(new Event('change', {bubbles: true}));
-  } else {
-    el.textContent = text;
-    el.dispatchEvent(new Event('input', {bubbles: true}));
-  }
 }
 
 function closeChat(){document.getElementById('chatM').classList.remove('open')}
