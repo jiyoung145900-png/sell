@@ -885,9 +885,67 @@ function pk(el,key,val){
 }
 
 function setA(v,el){
-  S.requestedAmount=v;S.calculatedLimit=v===1000?1400:Math.round(v*1.4);
+  S.requestedAmount=v;
   document.getElementById('amtD').innerHTML=v.toLocaleString()+'<em>만원</em>';
   el.parentElement.querySelectorAll('.ch').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');
+}
+
+/* ★ 실제 금융 공식 + 희망금액 ±20% 랜덤 변동으로 한도 산출 */
+function calculateLimit(){
+  const income = parseInt(S.income) || 300;
+  const requested = S.requestedAmount;
+  
+  // 1) 기존 대출 금액 추정 (가운데값)
+  let existingDebt = 1000;
+  if(S.existingLoan.indexOf('2,000~3,500') !== -1) existingDebt = 2700;
+  else if(S.existingLoan.indexOf('3,500') !== -1) existingDebt = 4200;
+  
+  // 2) DSR 비율 결정 (회생 상태별)
+  let dsrRate = 0.40;
+  if(S.rehab.indexOf('회생 3회이상') !== -1) dsrRate = 0.48;
+  else if(S.rehab.indexOf('회생 3회미만') !== -1) dsrRate = 0.42;
+  else if(S.rehab.indexOf('인가전') !== -1) dsrRate = 0.38;
+  else dsrRate = 0.45;
+  
+  // 3) 직장/보험/신용점수 가산
+  if(S.job.indexOf('직장인') !== -1 && S.insurance === '유') dsrRate += 0.03;
+  if(S.job.indexOf('사업자') !== -1) dsrRate += 0.02;
+  if(S.niceScore.indexOf('700') !== -1) dsrRate += 0.02;
+  if(S.bankruptcy === '있음') dsrRate -= 0.05;
+  
+  // 4) 실제 공식 기반 한도: (연소득 × DSR × 5년) - 기존대출
+  const annualIncome = income * 12;
+  const maxRepayment = annualIncome * dsrRate * 5;
+  const baseLimit = maxRepayment - existingDebt;
+  
+  // 5) 희망금액 ±20% 랜덤 변동
+  const minRange = requested * 0.8;
+  const maxRange = requested * 1.2;
+  const randomTarget = Math.random() * (maxRange - minRange) + minRange;
+  
+  // 6) 공식과 랜덤 결합
+  let finalLimit;
+  if(baseLimit >= requested * 1.2){
+    // 공식상 희망금액보다 넉넉 → 희망금액 ±20% 범위에서 랜덤
+    finalLimit = randomTarget;
+  } else if(baseLimit >= requested * 0.8){
+    // 공식이 희망금액 근처 → 공식값 중심으로 약간의 랜덤
+    const variation = (Math.random() - 0.5) * requested * 0.3;
+    finalLimit = baseLimit + variation;
+  } else {
+    // 공식이 희망금액보다 낮음 → 공식과 희망-20% 사이
+    const lowEnd = Math.max(baseLimit * 0.9, requested * 0.6);
+    finalLimit = lowEnd + (Math.random() * (requested - lowEnd) * 0.7);
+  }
+  
+  // 7) 10만원 단위로 반올림 (자연스럽게)
+  finalLimit = Math.round(finalLimit / 10) * 10;
+  
+  // 8) 최소/최대 안전장치
+  if(finalLimit < 300) finalLimit = 300 + Math.floor(Math.random() * 300);
+  if(finalLimit > 5000) finalLimit = 4500 + Math.floor(Math.random() * 500);
+  
+  S.calculatedLimit = finalLimit;
 }
 
 function go(n){
@@ -912,6 +970,7 @@ function go(n){
 }
 
 function analyze(){
+  calculateLimit();  // ★ 실제 공식 + 랜덤으로 한도 계산
   go(4);
   const bar=document.getElementById('ldB'),title=document.getElementById('ldT');
   const s2=document.getElementById('ls2'),s3=document.getElementById('ls3');
