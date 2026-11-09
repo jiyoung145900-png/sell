@@ -8,79 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-/* ===== 전체 글씨 크기 확대 ===== */
-html {
-  font-size: 150%;
-}
-
-body {
-  font-size: 15px;
-}
-
-/* 주요 메뉴 및 정보 글씨 */
-.side-item {
-  font-size: 19.5px;
-}
-
-.side-logo-t {
-  font-size: 22.5px;
-}
-
-.top-tt {
-  font-size: 25.5px;
-}
-
-.top-r {
-  font-size: 18px;
-}
-
-.tab {
-  font-size: 20px;
-}
-
-.sec-h {
-  font-size: 20px;
-}
-
-/* 입력 영역 */
-.info-tbl {
-  font-size: 19.5px;
-}
-
-.info-tbl td.lbl,
-.info-tbl .cell span {
-  font-size: 18.75px;
-}
-
-.info-tbl input,
-.info-tbl select {
-  font-size: 20.25px;
-}
-
-/* 상세 조건 및 안내 */
-.detail-tbl {
-  font-size: 18.75px;
-}
-
-.notes li {
-  font-size: 18.75px;
-}
-
-/* 월별 상환표 */
-.sched-tbl {
-  font-size: 18.75px;
-}
-
-/* 버튼 */
-.action-btn {
-  font-size: 19.5px;
-}
-
-/* 하단 상태바 */
-.statbar {
-  font-size: 17.25px;
-}
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{
@@ -152,7 +79,7 @@ input,select{font-family:inherit}
   gap:11px;
   padding:11px 16px;
   color:#b5c7f0;
-  font-size:13px;
+  font-size:19.5px;
   font-weight:500;
   cursor:pointer;
   transition:.15s;
@@ -234,7 +161,7 @@ input,select{font-family:inherit}
   border-radius:4px;
   background:rgba(255,255,255,.12);
   font-weight:700;
-  font-size:13px;
+  font-size:19.5px;
   cursor:pointer;
 }
 .top-ctrl span:hover{background:rgba(255,255,255,.22)}
@@ -249,7 +176,7 @@ input,select{font-family:inherit}
 }
 .tab{
   padding:12px 20px;
-  font-size:13.5px;
+  font-size:20px;
   font-weight:600;
   color:#6b7390;
   cursor:pointer;
@@ -291,7 +218,7 @@ input,select{font-family:inherit}
   display:flex;
   align-items:center;
   gap:8px;
-  font-size:13.5px;
+  font-size:20px;
   font-weight:800;
   color:#1849b8;
 }
@@ -305,7 +232,7 @@ input,select{font-family:inherit}
 .sec-body{padding:14px 15px}
 
 /* ===== 입력 테이블 ===== */
-.info-tbl{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+.info-tbl{width:100%;border-collapse:collapse;font-size:19.5px;table-layout:fixed}
 .info-tbl td{padding:9px 10px;border:1px solid #dde4f5;vertical-align:middle}
 .info-tbl td.lbl{
   background:#f0f4ff;
@@ -314,18 +241,18 @@ input,select{font-family:inherit}
   text-align:center;
   width:11.5%;
   white-space:nowrap;
-  font-size:12.5px;
+  font-size:18.75px;
 }
 .info-tbl td.val{background:#fff;color:#1a2033;text-align:center;width:21.8%}
 .info-tbl .cell{display:flex;align-items:center;gap:6px;justify-content:center}
-.info-tbl .cell span{font-size:12.5px;color:#3d4660;font-weight:700;flex-shrink:0}
+.info-tbl .cell span{font-size:18.75px;color:#3d4660;font-weight:700;flex-shrink:0}
 .info-tbl input,.info-tbl select{
-  width:100%;
+  wid20th:100%;
   min-width:0;
   padding:7px 8px;
   border:1.5px solid #a3bef5;
   border-radius:4px;
-  font-size:13.5px;
+  font-size:px;
   font-weight:700;
   color:#1a2033;
   text-align:center;
@@ -340,7 +267,7 @@ input,select{font-family:inherit}
 }
 .info-tbl input[type="number"]::-webkit-outer-spin-button,
 .info-tbl input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.info-tbl input[type="date"]{font-size:13px;padding:6px 6px}
+.info-tbl input[type="date"]{font-size:19.5px;padding:6px 6px}
 
 /* ===== 대출상환결과 ===== */
 .result-row{display:grid;grid-template-columns:1fr 1.15fr 128px;gap:12px;align-items:stretch}
@@ -367,7 +294,7 @@ input,select{font-family:inherit}
   flex-shrink:0;
 }
 .result-main-t{flex:1;min-width:0}
-.result-main-t small{display:block;font-size:13px;color:#1849b8;font-weight:700;margin-bottom:3px}
+.result-main-t small{display:block;font-size:19.5px;color:#1849b8;font-weight:700;margin-bottom:3px}
 .result-main-t .big{display:flex;align-items:baseline;gap:3px;flex-wrap:wrap}
 .result-main-t strong{
   font-size:32px;
@@ -392,7 +319,7 @@ input,select{font-family:inherit}
   grid-template-columns:106px 1fr;
   align-items:stretch;
   border-bottom:1px solid #eef0f6;
-  font-size:13px;
+  font-size:19.5px;
   flex:1;
 }
 .result-sub-row:last-child{border-bottom:0}
@@ -441,7 +368,7 @@ input,select{font-family:inherit}
   background:radial-gradient(circle,rgba(255,216,77,.15),transparent 60%);
   pointer-events:none;
 }
-.result-period .pl{font-size:13px;font-weight:800;margin-bottom:4px;opacity:.92;position:relative}
+.result-period .pl{font-size:19.5px;font-weight:800;margin-bottom:4px;opacity:.92;position:relative}
 .result-period .pv{display:flex;align-items:baseline;gap:3px;position:relative}
 .result-period .pv strong{
   font-size:34px;
@@ -457,7 +384,7 @@ input,select{font-family:inherit}
 /* ===== 2열 (상세 조건 + 상환안내) ===== */
 .two-col{display:grid;grid-template-columns:1fr 1.25fr;gap:12px;align-items:start}
 
-.detail-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.detail-tbl{width:100%;border-collapse:collapse;font-size:18.75px}
 .detail-tbl td{padding:8px 12px;border:1px solid #dde4f5}
 .detail-tbl td.l{background:#f0f4ff;color:#3d4660;font-weight:700;width:44%;text-align:center}
 .detail-tbl td.v{text-align:right;color:#1a2033;font-weight:700;font-variant-numeric:tabular-nums}
@@ -468,7 +395,7 @@ input,select{font-family:inherit}
   align-items:flex-start;
   gap:9px;
   padding:6.5px 0;
-  font-size:12.5px;
+  font-size:18.75px;
   color:#3d4660;
   line-height:1.55;
 }
@@ -495,7 +422,7 @@ input,select{font-family:inherit}
   overflow:hidden;
   min-width:0;
 }
-.sched-tbl{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed}
+.sched-tbl{width:100%;border-collapse:collapse;font-size:18.75px;table-layout:fixed}
 .sched-tbl thead th{
   background:linear-gradient(180deg,#f0f4ff,#e4ebf8);
   padding:9px 6px;
@@ -524,7 +451,7 @@ input,select{font-family:inherit}
   padding:11px 12px;
   border-radius:6px;
   border:0;
-  font-size:13px;
+  font-size:19.5px;
   font-weight:700;
   color:#fff;
   cursor:pointer;
