@@ -73,7 +73,6 @@
   --green-600:#34d399;--green-100:rgba(52,211,153,.15);--green-50:rgba(52,211,153,.08);
 }
 html{scroll-behavior:smooth;scroll-padding-top:calc(60px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%;text-size-adjust:100%}
-/* ★ 모바일 최적화: 100vh → 100dvh (iOS Safari 주소창 버그 해결) */
 body{font-family:var(--font-sans);background:var(--bg);color:var(--ink-1);line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;word-break:keep-all;overflow-wrap:break-word;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);min-height:100vh;min-height:100dvh;overflow-x:hidden;touch-action:manipulation}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--surface)}
 @media(max-width:639px){body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}}
@@ -168,7 +167,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .ch.sel{border-color:var(--blue-500);background:var(--blue-50);color:var(--blue-700);font-weight:800;box-shadow:inset 0 0 0 1px var(--blue-500)}
 
 .fbox{padding:14px;border-radius:var(--r-md);border:1px solid var(--divider);background:var(--surface-2)}
-/* ★ iOS 자동확대 방지: input/select font-size 16px 필수 */
 .sel-f{width:100%;padding:10px 12px;border-radius:var(--r-xs);border:1.5px solid var(--border);background:var(--surface);font-size:16px;font-weight:700;color:var(--ink-1);font-family:var(--font-sans);appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%236b7280' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;min-height:44px}
 .sel-f:focus{outline:none;border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(46,111,242,.12)}
 
@@ -236,7 +234,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .qf-head{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800;color:var(--blue-700);margin-bottom:9px;gap:6px}
 .qf-head small{font-size:10px;color:var(--blue-500);font-weight:700;flex-shrink:0}
 .ig{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-/* ★ iOS 자동확대 방지: input font-size 16px 필수 */
 .inf{width:100%;padding:11px 12px;border-radius:var(--r-xs);border:1px solid var(--border);background:var(--surface);font-size:16px;font-weight:600;color:var(--ink-1);font-family:var(--font-sans);-webkit-appearance:none;appearance:none;min-height:44px}
 .inf:focus{outline:none;border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(46,111,242,.1)}
 .inf::placeholder{color:var(--ink-5);font-weight:500;font-size:13px}
@@ -296,7 +293,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 .faq-list{display:flex;flex-direction:column;gap:7px}
 .faq-i{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;transition:.2s}
-/* ★ :has() 폴백: 구형 안드로이드 대응 (JS로 .faq-i.open 토글) */
 .faq-i.open{border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(46,111,242,.08)}
 .faq-i:has(.faq-q.open){border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(46,111,242,.08)}
 .faq-q{width:100%;padding:16px 18px;background:0;border:0;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;font-weight:800;color:var(--ink-1);text-align:left;cursor:pointer;font-family:var(--font-sans);letter-spacing:-.01em;min-height:52px;-webkit-appearance:none;appearance:none}
@@ -350,7 +346,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .msg.ag{background:var(--surface);color:var(--ink-1);align-self:flex-start;border-top-left-radius:4px;border:1px solid var(--divider);box-shadow:var(--sh-xs)}
 .msg.us{background:linear-gradient(135deg,var(--blue-600),var(--blue-700));color:#fff;align-self:flex-end;border-bottom-right-radius:4px;white-space:pre-line;font-size:11px;box-shadow:0 2px 6px rgba(30,91,214,.2);word-break:break-all}
 .cwin-bt{padding:11px;background:var(--surface);border-top:1px solid var(--divider);display:flex;gap:7px}
-/* ★ iOS 자동확대 방지 */
 .cin{flex:1;padding:12px 13px;border-radius:var(--r-xs);border:1px solid var(--border);background:var(--surface-2);font-size:16px;font-family:var(--font-sans);color:var(--ink-1);-webkit-appearance:none;appearance:none;min-height:44px;min-width:0}
 .cin:focus{outline:none;border-color:var(--blue-500);background:var(--surface)}
 .csend{padding:0 15px;border-radius:var(--r-xs);border:0;background:var(--blue-600);color:#fff;font-size:12px;font-weight:800;cursor:pointer;font-family:var(--font-sans);-webkit-appearance:none;appearance:none;min-height:44px;flex-shrink:0}
@@ -360,7 +355,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
 
-/* ★★★ 작은 화면 (아이폰 SE, 갤럭시 폴드 커버, 구형 폰) 추가 최적화 */
 @media(max-width:380px){
   .hero{padding:28px 16px 18px}
   .hero h1{font-size:22px}
@@ -376,7 +370,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   .s-desc{font-size:12px;margin-bottom:16px}
   .oc{padding:13px 4px;font-size:11px;min-height:70px}
   .oc svg{width:20px;height:20px}
-  .ch{font-size:11px;padding:11px 2px;min-height:42px}
+  .ch{font-size:10.5px;padding:11px 2px;min-height:42px}
   .og.c4{gap:5px}
   .og.c3{gap:5px}
   .amt-box{padding:16px 12px}
@@ -399,12 +393,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   .mbar .btn{padding:10px 10px;font-size:11.5px;min-height:42px}
 }
 
-/* ★ 고해상도 Retina 디스플레이 선명도 */
 @media(-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
   body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 }
 
-/* ★ 가로 모드에서 입력창 포커스 시 iOS 줌 방지 */
 @media(orientation:landscape) and (max-height:500px){
   .mo{padding:8px}
   .cwin{max-height:95vh;max-height:95dvh}
@@ -602,19 +594,28 @@ src="https://www.facebook.com/tr?id=1791927372095155&ev=PageView&noscript=1"
         <strong id="amtD">1,000<em>만원</em></strong>
       </div>
 
+      <!-- ★ 희망금액 8개로 확장 (4열x2줄) -->
       <div class="og c4 mb14">
+        <button class="ch" onclick="setA(300,this)">300만</button>
         <button class="ch" onclick="setA(500,this)">500만</button>
         <button class="ch sel" onclick="setA(1000,this)">1,000만</button>
+        <button class="ch" onclick="setA(1500,this)">1,500만</button>
         <button class="ch" onclick="setA(2000,this)">2,000만</button>
-        <button class="ch" onclick="setA(3000,this)">3,000만+</button>
+        <button class="ch" onclick="setA(3000,this)">3,000만</button>
+        <button class="ch" onclick="setA(4000,this)">4,000만</button>
+        <button class="ch" onclick="setA(5000,this)">5,000만+</button>
       </div>
 
+      <!-- ★ 기대출 6개로 확장 (3열x2줄) -->
       <div class="fbox mb20">
         <div class="fl">현재 기대출 총액 (대부업·금융권 포함)</div>
         <div class="og c3">
-          <button class="ch sel" data-g="ln" onclick="pk(this,'existingLoan','2,000만원 미만')">2천만 미만</button>
-          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','2,000~3,500만원')">2천~3,500만</button>
-          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','3,500만원 이상')">3,500만+</button>
+          <button class="ch sel" data-g="ln" onclick="pk(this,'existingLoan','1천만원 미만')">1천만 미만</button>
+          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','1천~2천만원')">1천~2천만</button>
+          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','2천~3천만원')">2천~3천만</button>
+          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','3천~5천만원')">3천~5천만</button>
+          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','5천만원~1억원')">5천~1억</button>
+          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','1억원 이상')">1억 이상</button>
         </div>
       </div>
 
@@ -952,7 +953,7 @@ const ticks=[
 let ti=0;
 setInterval(()=>{const el=document.getElementById('tickT');if(!el)return;el.style.opacity='0';setTimeout(()=>{ti=(ti+1)%ticks.length;el.innerHTML=ticks[ti];el.style.opacity='1'},250)},3500);
 
-const S={job:'직장인',income:'500',insurance:'유',niceScore:'모름',bankruptcy:'없음',rehab:'회생 3회이상',requestedAmount:1000,existingLoan:'2,000만원 미만',calculatedLimit:1400,repayMethod:'원리금균등상환',repayYears:5};
+const S={job:'직장인',income:'500',insurance:'유',niceScore:'모름',bankruptcy:'없음',rehab:'회생 3회이상',requestedAmount:1000,existingLoan:'1천만원 미만',calculatedLimit:1400,repayMethod:'원리금균등상환',repayYears:5};
 
 function pk(el,key,val){
   const g=el.dataset.g;
@@ -966,15 +967,18 @@ function setA(v,el){
   el.parentElement.querySelectorAll('.ch').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');
 }
 
-/* ★ 실제 금융 공식 + 희망금액 ±20% 랜덤 변동으로 한도 산출 */
+/* ★ 실제 금융 공식 + 희망금액 ±20% 랜덤 변동으로 한도 산출 (6단계 기대출 반영) */
 function calculateLimit(){
   const income = parseInt(S.income) || 300;
   const requested = S.requestedAmount;
   
-  // 1) 기존 대출 금액 추정 (가운데값)
-  let existingDebt = 1000;
-  if(S.existingLoan.indexOf('2,000~3,500') !== -1) existingDebt = 2700;
-  else if(S.existingLoan.indexOf('3,500') !== -1) existingDebt = 4200;
+  // 1) 기존 대출 금액 추정 (6단계 중간값)
+  let existingDebt = 500;  // 기본값 (1천만원 미만)
+  if(S.existingLoan.indexOf('1천~2천') !== -1) existingDebt = 1500;
+  else if(S.existingLoan.indexOf('2천~3천') !== -1) existingDebt = 2500;
+  else if(S.existingLoan.indexOf('3천~5천') !== -1) existingDebt = 4000;
+  else if(S.existingLoan.indexOf('5천만원~1억') !== -1 || S.existingLoan.indexOf('5천~1억') !== -1) existingDebt = 7500;
+  else if(S.existingLoan.indexOf('1억') !== -1) existingDebt = 12000;
   
   // 2) DSR 비율 결정 (회생 상태별)
   let dsrRate = 0.40;
@@ -1011,12 +1015,14 @@ function calculateLimit(){
     finalLimit = lowEnd + (Math.random() * (requested - lowEnd) * 0.7);
   }
   
-  // 7) 10만원 단위로 반올림 (자연스럽게)
+  // 7) 10만원 단위로 반올림
   finalLimit = Math.round(finalLimit / 10) * 10;
   
-  // 8) 최소/최대 안전장치
-  if(finalLimit < 300) finalLimit = 300 + Math.floor(Math.random() * 300);
-  if(finalLimit > 5000) finalLimit = 4500 + Math.floor(Math.random() * 500);
+  // 8) 최소/최대 안전장치 (희망금액에 비례하여 상한 조정)
+  const minCap = 200;
+  const maxCap = Math.max(5000, requested * 1.3);
+  if(finalLimit < minCap) finalLimit = minCap + Math.floor(Math.random() * 200);
+  if(finalLimit > maxCap) finalLimit = Math.round(maxCap * 0.9) + Math.floor(Math.random() * 300);
   
   S.calculatedLimit = finalLimit;
 }
@@ -1027,7 +1033,6 @@ function go(n){
   const m={1:{t:'STEP 01. 기본 소득 정보',p:'1 / 3 단계',w:'33%'},2:{t:'STEP 02. 회생 및 신용 상태',p:'2 / 3 단계',w:'66%'},3:{t:'STEP 03. 희망 금액',p:'3 / 3 단계',w:'90%'},4:{t:'내부전산 가조회 분석 중',p:'분석중',w:'95%'},5:{t:'가조회 산출 완료',p:'완료',w:'100%'}};
   if(m[n]){document.getElementById('siText').textContent=m[n].t;document.getElementById('siPct').textContent=m[n].p;document.getElementById('pBar').style.width=m[n].w}
 
-  // 스텝 변경 시 스크롤 상단 이동 (모바일 UX)
   if(n >= 2 && n <= 5){
     const calcSec = document.getElementById('calcSec');
     if(calcSec){
@@ -1172,7 +1177,6 @@ function sendMsg(){
   setTimeout(()=>{const r=document.createElement('div');r.className='msg ag';r.innerHTML='확인 감사합니다! 담당자 실시간 배정 중입니다.';box.appendChild(r);box.scrollTop=box.scrollHeight},500);
 }
 
-/* ★ :has() 폴백: 구형 안드로이드에서도 FAQ 하이라이트 작동하도록 .faq-i.open 토글 */
 function tFaq(b){
   const a=b.nextElementSibling,o=a.classList.contains('open');
   document.querySelectorAll('.faq-q.open').forEach(q=>q.classList.remove('open'));
@@ -1192,7 +1196,6 @@ function setBrand(nm,sl,el){
   if(el)el.classList.add('on');
 }
 
-/* ★ 모바일 뷰포트 높이 정확히 잡기 (iOS Safari 100vh 버그 보완) */
 function setVH(){
   document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px');
 }
