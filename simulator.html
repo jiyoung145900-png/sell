@@ -401,35 +401,34 @@ input,select{font-family:inherit}
 </div>
 
 <script>
-/* ===== 한국시간 (KST, UTC+9) ===== */
-function getKST(){
-  const now = new Date();
-  const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
-  return new Date(utcMs + (9 * 60 * 60000));
-}
-function getKSTDateString(){
-  const k = getKST();
-  return k.getFullYear()+'-'+String(k.getMonth()+1).padStart(2,'0')+'-'+String(k.getDate()).padStart(2,'0');
-}
-function updateClock(){
-  const k = getKST();
-  const p = n => String(n).padStart(2,'0');
-  document.getElementById('statTime').textContent =
-    k.getFullYear()+'-'+p(k.getMonth()+1)+'-'+p(k.getDate())+' '+p(k.getHours())+':'+p(k.getMinutes())+':'+p(k.getSeconds());
+/* ===== 한국시간 (KST, Asia/Seoul) ===== */
+function getKSTParts(){
+  const formatter = new Intl.DateTimeFormat('ko-KR', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hourCycle: 'h23'
+  });
+  const parts = {};
+  formatter.formatToParts(new Date()).forEach(p => parts[p.type] = p.value);
+  return parts;
 }
 
-/* ===== 유틸 ===== */
-function formatAmount(input){
-  const v = input.value.replace(/[^\d]/g,'');
-  input.value = v.length ? parseInt(v).toLocaleString() : '';
+function getKSTDateString(){
+  const p = getKSTParts();
+  return `${p.year}-${p.month}-${p.day}`;
 }
-function getAmount(){
-  return parseInt(document.getElementById('inAmount').value.replace(/[^\d]/g,'')) || 0;
-}
-function addMonths(dateStr, months){
-  const d = new Date(dateStr);
-  d.setMonth(d.getMonth() + months);
-  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+
+function updateClock(){
+  const p = getKSTParts();
+  const el = document.getElementById('statTime');
+  if(el){
+    el.textContent = `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second}`;
+  }
 }
 
 /* ===== 메인 계산 ===== */
