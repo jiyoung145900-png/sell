@@ -10,49 +10,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --pri:#1e5bd6;
-  --pri-dark:#143ea0;
-  --pri-deep:#0a1030;
-  --pri-light:#eef4ff;
-  --accent:#ffd84d;
-  --ok:#059669;
-  --border:#d5dff2;
-  --border-strong:#9bb8f2;
-  --text:#171e30;
-  --text-sub:#3d4660;
-  --text-muted:#6b7390;
-}
 body{
   font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;
-  background:radial-gradient(circle at 50% 0%,#dce8fc 0%,#c3d5f2 100%);
-  color:var(--text);
+  background:#c9d9f5;
+  color:#1a2033;
   display:flex;
   align-items:flex-start;
   justify-content:center;
   min-height:100vh;
   padding:0;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
+  overflow-x:auto;
 }
 button{font-family:inherit;cursor:pointer}
 input,select{font-family:inherit}
 
-/* ===== 스케일 래퍼: 창 크기에 맞춰 자동 축소 (잘림 방지) ===== */
-#scaler{transform-origin:top center;transition:transform .08s ease-out}
-
-/* ===== 앱 윈도우: 고정 1280 폭, 높이는 내용에 맞춰 자동 ===== */
+/* ===== 앱 윈도우: 강제 축소 없이 1280px 자연스러운 레이아웃 ===== */
 .app{
   display:flex;
   width:1280px;
+  min-height:100vh;
   background:linear-gradient(135deg,#eaf1ff 0%,#f5f8ff 50%,#e8f0fd 100%);
-  box-shadow:0 14px 48px rgba(10,16,48,.24), 0 0 0 1px rgba(255,255,255,.5);
+  box-shadow:0 10px 40px rgba(10,16,48,.2);
+  flex-shrink:0;
 }
 
-/* ===== 좌측 사이드바 ===== */
+/* ===== 사이드바 ===== */
 .sidebar{
-  width:192px;
-  background:linear-gradient(180deg,#090f2c 0%,#15204d 48%,#1b52c4 100%);
+  width:186px;
+  background:linear-gradient(180deg,#0a1030 0%,#1a2454 50%,#1e5bd6 100%);
   color:#fff;
   display:flex;
   flex-direction:column;
@@ -63,34 +48,30 @@ input,select{font-family:inherit}
 .sidebar::before{
   content:"";
   position:absolute;
-  bottom:-90px;
-  left:-60px;
-  width:320px;
+  bottom:-80px;
+  left:-50px;
+  width:300px;
   height:360px;
-  background:radial-gradient(circle,rgba(255,255,255,.11),transparent 62%);
+  background:radial-gradient(circle,rgba(255,255,255,.1),transparent 60%);
   pointer-events:none;
 }
 .side-logo{
-  padding:15px 15px;
+  padding:16px 14px;
   border-bottom:1px solid rgba(255,255,255,.1);
   display:flex;
   align-items:center;
   gap:10px;
-  background:rgba(255,255,255,.04);
+  background:rgba(255,255,255,.05);
   position:relative;
 }
 .side-logo img{
   width:38px;
   height:38px;
   object-fit:contain;
-  border-radius:8px;
-  filter:drop-shadow(0 3px 8px rgba(0,0,0,.38));
+  filter:drop-shadow(0 2px 7px rgba(0,0,0,.35));
   flex-shrink:0;
 }
-.side-logo-wrap{display:flex;flex-direction:column;gap:1px}
-.side-logo-t{font-size:15px;font-weight:800;letter-spacing:-.03em;white-space:nowrap;line-height:1.15}
-.side-logo-s{font-size:9.5px;font-weight:600;color:#8ab1ff;letter-spacing:.04em}
-
+.side-logo-t{font-size:15px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
 .side-menu{flex:1;padding:10px 0}
 .side-item{
   display:flex;
@@ -103,11 +84,10 @@ input,select{font-family:inherit}
   cursor:pointer;
   transition:.15s;
   position:relative;
-  user-select:none;
 }
 .side-item:hover{background:rgba(255,255,255,.08);color:#fff}
 .side-item.on{
-  background:linear-gradient(90deg,rgba(46,111,242,.45),rgba(46,111,242,.08));
+  background:linear-gradient(90deg,rgba(46,111,242,.4),rgba(46,111,242,.1));
   color:#fff;
   font-weight:700;
 }
@@ -117,37 +97,16 @@ input,select{font-family:inherit}
   left:0;
   top:0;
   bottom:0;
-  width:3.5px;
-  background:var(--accent);
-  box-shadow:0 0 8px rgba(255,216,77,.6);
+  width:3px;
+  background:#ffd84d;
 }
 .side-item svg{width:17px;height:17px;flex-shrink:0}
-
 .side-ft{
-  padding:12px 15px;
+  padding:14px 16px;
   font-size:10.5px;
-  color:rgba(255,255,255,.55);
-  border-top:1px solid rgba(255,255,255,.1);
-  background:rgba(6,10,28,.25);
+  color:rgba(255,255,255,.4);
+  border-top:1px solid rgba(255,255,255,.08);
   position:relative;
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-}
-.side-ft-sec{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  color:#93c5fd;
-  font-weight:600;
-  font-size:10px;
-}
-.side-ft-sec::before{
-  content:"";
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:#38bdf8;
 }
 
 /* ===== 메인 영역 ===== */
@@ -155,333 +114,201 @@ input,select{font-family:inherit}
 
 /* ===== 상단 헤더 ===== */
 .top{
-  background:linear-gradient(135deg,#184dc4 0%,#2868eb 55%,#4f8bf4 100%);
+  background:linear-gradient(135deg,#1e5bd6 0%,#2e6ff2 50%,#5b93f5 100%);
   color:#fff;
-  padding:10px 20px;
+  padding:11px 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  box-shadow:0 2px 10px rgba(30,91,214,.18);
+  box-shadow:0 2px 10px rgba(30,91,214,.2);
   position:relative;
   overflow:hidden;
 }
 .top::before{
   content:"";
   position:absolute;
-  top:-60%;
-  right:-8%;
-  width:420px;
-  height:420px;
-  background:radial-gradient(circle,rgba(255,255,255,.16),transparent 62%);
+  top:-50%;
+  right:-10%;
+  width:400px;
+  height:400px;
+  background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%);
   pointer-events:none;
 }
-.top-l{display:flex;align-items:center;gap:10px;position:relative}
+.top-l{display:flex;align-items:center;gap:11px;position:relative}
 .top-l img{
-  width:30px;
-  height:30px;
+  width:32px;
+  height:32px;
   object-fit:contain;
-  border-radius:6px;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,.28));
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.25));
 }
-.top-tt{font-size:16.5px;font-weight:800;letter-spacing:-.02em}
-.top-badge{
-  font-size:10.5px;
-  font-weight:700;
-  padding:2px 8px;
-  border-radius:99px;
-  background:rgba(255,255,255,.16);
-  border:1px solid rgba(255,255,255,.25);
-  color:#fff;
-  letter-spacing:-.01em;
-}
+.top-tt{font-size:17px;font-weight:800;letter-spacing:-.02em}
 .top-r{
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:16px;
   font-size:12px;
   color:rgba(255,255,255,.95);
   position:relative;
 }
-.top-r b{font-weight:700;margin-left:4px;font-variant-numeric:tabular-nums}
-.top-staff-in{
-  background:transparent;
-  border:1px dashed transparent;
-  color:#fff;
-  font-weight:700;
-  font-size:12px;
-  width:68px;
-  padding:1px 4px;
-  border-radius:3px;
-  outline:none;
-  text-align:center;
-  transition:.15s;
-}
-.top-staff-in:hover,.top-staff-in:focus{
-  border-color:rgba(255,255,255,.55);
-  background:rgba(255,255,255,.12);
-}
-.top-ctrl{display:flex;gap:4px;margin-left:6px}
+.top-r b{font-weight:700;margin-left:4px}
+.top-ctrl{display:flex;gap:4px;margin-left:10px}
 .top-ctrl span{
-  width:25px;
-  height:25px;
+  width:26px;
+  height:26px;
   display:flex;
   align-items:center;
   justify-content:center;
   border-radius:4px;
-  background:rgba(255,255,255,.13);
+  background:rgba(255,255,255,.12);
   font-weight:700;
-  font-size:12px;
+  font-size:13px;
   cursor:pointer;
-  transition:.15s;
-  user-select:none;
 }
-.top-ctrl span:hover{background:rgba(255,255,255,.25)}
+.top-ctrl span:hover{background:rgba(255,255,255,.22)}
 
-/* ===== 탭 바 ===== */
-.tabs-wrap{
-  background:#f2f6ff;
+/* ===== 탭 ===== */
+.tabs{
+  background:#f5f8ff;
   padding:0 20px;
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:2px solid var(--border);
+  gap:4px;
+  border-bottom:2px solid #dde4f5;
 }
-.tabs{display:flex;gap:4px}
 .tab{
-  padding:11px 20px;
+  padding:12px 20px;
   font-size:13.5px;
   font-weight:600;
-  color:var(--text-muted);
+  color:#6b7390;
   cursor:pointer;
   border-bottom:3px solid transparent;
   margin-bottom:-2px;
   transition:.15s;
-  user-select:none;
 }
-.tab:hover{color:var(--pri)}
+.tab:hover{color:#1e5bd6}
 .tab.on{
-  color:var(--pri);
+  color:#1e5bd6;
   font-weight:800;
-  border-bottom-color:var(--pri);
+  border-bottom-color:#1e5bd6;
   background:#fff;
   border-radius:6px 6px 0 0;
-  box-shadow:0 -2px 6px rgba(10,16,48,.03);
-}
-.tab-status{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:11.5px;
-  font-weight:700;
-  color:#1849b8;
-  background:#e5eeff;
-  border:1px solid #bfd4ff;
-  padding:4px 11px;
-  border-radius:99px;
-}
-.tab-status i{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#1e5bd6;
-  display:inline-block;
 }
 
-/* ===== 콘텐츠 영역 ===== */
+/* ===== 콘텐츠 ===== */
 .content{
-  padding:14px 20px;
-  background:#f4f7ff;
+  flex:1;
+  padding:16px 20px;
+  background:#f5f8ff;
   display:flex;
   flex-direction:column;
-  gap:11px;
+  gap:12px;
 }
 
 /* ===== 섹션 공통 ===== */
 .sec{
   background:#fff;
-  border-radius:7px;
-  box-shadow:0 1px 4px rgba(10,16,48,.05);
-  border:1px solid var(--border);
+  border-radius:6px;
+  box-shadow:0 1px 4px rgba(10,16,48,.06);
+  border:1px solid #dde4f5;
   overflow:hidden;
 }
 .sec-h{
-  background:linear-gradient(90deg,#edf3ff,#f8faff);
-  padding:8.5px 15px;
-  border-bottom:1px solid var(--border);
+  background:linear-gradient(90deg,#f0f4ff,#f8faff);
+  padding:9px 15px;
+  border-bottom:1px solid #dde4f5;
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  gap:8px;
   font-size:13.5px;
   font-weight:800;
   color:#1849b8;
 }
-.sec-h-l{display:flex;align-items:center;gap:8px}
-.sec-h-l::before{
+.sec-h::before{
   content:"";
   width:4px;
   height:14px;
-  background:var(--pri);
+  background:#1e5bd6;
   border-radius:2px;
 }
-.sec-h-r{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text-sub)}
-.sec-body{padding:12px 15px}
+.sec-body{padding:14px 15px}
 
-/* 상환방식 선택 미니 셀렉트 */
-.method-sel{
-  padding:3px 9px;
-  border:1px solid var(--border-strong);
-  border-radius:4px;
-  background:#fff;
-  color:#1849b8;
-  font-size:12px;
-  font-weight:700;
-  outline:none;
-  cursor:pointer;
-}
-
-/* ===== 신청정보 입력 테이블 ===== */
+/* ===== 입력 테이블 ===== */
 .info-tbl{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
-.info-tbl td{padding:8px 10px;border:1px solid var(--border);vertical-align:middle}
+.info-tbl td{padding:9px 10px;border:1px solid #dde4f5;vertical-align:middle}
 .info-tbl td.lbl{
   background:#f0f4ff;
-  color:var(--text-sub);
+  color:#3d4660;
   font-weight:700;
   text-align:center;
   width:11.5%;
   white-space:nowrap;
   font-size:12.5px;
 }
-.info-tbl td.val{background:#fff;color:var(--text);text-align:center;width:21.8%}
+.info-tbl td.val{background:#fff;color:#1a2033;text-align:center;width:21.8%}
 .info-tbl .cell{display:flex;align-items:center;gap:6px;justify-content:center}
-.info-tbl .cell span{font-size:12.5px;color:var(--text-sub);font-weight:700;flex-shrink:0}
+.info-tbl .cell span{font-size:12.5px;color:#3d4660;font-weight:700;flex-shrink:0}
 .info-tbl input,.info-tbl select{
   width:100%;
   min-width:0;
-  padding:6.5px 8px;
-  border:1.5px solid var(--border-strong);
+  padding:7px 8px;
+  border:1.5px solid #a3bef5;
   border-radius:4px;
   font-size:13.5px;
   font-weight:700;
-  color:var(--text);
+  color:#1a2033;
   text-align:center;
   background:#fff;
   outline:none;
   transition:.15s;
-  font-variant-numeric:tabular-nums;
 }
-.info-tbl input.hl{color:var(--pri);font-weight:800;font-size:15px}
+.info-tbl input.hl{color:#1e5bd6;font-weight:800;font-size:15px}
 .info-tbl input:focus,.info-tbl select:focus{
-  border-color:var(--pri);
-  box-shadow:0 0 0 3px rgba(30,91,214,.12);
+  border-color:#1e5bd6;
+  box-shadow:0 0 0 3px rgba(30,91,214,.1);
 }
 .info-tbl input[type="number"]::-webkit-outer-spin-button,
 .info-tbl input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.info-tbl input[type="date"]{font-size:13px;padding:5.5px 6px}
-.kor-amt{
-  margin-top:3px;
-  font-size:11px;
-  font-weight:700;
-  color:#1849b8;
-  text-align:right;
-  padding-right:18px;
-  letter-spacing:-.02em;
-}
+.info-tbl input[type="date"]{font-size:13px;padding:6px 6px}
 
 /* ===== 대출상환결과 ===== */
-.result-row{display:grid;grid-template-columns:1.05fr 1.15fr 134px;gap:12px;align-items:stretch}
+.result-row{display:grid;grid-template-columns:1fr 1.15fr 128px;gap:12px;align-items:stretch}
 .result-main{
-  background:linear-gradient(135deg,#f8faff 0%,#eaf2ff 100%);
-  border:1px solid #cfe0fe;
+  background:linear-gradient(135deg,#f8faff,#eef4ff);
+  border:1px solid #dbe7fe;
   border-radius:6px;
-  padding:14px 16px;
+  padding:16px;
   display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  gap:10px;
+  align-items:center;
+  gap:15px;
   min-width:0;
 }
-.result-main-top{display:flex;align-items:center;gap:14px}
 .result-check{
-  width:58px;
-  height:58px;
+  width:62px;
+  height:62px;
   border-radius:50%;
-  background:linear-gradient(135deg,#1e5bd6,#3b82f6);
+  background:linear-gradient(135deg,#1e5bd6,#2e6ff2);
   display:flex;
   align-items:center;
   justify-content:center;
   color:#fff;
-  box-shadow:0 5px 14px rgba(30,91,214,.3);
+  box-shadow:0 5px 15px rgba(30,91,214,.3);
   flex-shrink:0;
 }
 .result-main-t{flex:1;min-width:0}
-.result-main-t small{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:12.5px;
-  color:#1849b8;
-  font-weight:700;
-  margin-bottom:2px;
-}
-.result-main-t small em{
-  font-style:normal;
-  font-size:10.5px;
-  background:#dbeafe;
-  color:#1e40af;
-  padding:1px 6px;
-  border-radius:4px;
-  font-weight:700;
-}
-.result-main-t .big{display:flex;align-items:baseline;gap:4px}
+.result-main-t small{display:block;font-size:13px;color:#1849b8;font-weight:700;margin-bottom:3px}
+.result-main-t .big{display:flex;align-items:baseline;gap:3px;flex-wrap:wrap}
 .result-main-t strong{
-  font-size:31px;
+  font-size:32px;
   font-weight:900;
-  color:var(--pri);
-  letter-spacing:-.025em;
-  line-height:1.12;
+  color:#1e5bd6;
+  letter-spacing:-.02em;
+  line-height:1.15;
   font-variant-numeric:tabular-nums;
 }
-.result-main-t .unit{font-style:normal;font-size:16.5px;font-weight:800;color:var(--text-sub)}
-
-/* 원금 vs 이자 비율 바 */
-.ratio-wrap{
-  background:rgba(255,255,255,.75);
-  border:1px solid #dbe7fe;
-  border-radius:5px;
-  padding:6px 10px;
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-.ratio-bar{
-  height:6px;
-  border-radius:99px;
-  background:#fed7aa;
-  overflow:hidden;
-  display:flex;
-}
-.ratio-p{background:linear-gradient(90deg,#1e5bd6,#3b82f6);height:100%;transition:width .25s}
-.ratio-i{background:#f59e0b;height:100%;flex:1}
-.ratio-lbl{
-  display:flex;
-  justify-content:space-between;
-  font-size:11px;
-  font-weight:700;
-  color:var(--text-sub);
-  font-variant-numeric:tabular-nums;
-}
-.ratio-lbl span i{
-  display:inline-block;
-  width:7px;
-  height:7px;
-  border-radius:2px;
-  margin-right:4px;
-  vertical-align:middle;
-}
+.result-main-t em{font-style:normal;font-size:17px;font-weight:700;color:#3d4660}
 
 .result-sub{
   background:#fff;
-  border:1px solid var(--border);
+  border:1px solid #dde4f5;
   border-radius:6px;
   overflow:hidden;
   display:flex;
@@ -489,17 +316,17 @@ input,select{font-family:inherit}
 }
 .result-sub-row{
   display:grid;
-  grid-template-columns:110px 1fr;
+  grid-template-columns:106px 1fr;
   align-items:stretch;
   border-bottom:1px solid #eef0f6;
   font-size:13px;
   flex:1;
 }
-.result-sub-row:last-child{border-bottom:0;background:#fbfcff}
+.result-sub-row:last-child{border-bottom:0}
 .result-sub-row .l{
   background:#f0f4ff;
-  padding:8px 10px;
-  color:var(--text-sub);
+  padding:9px 10px;
+  color:#3d4660;
   font-weight:700;
   text-align:center;
   display:flex;
@@ -507,28 +334,27 @@ input,select{font-family:inherit}
   justify-content:center;
 }
 .result-sub-row .v{
-  padding:8px 14px;
+  padding:9px 14px;
   text-align:right;
   font-weight:700;
-  color:var(--text);
+  color:#1a2033;
   font-variant-numeric:tabular-nums;
   display:flex;
   align-items:center;
   justify-content:flex-end;
 }
-.result-sub-row:last-child .v{color:var(--pri);font-weight:800;font-size:14px}
 
 .result-period{
-  background:linear-gradient(170deg,#1e5bd6 0%,#1643a8 52%,#0a1030 100%);
+  background:linear-gradient(170deg,#1e5bd6 0%,#1849b8 50%,#0a1030 100%);
   border-radius:6px;
-  padding:12px 10px;
+  padding:14px 10px;
   text-align:center;
   color:#fff;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  box-shadow:0 5px 15px rgba(30,91,214,.28);
+  box-shadow:0 5px 15px rgba(30,91,214,.3);
   position:relative;
   overflow:hidden;
 }
@@ -539,110 +365,82 @@ input,select{font-family:inherit}
   right:-30%;
   width:150px;
   height:150px;
-  background:radial-gradient(circle,rgba(255,216,77,.18),transparent 60%);
+  background:radial-gradient(circle,rgba(255,216,77,.15),transparent 60%);
   pointer-events:none;
 }
-.result-period .pl{font-size:12.5px;font-weight:800;margin-bottom:3px;opacity:.92;position:relative}
+.result-period .pl{font-size:13px;font-weight:800;margin-bottom:4px;opacity:.92;position:relative}
 .result-period .pv{display:flex;align-items:baseline;gap:3px;position:relative}
 .result-period .pv strong{
-  font-size:33px;
+  font-size:34px;
   font-weight:900;
-  color:var(--accent);
+  color:#ffd84d;
   letter-spacing:-.02em;
   line-height:1;
   text-shadow:0 2px 8px rgba(255,216,77,.3);
 }
-.result-period .pv i{font-style:normal;font-size:15.5px;font-weight:800;color:var(--accent)}
-.result-period .pm{font-size:11px;margin-top:4px;opacity:.88;position:relative;font-weight:600}
-.result-period .pe{
-  margin-top:6px;
-  padding-top:5px;
-  border-top:1px solid rgba(255,255,255,.15);
-  font-size:10px;
-  color:#bfd7ff;
-  width:100%;
-  font-variant-numeric:tabular-nums;
-}
+.result-period .pv i{font-style:normal;font-size:16px;font-weight:800;color:#ffd84d}
+.result-period .pm{font-size:11px;margin-top:5px;opacity:.85;position:relative}
 
-/* ===== 2열 영역 (상세 조건 + 상환안내) ===== */
-.two-col{display:grid;grid-template-columns:1fr 1.25fr;gap:12px;align-items:stretch}
-.two-col .sec{display:flex;flex-direction:column}
-.two-col .sec-body{flex:1;display:flex;flex-direction:column;justify-content:center}
+/* ===== 2열 (상세 조건 + 상환안내) ===== */
+.two-col{display:grid;grid-template-columns:1fr 1.25fr;gap:12px;align-items:start}
 
 .detail-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
-.detail-tbl td{padding:7.5px 12px;border:1px solid var(--border)}
-.detail-tbl td.l{background:#f0f4ff;color:var(--text-sub);font-weight:700;width:42%;text-align:center}
-.detail-tbl td.v{text-align:right;color:var(--text);font-weight:700;font-variant-numeric:tabular-nums}
+.detail-tbl td{padding:8px 12px;border:1px solid #dde4f5}
+.detail-tbl td.l{background:#f0f4ff;color:#3d4660;font-weight:700;width:44%;text-align:center}
+.detail-tbl td.v{text-align:right;color:#1a2033;font-weight:700;font-variant-numeric:tabular-nums}
 
 .notes{list-style:none;padding:0}
 .notes li{
   display:flex;
   align-items:flex-start;
   gap:9px;
-  padding:5.5px 0;
+  padding:6.5px 0;
   font-size:12.5px;
-  color:var(--text-sub);
-  line-height:1.5;
-  font-weight:500;
+  color:#3d4660;
+  line-height:1.55;
 }
 .notes li::before{
   content:"";
   width:16px;
   height:16px;
   border-radius:50%;
-  background:var(--pri);
+  background:#1e5bd6;
   flex-shrink:0;
-  margin-top:1.5px;
+  margin-top:1px;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 8 7 11 12 5'/%3E%3C/svg%3E");
   background-repeat:no-repeat;
   background-position:center;
   background-size:9.5px;
 }
 
-/* ===== 월별 상환 스케줄 ===== */
-.sched-toggle-btn{
-  background:#fff;
-  border:1px solid var(--border-strong);
-  color:#1849b8;
-  font-size:11.5px;
-  font-weight:700;
-  padding:3px 10px;
-  border-radius:4px;
-  transition:.15s;
-}
-.sched-toggle-btn:hover{background:#e5eeff}
-
+/* ===== 월별 상환 ===== */
 .sched-wrap{display:flex;gap:12px;align-items:stretch}
 .sched-tbl-wrap{
   flex:1;
-  border:1px solid var(--border);
+  border:1px solid #dde4f5;
   border-radius:6px;
   overflow:hidden;
   min-width:0;
 }
-.sched-tbl-wrap.expanded{max-height:245px;overflow-y:auto}
 .sched-tbl{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed}
 .sched-tbl thead th{
   background:linear-gradient(180deg,#f0f4ff,#e4ebf8);
-  padding:8.5px 6px;
+  padding:9px 6px;
   font-weight:800;
   text-align:center;
   color:#1849b8;
-  border-bottom:1.5px solid var(--border-strong);
-  position:sticky;
-  top:0;
-  z-index:1;
+  border-bottom:1.5px solid #a3bef5;
 }
 .sched-tbl tbody td{
-  padding:7.5px 6px;
+  padding:8px 6px;
   text-align:center;
   border-bottom:1px solid #eef0f6;
-  color:var(--text-sub);
+  color:#3d4660;
   font-variant-numeric:tabular-nums;
 }
 .sched-tbl tbody tr:last-child td{border-bottom:0}
 .sched-tbl tbody tr:nth-child(even) td{background:#fafbfd}
-.sched-tbl tbody tr.dots td{color:#9ca3af;letter-spacing:3px;font-weight:700;padding:5px}
+.sched-tbl tbody tr.dots td{color:#9ca3af;letter-spacing:3px;font-weight:700}
 
 .sched-actions{display:flex;flex-direction:column;gap:7px;flex-shrink:0;width:138px}
 .action-btn{
@@ -650,7 +448,7 @@ input,select{font-family:inherit}
   align-items:center;
   justify-content:center;
   gap:7px;
-  padding:10px 12px;
+  padding:11px 12px;
   border-radius:6px;
   border:0;
   font-size:13px;
@@ -668,57 +466,125 @@ input,select{font-family:inherit}
 .action-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,91,214,.3)}
 .action-btn svg{width:15px;height:15px;flex-shrink:0}
 
-/* ===== 하단 상태바 ===== */
+/* ===== 상태바 ===== */
 .statbar{
   background:#fff;
-  border-top:1px solid var(--border);
+  border-top:1px solid #dde4f5;
   padding:8px 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   font-size:11.5px;
-  color:var(--text-sub);
+  color:#3d4660;
 }
-.statbar-l{display:flex;align-items:center;gap:7px;color:var(--ok);font-weight:700}
+.statbar-l{display:flex;align-items:center;gap:7px;color:#059669;font-weight:700}
 .statbar-l i{
   width:8px;
   height:8px;
   border-radius:50%;
   background:#10b981;
-  box-shadow:0 0 6px rgba(16,185,129,.6);
+  box-shadow:0 0 6px rgba(16,185,129,.5);
   display:inline-block;
 }
-.statbar-r{display:flex;align-items:center;gap:18px;color:var(--text-muted);font-variant-numeric:tabular-nums}
-.statbar-r b{color:var(--text);margin:0 4px}
+.statbar-r{display:flex;align-items:center;gap:18px;color:#6b7390}
+.statbar-r b{color:#1a2033;margin:0 4px}
 
-/* ===== 인쇄 전용 스타일 ===== */
+/* 화면용 / 인쇄용 전환 클래스 */
+.print-only{display:none}
+
+/* ===== 인쇄 및 PDF 저장 (첨부 11.pdf와 동일한 A4 세로 + 전체 회차 출력) ===== */
 @media print{
-  @page{size:A4 landscape;margin:7mm}
-  body{background:#fff !important;display:block !important;padding:0 !important;height:auto !important}
-  #scaler{transform:none !important}
-  .sidebar,.top-ctrl,.tabs-wrap,.sched-actions,.statbar,.sched-toggle-btn{display:none !important}
-  .app{width:100% !important;box-shadow:none !important}
-  .top{background:#1e5bd6 !important}
-  .sched-tbl-wrap.expanded{max-height:none !important;overflow:visible !important}
+  @page{
+    size:A4 portrait;
+    margin:10mm 8mm;
+  }
+  body{
+    background:#fff !important;
+    display:block !important;
+    padding:0 !important;
+    min-height:auto !important;
+    overflow:visible !important;
+  }
+  .sidebar,.top-ctrl,.tabs,.sched-actions,.statbar,.screen-only{
+    display:none !important;
+  }
+  .print-only{
+    display:inline !important;
+  }
+  tbody.print-only{
+    display:table-row-group !important;
+  }
+  .app{
+    display:block !important;
+    width:100% !important;
+    min-height:auto !important;
+    box-shadow:none !important;
+    background:#fff !important;
+  }
+  .main{
+    display:block !important;
+    width:100% !important;
+  }
+  .top{
+    background:linear-gradient(135deg,#1e5bd6 0%,#2e6ff2 50%,#5b93f5 100%) !important;
+    margin-bottom:10px !important;
+    border-radius:4px;
+  }
+  .content{
+    display:block !important;
+    padding:0 !important;
+    background:#fff !important;
+  }
+  .sec{
+    margin-bottom:10px !important;
+    overflow:visible !important;
+    page-break-inside:avoid;
+    break-inside:avoid;
+  }
+  .two-col{
+    margin-bottom:10px !important;
+    page-break-inside:avoid;
+    break-inside:avoid;
+  }
+  /* 월별 상환 섹션은 1페이지 하단부터 시작해 2~4페이지로 자연스럽게 이어지도록 설정 */
+  .sec.sched-sec{
+    page-break-inside:auto !important;
+    break-inside:auto !important;
+    margin-bottom:0 !important;
+  }
+  .sched-wrap{
+    display:block !important;
+  }
+  .sched-tbl-wrap{
+    overflow:visible !important;
+    border:1px solid #dde4f5 !important;
+  }
+  .sched-tbl{
+    width:100% !important;
+    border-collapse:collapse !important;
+  }
+  .sched-tbl thead{
+    display:table-header-group !important;
+  }
+  .sched-tbl tr{
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+  }
   *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
 }
 </style>
 </head>
 <body>
 
-<div id="scaler">
 <div class="app" id="appWin">
 
   <!-- 좌측 사이드바 -->
   <aside class="sidebar">
     <div class="side-logo">
       <img class="brand-logo" src="./logo-symbol.png" alt="바른한도플랜">
-      <div class="side-logo-wrap">
-        <div class="side-logo-t">바른한도플랜</div>
-        <div class="side-logo-s">LOAN SYSTEM</div>
-      </div>
+      <div class="side-logo-t">바른한도플랜</div>
     </div>
-    <nav class="side-menu" id="sideMenu">
+    <nav class="side-menu">
       <div class="side-item on">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         대출상담 홈
@@ -748,14 +614,11 @@ input,select{font-family:inherit}
         통계관리
       </div>
       <div class="side-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         시스템설정
       </div>
     </nav>
-    <div class="side-ft">
-      <div class="side-ft-sec">전산망 보안연결 (KST)</div>
-      <div>v2.4.1 | 내부시스템</div>
-    </div>
+    <div class="side-ft">v2.4.1 | 내부시스템</div>
   </aside>
 
   <!-- 메인 영역 -->
@@ -766,12 +629,11 @@ input,select{font-family:inherit}
       <div class="top-l">
         <img class="brand-logo" src="./logo-symbol.png" alt="로고">
         <div class="top-tt">바른한도플랜</div>
-        <span class="top-badge">통합여신관리시스템</span>
       </div>
       <div class="top-r">
         <span>신청일자 :<b id="hdrDate">2026-11-09</b></span>
         <span style="color:rgba(255,255,255,.3)">|</span>
-        <span>담당자 :<input type="text" id="inStaff" class="top-staff-in" value="금융상담팀" title="클릭하여 담당자 수정" oninput="syncStaff()"></span>
+        <span>담당자 :<b>금융상담팀</b></span>
         <div class="top-ctrl">
           <span>—</span>
           <span>□</span>
@@ -781,15 +643,12 @@ input,select{font-family:inherit}
     </header>
 
     <!-- 탭 -->
-    <div class="tabs-wrap">
-      <div class="tabs" id="topTabs">
-        <div class="tab">대출상담</div>
-        <div class="tab on">한도조회결과</div>
-        <div class="tab">상세정보</div>
-        <div class="tab">상환계획</div>
-        <div class="tab">신청완료</div>
-      </div>
-      <div class="tab-status"><i></i>심사상태 : 한도산출 완료</div>
+    <div class="tabs">
+      <div class="tab">대출상담</div>
+      <div class="tab on">한도조회결과</div>
+      <div class="tab">상세정보</div>
+      <div class="tab">상환계획</div>
+      <div class="tab">신청완료</div>
     </div>
 
     <!-- 컨텐츠 -->
@@ -797,17 +656,7 @@ input,select{font-family:inherit}
 
       <!-- 신청정보 -->
       <section class="sec">
-        <div class="sec-h">
-          <div class="sec-h-l">신청정보</div>
-          <div class="sec-h-r">
-            <span>상환방식 :</span>
-            <select id="inMethod" class="method-sel" onchange="calc()">
-              <option value="equal_pi" selected>원리금 균등상환</option>
-              <option value="equal_p">원금 균등상환</option>
-              <option value="bullet">만기일시상환</option>
-            </select>
-          </div>
-        </div>
+        <div class="sec-h">신청정보</div>
         <div class="sec-body">
           <table class="info-tbl">
             <tr>
@@ -817,15 +666,14 @@ input,select{font-family:inherit}
               <td class="val"><input type="date" id="inDate" oninput="calc()"></td>
               <td class="lbl">상품구분</td>
               <td class="val">
-                <select id="inProd">
-                  <option>일반신용대출</option>
-                  <option>햇살론</option>
-                  <option>새희망홀씨</option>
-                  <option>사잇돌대출</option>
-                  <option>프리랜서대출</option>
-                  <option>직장인신용대출</option>
-                  <option>대환/통합대출</option>
-                </select>
+                <input type="text" id="inProd" list="prodList" value="일반신용대출">
+                <datalist id="prodList">
+                  <option value="일반신용대출"></option>
+                  <option value="햇살론"></option>
+                  <option value="새희망홀씨"></option>
+                  <option value="사잇돌대출"></option>
+                  <option value="프리랜서대출"></option>
+                </datalist>
               </td>
             </tr>
             <tr>
@@ -835,7 +683,6 @@ input,select{font-family:inherit}
                   <input type="text" id="inAmount" value="55,000,000" oninput="formatAmount(this);calc()">
                   <span>원</span>
                 </div>
-                <div class="kor-amt" id="outKorAmt">금 오천오백만원정</div>
               </td>
               <td class="lbl">대출기간</td>
               <td class="val">
@@ -843,7 +690,6 @@ input,select{font-family:inherit}
                   <option value="1">1년 (12개월)</option>
                   <option value="2">2년 (24개월)</option>
                   <option value="3">3년 (36개월)</option>
-                  <option value="4">4년 (48개월)</option>
                   <option value="5">5년 (60개월)</option>
                   <option value="7">7년 (84개월)</option>
                   <option value="10" selected>10년 (120개월)</option>
@@ -863,31 +709,16 @@ input,select{font-family:inherit}
 
       <!-- 대출상환결과 -->
       <section class="sec">
-        <div class="sec-h">
-          <div class="sec-h-l">대출상환결과</div>
-          <div class="sec-h-r" id="resMethodBadge">기준 : 원리금 균등상환</div>
-        </div>
+        <div class="sec-h">대출상환결과</div>
         <div class="sec-body">
           <div class="result-row">
             <div class="result-main">
-              <div class="result-main-top">
-                <div class="result-check">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <div class="result-main-t">
-                  <small><span id="lblMonthlyTitle">월 납부금액</span><em id="lblMonthlyTag">매월 동일</em></small>
-                  <div class="big"><strong id="outMonthly">573,198</strong><span class="unit">원</span></div>
-                </div>
+              <div class="result-check">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
-              <div class="ratio-wrap">
-                <div class="ratio-bar">
-                  <div class="ratio-p" id="barPrincipal" style="width:80%"></div>
-                  <div class="ratio-i"></div>
-                </div>
-                <div class="ratio-lbl">
-                  <span><i style="background:#1e5bd6"></i>원금 비중 <b id="pctPrincipal">80.0%</b></span>
-                  <span><i style="background:#f59e0b"></i>이자 비중 <b id="pctInterest">20.0%</b></span>
-                </div>
+              <div class="result-main-t">
+                <small>월 납부금액</small>
+                <div class="big"><strong id="outMonthly">573,198</strong><em>원</em></div>
               </div>
             </div>
             <div class="result-sub">
@@ -908,7 +739,6 @@ input,select{font-family:inherit}
               <div class="pl">상환기간</div>
               <div class="pv"><strong id="outPeriod">10</strong><i>년</i></div>
               <div class="pm">(<span id="outMonths">120</span>개월)</div>
-              <div class="pe">만기 : <span id="outEndDate">2036-11-09</span></div>
             </div>
           </div>
         </div>
@@ -917,26 +747,22 @@ input,select{font-family:inherit}
       <!-- 상세조건 + 상환안내 -->
       <div class="two-col">
         <section class="sec">
-          <div class="sec-h">
-            <div class="sec-h-l">상세 조건</div>
-          </div>
+          <div class="sec-h">상세 조건</div>
           <div class="sec-body">
             <table class="detail-tbl">
               <tr><td class="l">대출금액</td><td class="v"><span id="dtAmount">55,000,000</span> 원</td></tr>
               <tr><td class="l">연 금리</td><td class="v"><span id="dtRate">4.62</span> %</td></tr>
               <tr><td class="l">월 적용금리</td><td class="v"><span id="dtMonthRate">0.385</span> %</td></tr>
-              <tr><td class="l">상환방식</td><td class="v" id="dtMethod">원리금 균등상환</td></tr>
+              <tr><td class="l">상환방식</td><td class="v">원리금 균등상환</td></tr>
               <tr><td class="l">상환기간</td><td class="v"><span id="dtYears">10</span> 년 (<span id="dtMonths2">120</span> 개월)</td></tr>
             </table>
           </div>
         </section>
         <section class="sec">
-          <div class="sec-h">
-            <div class="sec-h-l">상환안내</div>
-          </div>
+          <div class="sec-h">상환안내</div>
           <div class="sec-body">
-            <ul class="notes" id="guideNotes">
-              <li>매월 동일한 금액(원금+이자)을 납부합니다.</li>
+            <ul class="notes">
+              <li>매월 동일한 금액을 납부합니다.</li>
               <li>초기에는 이자 비중이 높고, 시간이 지날수록 원금 상환 비중이 높아집니다.</li>
               <li>중도상환이나 별도 수수료는 반영하지 않았습니다.</li>
               <li>본 산출은 시뮬레이션이며, 최종 심사 시 변동될 수 있습니다.</li>
@@ -945,15 +771,15 @@ input,select{font-family:inherit}
         </section>
       </div>
 
-      <!-- 월별 상환 -->
-      <section class="sec">
+      <!-- 월별 상환 (화면에서는 '예시' 요약본, PDF/인쇄 시에는 '전체' 회차 출력) -->
+      <section class="sec sched-sec">
         <div class="sec-h">
-          <div class="sec-h-l">월별 상환금액 안내 (예시)</div>
-          <button type="button" class="sched-toggle-btn" id="btnToggleSched" onclick="toggleSchedule()">전체 회차 보기</button>
+          <span class="screen-only">월별 상환금액 안내 (예시)</span>
+          <span class="print-only">월별 상환금액 안내 (전체)</span>
         </div>
         <div class="sec-body">
           <div class="sched-wrap">
-            <div class="sched-tbl-wrap" id="schedWrap">
+            <div class="sched-tbl-wrap">
               <table class="sched-tbl">
                 <thead>
                   <tr>
@@ -965,7 +791,10 @@ input,select{font-family:inherit}
                     <th style="width:20%">잔여원금</th>
                   </tr>
                 </thead>
-                <tbody id="schedBody"></tbody>
+                <!-- 화면 표시용 (1~3회차 + ... + 마지막 회차) -->
+                <tbody id="schedBody" class="screen-only"></tbody>
+                <!-- PDF / 인쇄 전용 (1회차 ~ 마지막 회차 전체) -->
+                <tbody id="schedBodyFull" class="print-only"></tbody>
               </table>
             </div>
             <div class="sched-actions">
@@ -992,17 +821,16 @@ input,select{font-family:inherit}
     <div class="statbar">
       <div class="statbar-l"><i></i> 시스템 정상 운영 중</div>
       <div class="statbar-r">
-        <span>담당자 :<b id="statStaff">금융상담팀</b></span>
+        <span>담당자 :<b>금융상담팀</b></span>
         <span>최종조회 :<b id="statTime">2026-11-09 14:32:15</b></span>
       </div>
     </div>
 
   </div>
 </div>
-</div>
 
 <script>
-/* ===== 내장 방패 체크 로고 (외부 이미지 파일 누락 시에도 100% 동일하게 표시) ===== */
+/* ===== 내장 방패 체크 로고 (외부 로고 파일이 없을 때도 자동 표시) ===== */
 const EMBEDDED_LOGO = "data:image/svg+xml;utf8," + encodeURIComponent(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
   <defs>
@@ -1016,23 +844,17 @@ const EMBEDDED_LOGO = "data:image/svg+xml;utf8," + encodeURIComponent(`
       <stop offset="45%" stop-color="rgba(255,255,255,0.12)"/>
       <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
     </linearGradient>
-    <filter id="sh" x="-15%" y="-15%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#00144d" flood-opacity="0.55"/>
-    </filter>
   </defs>
   <rect x="4" y="4" width="112" height="112" rx="26" fill="url(#bg)" stroke="#7cc0ff" stroke-width="2.5"/>
   <path d="M 4 30 Q 4 4 30 4 L 90 4 Q 116 4 116 30 L 116 42 Q 62 58 4 86 Z" fill="url(#gloss)"/>
-  <g filter="url(#sh)">
-    <path d="M60 18 L94 31 V57 C94 81 79 97 60 104 C41 97 26 81 26 57 V31 Z" fill="none" stroke="#ffffff" stroke-width="6.5" stroke-linejoin="round"/>
-    <path d="M60 27 L85 37 V57 C85 75 73 88 60 94 C47 88 35 75 35 57 V37 Z" fill="rgba(0,68,210,0.35)" stroke="#d9ecff" stroke-width="3.2" stroke-linejoin="round"/>
-    <polyline points="45 59 56 70 76 47" fill="none" stroke="#ffffff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
+  <path d="M60 18 L94 31 V57 C94 81 79 97 60 104 C41 97 26 81 26 57 V31 Z" fill="none" stroke="#ffffff" stroke-width="6.5" stroke-linejoin="round"/>
+  <path d="M60 27 L85 37 V57 C85 75 73 88 60 94 C47 88 35 75 35 57 V37 Z" fill="rgba(0,68,210,0.35)" stroke="#d9ecff" stroke-width="3.2" stroke-linejoin="round"/>
+  <polyline points="45 59 56 70 76 47" fill="none" stroke="#ffffff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`);
 
 function initLogos(){
   const fav = document.getElementById('favIcon');
-  const imgs = document.querySelectorAll('.brand-logo');
-  imgs.forEach(img => {
+  document.querySelectorAll('.brand-logo').forEach(img => {
     img.onerror = function(){
       this.onerror = null;
       this.src = EMBEDDED_LOGO;
@@ -1045,69 +867,21 @@ function initLogos(){
   });
 }
 
-/* ===== 한국 표준시 (KST, Asia/Seoul 실시간) ===== */
-function getKSTParts(){
+/* ===== 한국시간 (KST, UTC+9 실시간) ===== */
+function getKST(){
   const now = new Date();
-  const fmt = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Seoul',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
-  });
-  const parts = {};
-  fmt.formatToParts(now).forEach(p => { parts[p.type] = p.value; });
-  const h = parts.hour === '24' ? '00' : parts.hour;
-  return {
-    date: `${parts.year}-${parts.month}-${parts.day}`,
-    time: `${h}:${parts.minute}:${parts.second}`
-  };
+  const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
+  return new Date(utcMs + (9 * 60 * 60000));
 }
 function getKSTDateString(){
-  return getKSTParts().date;
+  const k = getKST();
+  return k.getFullYear()+'-'+String(k.getMonth()+1).padStart(2,'0')+'-'+String(k.getDate()).padStart(2,'0');
 }
 function updateClock(){
-  const k = getKSTParts();
-  document.getElementById('statTime').textContent = `${k.date} ${k.time}`;
-}
-
-/* ===== 담당자 동기화 ===== */
-function syncStaff(){
-  const v = document.getElementById('inStaff').value.trim() || '금융상담팀';
-  document.getElementById('statStaff').textContent = v;
-}
-
-/* ===== 숫자를 한글 금액으로 변환 ===== */
-function numberToKorean(num){
-  if(!num || num <= 0) return '금 영원정';
-  const units = ['', '만', '억', '조'];
-  const nums = ['영','일','이','삼','사','오','육','칠','팔','구'];
-  const smallUnits = ['', '십', '백', '천'];
-  let result = '';
-  let unitIdx = 0;
-
-  while(num > 0){
-    const part = num % 10000;
-    if(part > 0){
-      let partStr = '';
-      let p = part;
-      for(let i=0; i<4; i++){
-        const d = p % 10;
-        if(d > 0){
-          const digitStr = (d === 1 && i > 0) ? '' : nums[d];
-          partStr = digitStr + smallUnits[i] + partStr;
-        }
-        p = Math.floor(p / 10);
-      }
-      result = partStr + units[unitIdx] + ' ' + result;
-    }
-    num = Math.floor(num / 10000);
-    unitIdx++;
-  }
-  return '금 ' + result.trim().replace(/\s+/g, '') + '원정';
+  const k = getKST();
+  const p = n => String(n).padStart(2,'0');
+  document.getElementById('statTime').textContent =
+    k.getFullYear()+'-'+p(k.getMonth()+1)+'-'+p(k.getDate())+' '+p(k.getHours())+':'+p(k.getMinutes())+':'+p(k.getSeconds());
 }
 
 /* ===== 유틸 ===== */
@@ -1119,190 +893,94 @@ function getAmount(){
   return parseInt(document.getElementById('inAmount').value.replace(/[^\d]/g,''), 10) || 0;
 }
 function addMonths(dateStr, months){
-  const parts = dateStr.split('-').map(Number);
-  if(parts.length !== 3) return dateStr;
-  const d = new Date(parts[0], parts[1] - 1 + months, parts[2]);
+  const d = new Date(dateStr);
+  d.setMonth(d.getMonth() + months);
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
 
-/* ===== 전체 회차 보기 토글 ===== */
-let showFullSchedule = false;
-function toggleSchedule(){
-  showFullSchedule = !showFullSchedule;
-  const wrap = document.getElementById('schedWrap');
-  const btn = document.getElementById('btnToggleSched');
-  if(showFullSchedule){
-    wrap.classList.add('expanded');
-    btn.textContent = '요약 보기 (기본)';
-  } else {
-    wrap.classList.remove('expanded');
-    btn.textContent = '전체 회차 보기';
-  }
-  calc();
-}
-
 /* ===== 메인 계산 ===== */
-let currentSched = [];
 function calc(){
   const principal = getAmount();
   const years = parseInt(document.getElementById('inYears').value, 10) || 1;
   const annualRate = parseFloat(document.getElementById('inRate').value) || 0;
   const startDate = document.getElementById('inDate').value || getKSTDateString();
-  const method = document.getElementById('inMethod').value;
-
-  document.getElementById('outKorAmt').textContent = numberToKorean(principal);
 
   const months = years * 12;
   const mr = annualRate / 100 / 12;
 
-  const sched = [];
-  let remain = principal;
-  let totalInterest = 0;
-  let totalPay = 0;
-  let repMonthly = 0;
-
-  if(method === 'equal_pi'){
-    /* 원리금 균등상환 (기존 수식 100% 동일 유지) */
-    if(mr === 0){
-      repMonthly = Math.round(principal / months);
-    } else {
-      repMonthly = Math.round((principal * mr * Math.pow(1+mr, months)) / (Math.pow(1+mr, months) - 1));
-    }
-    totalPay = repMonthly * months;
-    totalInterest = totalPay - principal;
-
-    for(let i=1; i<=months; i++){
-      const int_ = Math.round(remain * mr);
-      const pri = (i === months) ? remain : (repMonthly - int_);
-      remain -= pri;
-      if(remain < 0) remain = 0;
-      sched.push({ n:i, date:addMonths(startDate, i), m:repMonthly, p:pri, i:int_, r:remain });
-    }
-  } else if(method === 'equal_p'){
-    /* 원금 균등상환 */
-    const basePri = Math.floor(principal / months);
-    for(let i=1; i<=months; i++){
-      const int_ = Math.round(remain * mr);
-      const pri = (i === months) ? remain : basePri;
-      const mPay = pri + int_;
-      remain -= pri;
-      if(remain < 0) remain = 0;
-      totalInterest += int_;
-      sched.push({ n:i, date:addMonths(startDate, i), m:mPay, p:pri, i:int_, r:remain });
-    }
-    totalPay = principal + totalInterest;
-    repMonthly = sched.length ? sched[0].m : 0;
+  let monthly;
+  if(mr === 0){
+    monthly = Math.round(principal / months);
   } else {
-    /* 만기일시상환 */
-    const monthlyInt = Math.round(principal * mr);
-    for(let i=1; i<=months; i++){
-      const pri = (i === months) ? principal : 0;
-      const mPay = pri + monthlyInt;
-      remain -= pri;
-      totalInterest += monthlyInt;
-      sched.push({ n:i, date:addMonths(startDate, i), m:mPay, p:pri, i:monthlyInt, r:remain });
-    }
-    totalPay = principal + totalInterest;
-    repMonthly = monthlyInt;
+    monthly = Math.round((principal * mr * Math.pow(1+mr, months)) / (Math.pow(1+mr, months) - 1));
   }
 
-  currentSched = sched;
+  const total = monthly * months;
+  const interest = total - principal;
 
-  /* 상단 결과 영역 업데이트 */
-  document.getElementById('outMonthly').textContent = repMonthly.toLocaleString();
+  document.getElementById('outMonthly').textContent = monthly.toLocaleString();
   document.getElementById('outPrincipal').textContent = principal.toLocaleString();
-  document.getElementById('outInterest').textContent = totalInterest.toLocaleString();
-  document.getElementById('outTotal').textContent = totalPay.toLocaleString();
+  document.getElementById('outInterest').textContent = interest.toLocaleString();
+  document.getElementById('outTotal').textContent = total.toLocaleString();
   document.getElementById('outPeriod').textContent = years;
   document.getElementById('outMonths').textContent = months;
-  document.getElementById('outEndDate').textContent = addMonths(startDate, months);
 
-  /* 원금 vs 이자 비율 바 업데이트 */
-  const pRatio = totalPay > 0 ? ((principal / totalPay) * 100) : 100;
-  const iRatio = totalPay > 0 ? (100 - pRatio) : 0;
-  document.getElementById('barPrincipal').style.width = pRatio.toFixed(1) + '%';
-  document.getElementById('pctPrincipal').textContent = pRatio.toFixed(1) + '%';
-  document.getElementById('pctInterest').textContent = iRatio.toFixed(1) + '%';
-
-  /* 상세 조건 및 안내 문구 업데이트 */
-  const methodNames = {
-    equal_pi: '원리금 균등상환',
-    equal_p: '원금 균등상환',
-    bullet: '만기일시상환'
-  };
   document.getElementById('dtAmount').textContent = principal.toLocaleString();
   document.getElementById('dtRate').textContent = annualRate.toFixed(2);
   document.getElementById('dtMonthRate').textContent = (mr * 100).toFixed(3);
-  document.getElementById('dtMethod').textContent = methodNames[method];
-  document.getElementById('resMethodBadge').textContent = '기준 : ' + methodNames[method];
   document.getElementById('dtYears').textContent = years;
   document.getElementById('dtMonths2').textContent = months;
 
-  const titleEl = document.getElementById('lblMonthlyTitle');
-  const tagEl = document.getElementById('lblMonthlyTag');
-  const notesEl = document.getElementById('guideNotes');
-
-  if(method === 'equal_pi'){
-    titleEl.textContent = '월 납부금액';
-    tagEl.textContent = '매월 동일';
-    notesEl.innerHTML = `
-      <li>매월 동일한 금액을 납부합니다.</li>
-      <li>초기에는 이자 비중이 높고, 시간이 지날수록 원금 상환 비중이 높아집니다.</li>
-      <li>중도상환이나 별도 수수료는 반영하지 않았습니다.</li>
-      <li>본 산출은 시뮬레이션이며, 최종 심사 시 변동될 수 있습니다.</li>`;
-  } else if(method === 'equal_p'){
-    titleEl.textContent = '첫 달 납부금액';
-    tagEl.textContent = '매월 체감';
-    notesEl.innerHTML = `
-      <li>매월 동일한 원금을 상환하며, 이자는 잔여원금에 따라 매월 줄어듭니다.</li>
-      <li>회차가 지날수록 월 납부금액 부담이 점진적으로 감소합니다.</li>
-      <li>중도상환이나 별도 수수료는 반영하지 않았습니다.</li>
-      <li>본 산출은 시뮬레이션이며, 최종 심사 시 변동될 수 있습니다.</li>`;
-  } else {
-    titleEl.textContent = '월 납부이자';
-    tagEl.textContent = '만기 원금상환';
-    notesEl.innerHTML = `
-      <li>대출기간 동안 매월 이자만 납부하고, 만기일에 원금 전액을 상환합니다.</li>
-      <li>월 상환 부담이 가장 적으나, 만기 시 원금 상환 계획이 필요합니다.</li>
-      <li>중도상환이나 별도 수수료는 반영하지 않았습니다.</li>
-      <li>본 산출은 시뮬레이션이며, 최종 심사 시 변동될 수 있습니다.</li>`;
+  /* 전체 회차 데이터 생성 */
+  const sched = [];
+  let remain = principal;
+  for(let i=1; i<=months; i++){
+    const int_ = Math.round(remain * mr);
+    const pri = (i === months) ? remain : (monthly - int_);
+    remain -= pri;
+    if(remain < 0) remain = 0;
+    sched.push({ n:i, date:addMonths(startDate, i), m:monthly, p:pri, i:int_, r:remain });
   }
 
-  /* 상환 스케줄 렌더링 */
-  const tbody = document.getElementById('schedBody');
-  tbody.innerHTML = '';
   const row = s => `<td>${s.n}</td><td>${s.date}</td><td><b>${s.m.toLocaleString()}</b> 원</td><td>${s.p.toLocaleString()} 원</td><td>${s.i.toLocaleString()} 원</td><td>${s.r.toLocaleString()} 원</td>`;
 
-  if(showFullSchedule || months <= 4){
-    for(let i=0; i<months; i++){
-      const tr = document.createElement('tr');
-      tr.innerHTML = row(sched[i]);
-      tbody.appendChild(tr);
-    }
-  } else {
-    const first = Math.min(3, months);
-    for(let i=0; i<first; i++){
-      const tr = document.createElement('tr');
-      tr.innerHTML = row(sched[i]);
-      tbody.appendChild(tr);
-    }
+  /* 1) 화면용 요약 스케줄 (처음 3회 + ... + 마지막 1회) */
+  const tbody = document.getElementById('schedBody');
+  tbody.innerHTML = '';
+  const first = Math.min(3, months);
+  for(let i=0; i<first; i++){
+    const tr = document.createElement('tr');
+    tr.innerHTML = row(sched[i]);
+    tbody.appendChild(tr);
+  }
+  if(months > 4){
     const dt = document.createElement('tr');
     dt.className = 'dots';
     dt.innerHTML = '<td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td>';
     tbody.appendChild(dt);
-
     const lt = document.createElement('tr');
     lt.innerHTML = row(sched[months-1]);
     tbody.appendChild(lt);
+  } else if(months === 4){
+    const lt = document.createElement('tr');
+    lt.innerHTML = row(sched[3]);
+    tbody.appendChild(lt);
   }
 
+  /* 2) 인쇄 및 PDF 저장용 전체 스케줄 (1회차 ~ 마지막 회차 전수 출력) */
+  const tbodyFull = document.getElementById('schedBodyFull');
+  let fullHtml = '';
+  for(let i=0; i<months; i++){
+    fullHtml += `<tr>${row(sched[i])}</tr>`;
+  }
+  tbodyFull.innerHTML = fullHtml;
+
   document.getElementById('hdrDate').textContent = startDate;
-  fitScale();
 }
 
 /* ===== PDF / 초기화 ===== */
 function savePDF(){
-  alert('PDF 저장 안내\n\n브라우저 인쇄창에서\n"대상" → "PDF로 저장"을 선택하시면 PDF로 저장됩니다.');
+  alert('PDF 저장 안내\n\n브라우저 인쇄창에서\n"대상" → "PDF로 저장"을 선택하시면 전체 회차가 포함된 PDF로 저장됩니다.');
   setTimeout(() => window.print(), 300);
 }
 function resetAll(){
@@ -1311,47 +989,17 @@ function resetAll(){
   document.getElementById('inAmount').value = '';
   document.getElementById('inYears').value = '5';
   document.getElementById('inRate').value = '4.62';
-  document.getElementById('inMethod').value = 'equal_pi';
   document.getElementById('inDate').value = getKSTDateString();
   calc();
 }
 
-/* ===== 사이드바/탭 클릭 인터랙션 ===== */
-document.querySelectorAll('#sideMenu .side-item').forEach(el => {
-  el.addEventListener('click', () => {
-    document.querySelectorAll('#sideMenu .side-item').forEach(x => x.classList.remove('on'));
-    el.classList.add('on');
-  });
-});
-document.querySelectorAll('#topTabs .tab').forEach(el => {
-  el.addEventListener('click', () => {
-    document.querySelectorAll('#topTabs .tab').forEach(x => x.classList.remove('on'));
-    el.classList.add('on');
-  });
-});
-
-/* ===== 자동 스케일: 창 크기에 맞춰 축소 (잘림 완전 방지) ===== */
-function fitScale(){
-  const scaler = document.getElementById('scaler');
-  const app = document.getElementById('appWin');
-  scaler.style.transform = 'scale(1)';
-  const w = app.offsetWidth;
-  const h = app.offsetHeight;
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const scale = Math.min(vw / w, vh / h, 1);
-  scaler.style.transform = 'scale(' + scale + ')';
-  document.body.style.height = Math.ceil(h * scale) + 'px';
-}
-
-/* ===== 초기화 실행 ===== */
+/* ===== 초기화 ===== */
 initLogos();
 document.getElementById('inDate').value = getKSTDateString();
 setInterval(updateClock, 1000);
 updateClock();
 calc();
-window.addEventListener('resize', fitScale);
-window.addEventListener('load', () => { initLogos(); fitScale(); });
+window.addEventListener('load', initLogos);
 </script>
 
 </body>
