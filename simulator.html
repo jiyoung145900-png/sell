@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>바른한도플랜 | 대출상담 시스템</title>
+<link rel="icon" href="./favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;background:#eef4ff;color:#1a2033;overflow:hidden}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit}
+
+/* ===== 전체 윈도우 레이아웃 ===== */
+.app{display:flex;height:100vh;width:100%;background:linear-gradient(135deg,#eaf1ff 0%,#f5f8ff 50%,#e8f0fd 100%)}
+
+/* ===== 사이드바 ===== */
+.sidebar{width:200px;background:linear-gradient(180deg,#0a1030 0%,#1a2454 50%,#1e5bd6 100%);color:#fff;display:flex;flex-direction:column;flex-shrink:0;position:relative;overflow:hidden}
+.sidebar::before{content:"";position:absolute;bottom:-100px;left:-50px;width:300px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.1),transparent 60%);pointer-events:none}
+.side-logo{padding:20px 18px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}
+.side-logo-ic{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#2e6ff2,#1e5bd6);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.3);flex-shrink:0}
+.side-logo-t{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.side-menu{flex:1;padding:12px 0;overflow-y:auto}
+.side-item{display:flex;align-items:center;gap:12px;padding:12px 20px;color:#b5c7f0;font-size:14px;font-weight:500;cursor:pointer;transition:.15s;position:relative}
+.side-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.side-item.on{background:linear-gradient(90deg,rgba(46,111,242,.4),rgba(46,111,242,.1));color:#fff;font-weight:700}
+.side-item.on::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#ffd84d}
+.side-item svg{width:18px;height:18px;flex-shrink:0}
+.side-ft{padding:16px 20px;font-size:11px;color:rgba(255,255,255,.4);border-top:1px solid rgba(255,255,255,.08)}
+
+/* ===== 메인 영역 ===== */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* ===== 상단 헤더 ===== */
+.top{background:linear-gradient(135deg,#1e5bd6 0%,#2e6ff2 50%,#5b93f5 100%);color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(30,91,214,.2);position:relative;overflow:hidden}
+.top::before{content:"";position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%);pointer-events:none}
+.top-l{display:flex;align-items:center;gap:14px;position:relative}
+.top-ic{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,.3)}
+.top-tt{font-size:17px;font-weight:800;letter-spacing:-.02em}
+.top-r{display:flex;align-items:center;gap:20px;font-size:12px;color:rgba(255,255,255,.95);position:relative}
+.top-r b{font-weight:700;margin-left:4px}
+.top-ctrl{display:flex;gap:4px;margin-left:12px}
+.top-ctrl span{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:rgba(255,255,255,.1);font-weight:700;font-size:14px;cursor:pointer}
+.top-ctrl span:hover{background:rgba(255,255,255,.2)}
+
+/* ===== 탭 영역 ===== */
+.tabs{background:#f5f8ff;padding:0 24px;display:flex;gap:4px;border-bottom:2px solid #dde4f5}
+.tab{padding:14px 22px;font-size:13.5px;font-weight:600;color:#6b7390;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.15s}
+.tab:hover{color:#1e5bd6}
+.tab.on{color:#1e5bd6;font-weight:800;border-bottom-color:#1e5bd6;background:#fff;border-radius:6px 6px 0 0}
+
+/* ===== 콘텐츠 영역 (스크롤) ===== */
+.content{flex:1;padding:20px 24px;overflow-y:auto;background:#f5f8ff}
+.content::-webkit-scrollbar{width:8px}
+.content::-webkit-scrollbar-track{background:#e4ebf8}
+.content::-webkit-scrollbar-thumb{background:#a3bef5;border-radius:4px}
+
+/* ===== 섹션 공통 ===== */
+.sec{background:#fff;border-radius:6px;box-shadow:0 1px 4px rgba(10,16,48,.06);border:1px solid #dde4f5;margin-bottom:16px;overflow:hidden}
+.sec-h{background:linear-gradient(90deg,#f0f4ff,#f8faff);padding:11px 16px;border-bottom:1px solid #dde4f5;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:#1849b8}
+.sec-h::before{content:"";width:4px;height:14px;background:#1e5bd6;border-radius:2px}
+.sec-body{padding:18px}
+
+/* ===== 입력 테이블 ===== */
+.info-tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.info-tbl td{padding:10px 14px;border:1px solid #dde4f5;vertical-align:middle}
+.info-tbl td.lbl{background:#f0f4ff;color:#3d4660;font-weight:700;text-align:center;width:11%;white-space:nowrap}
+.info-tbl td.val{background:#fff;color:#1a2033;text-align:center;width:22%}
+.info-tbl td.val.hl{color:#1e5bd6;font-weight:800;font-size:15px}
+.info-tbl input,.info-tbl select{width:100%;padding:7px 10px;border:1.5px solid #a3bef5;border-radius:4px;font-size:14px;font-weight:700;color:#1a2033;text-align:center;background:#fff;outline:none;transition:.15s}
+.info-tbl input:focus,.info-tbl select:focus{border-color:#1e5bd6;box-shadow:0 0 0 3px rgba(30,91,214,.1)}
+.info-tbl input[type="number"]::-webkit-outer-spin-button,.info-tbl input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+/* ===== 대출상환결과 하이라이트 ===== */
+.result-row{display:grid;grid-template-columns:1fr 1.2fr auto;gap:14px;align-items:stretch}
+.result-main{background:linear-gradient(135deg,#f8faff,#eef4ff);border:1px solid #dbe7fe;border-radius:6px;padding:20px;display:flex;align-items:center;gap:18px}
+.result-check{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#1e5bd6,#2e6ff2);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 6px 18px rgba(30,91,214,.3);flex-shrink:0}
+.result-main-t{flex:1}
+.result-main-t small{display:block;font-size:14px;color:#1849b8;font-weight:700;margin-bottom:2px}
+.result-main-t strong{font-size:38px;font-weight:900;color:#1e5bd6;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums}
+.result-main-t em{font-style:normal;font-size:20px;font-weight:700;color:#3d4660;margin-left:3px}
+
+.result-sub{background:#fff;border:1px solid #dde4f5;border-radius:6px;overflow:hidden;display:grid;grid-template-rows:1fr 1fr 1fr}
+.result-sub-row{display:grid;grid-template-columns:120px 1fr;align-items:center;border-bottom:1px solid #eef0f6;font-size:13.5px}
+.result-sub-row:last-child{border-bottom:0}
+.result-sub-row .l{background:#f0f4ff;padding:11px 14px;color:#3d4660;font-weight:700;text-align:center;height:100%;display:flex;align-items:center;justify-content:center}
+.result-sub-row .v{padding:11px 16px;text-align:right;font-weight:700;color:#1a2033;font-variant-numeric:tabular-nums}
+
+.result-period{background:linear-gradient(170deg,#1e5bd6 0%,#1849b8 50%,#0a1030 100%);border-radius:6px;padding:18px 24px;text-align:center;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:130px;box-shadow:0 6px 18px rgba(30,91,214,.3);position:relative;overflow:hidden}
+.result-period::before{content:"";position:absolute;top:-30%;right:-30%;width:150px;height:150px;background:radial-gradient(circle,rgba(255,216,77,.15),transparent 60%);pointer-events:none}
+.result-period small{font-size:14px;font-weight:800;margin-bottom:4px;opacity:.9;position:relative}
+.result-period strong{font-size:38px;font-weight:900;color:#ffd84d;letter-spacing:-.02em;line-height:1;position:relative;text-shadow:0 2px 8px rgba(255,216,77,.3)}
+.result-period span{font-size:12px;margin-top:4px;opacity:.85;position:relative}
+
+/* ===== 상세조건 + 상환안내 2열 ===== */
+.two-col{display:grid;grid-template-columns:1fr 1.3fr;gap:16px}
+
+.detail-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.detail-tbl td{padding:9px 13px;border:1px solid #dde4f5}
+.detail-tbl td.l{background:#f0f4ff;color:#3d4660;font-weight:700;width:42%;text-align:center}
+.detail-tbl td.v{text-align:right;color:#1a2033;font-weight:700;font-variant-numeric:tabular-nums}
+
+.notes{list-style:none;padding:0}
+.notes li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:13px;color:#3d4660;line-height:1.55}
+.notes li::before{content:"";width:16px;height:16px;border-radius:50%;background:#1e5bd6;flex-shrink:0;margin-top:2px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 8 7 11 12 5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:10px}
+
+/* ===== 월별 상환 테이블 ===== */
+.sched-wrap{display:flex;gap:16px;align-items:flex-start}
+.sched-tbl-wrap{flex:1;border:1px solid #dde4f5;border-radius:6px;overflow:hidden}
+.sched-scroll{max-height:200px;overflow-y:auto}
+.sched-scroll::-webkit-scrollbar{width:8px}
+.sched-scroll::-webkit-scrollbar-track{background:#f0f4ff}
+.sched-scroll::-webkit-scrollbar-thumb{background:#a3bef5;border-radius:4px}
+.sched-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.sched-tbl thead th{background:linear-gradient(180deg,#f0f4ff,#e4ebf8);padding:10px 8px;font-weight:800;text-align:center;color:#1849b8;border-bottom:1.5px solid #a3bef5;position:sticky;top:0;z-index:1}
+.sched-tbl tbody td{padding:9px 8px;text-align:center;border-bottom:1px solid #eef0f6;color:#3d4660;font-variant-numeric:tabular-nums}
+.sched-tbl tbody tr:nth-child(even) td{background:#fafbfd}
+.sched-tbl tbody tr:hover td{background:#eef4ff}
+
+.sched-actions{display:flex;flex-direction:column;gap:7px;flex-shrink:0;min-width:140px}
+.action-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:6px;border:0;font-size:13.5px;font-weight:700;color:#fff;cursor:pointer;transition:.15s;font-family:inherit;box-shadow:0 2px 6px rgba(30,91,214,.2)}
+.action-btn.print{background:linear-gradient(135deg,#1e5bd6,#1849b8)}
+.action-btn.pdf{background:linear-gradient(135deg,#059669,#047857)}
+.action-btn.home{background:linear-gradient(135deg,#6b7280,#3d4660)}
+.action-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,91,214,.3)}
+.action-btn svg{width:16px;height:16px}
+
+/* ===== 상태바 ===== */
+.statbar{background:#fff;border-top:1px solid #dde4f5;padding:8px 24px;display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:#3d4660;flex-shrink:0}
+.statbar-l{display:flex;align-items:center;gap:6px;color:#059669;font-weight:700}
+.statbar-l i{width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 6px rgba(16,185,129,.5);display:inline-block}
+.statbar-r{display:flex;align-items:center;gap:20px;color:#6b7390}
+.statbar-r b{color:#1a2033;margin:0 4px}
+
+/* ===== 인쇄 스타일 ===== */
+@media print{
+  .sidebar,.top-ctrl,.tabs,.sched-actions,.statbar{display:none !important}
+  body{overflow:visible !important}
+  .app,.main,.content{display:block !important;overflow:visible !important;height:auto !important}
+  .content{padding:10px !important;background:#fff !important}
+  .top{background:#1e5bd6 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sec,.sec-h,.result-main,.result-period,.info-tbl td.lbl,.detail-tbl td.l,.sched-tbl thead th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sched-scroll{max-height:none !important}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- 좌측 사이드바 -->
+  <aside class="sidebar">
+    <div class="side-logo">
+      <div class="side-logo-ic">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+      <div class="side-logo-t">바른한도플랜</div>
+    </div>
+    <nav class="side-menu">
+      <div class="side-item on">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        대출상담 홈
+      </div>
+      <div class="side-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        신청내역 조회
+      </div>
+      <div class="side-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        한도조회
+      </div>
+      <div class="side-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="2"/></svg>
+        대출계약
+      </div>
+      <div class="side-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        상환관리
+      </div>
+      <div class="side-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        고객관리
+      </div>
+      <div class="side-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+        통계관리
+      </div>
+      <div class="side-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        시스템설정
+      </div>
+    </nav>
+    <div class="side-ft">v2.4.1 | 내부시스템</div>
+  </aside>
+
+  <!-- 메인 영역 -->
+  <div class="main">
+
+    <!-- 상단 헤더 -->
+    <header class="top">
+      <div class="top-l">
+        <div class="top-ic">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div class="top-tt">바른한도플랜</div>
+      </div>
+      <div class="top-r">
+        <span>신청일자 :<b id="hdrDate">2026-11-08</b></span>
+        <span style="color:rgba(255,255,255,.3)">|</span>
+        <span>담당자 :<b>금융상담팀</b></span>
+        <div class="top-ctrl">
+          <span>—</span>
+          <span>□</span>
+          <span>✕</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 탭 -->
+    <div class="tabs">
+      <div class="tab">대출상담</div>
+      <div class="tab on">한도조회결과</div>
+      <div class="tab">상세정보</div>
+      <div class="tab">상환계획</div>
+      <div class="tab">신청완료</div>
+    </div>
+
+    <!-- 컨텐츠 -->
+    <main class="content">
+
+      <!-- 신청정보 -->
+      <section class="sec">
+        <div class="sec-h">신청정보</div>
+        <div class="sec-body">
+          <table class="info-tbl">
+            <tr>
+              <td class="lbl">신청대상</td>
+              <td class="val hl"><input type="text" id="inName" value="최승원" oninput="updateHeader()"></td>
+              <td class="lbl">신청일자</td>
+              <td class="val"><input type="date" id="inDate" value="2026-11-08" oninput="calc()"></td>
+              <td class="lbl">상품구분</td>
+              <td class="val">
+                <select id="inProd" onchange="calc()">
+                  <option>일반신용대출</option>
+                  <option>햇살론</option>
+                  <option>새희망홀씨</option>
+                  <option>사잇돌대출</option>
+                  <option>프리랜서대출</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="lbl">대출금액</td>
+              <td class="val"><input type="text" id="inAmount" value="55,000,000" oninput="formatAmount(this);calc()"> 원</td>
+              <td class="lbl">대출기간</td>
+              <td class="val">
+                <select id="inYears" onchange="calc()">
+                  <option value="1">1년 (12개월)</option>
+                  <option value="2">2년 (24개월)</option>
+                  <option value="3">3년 (36개월)</option>
+                  <option value="5">5년 (60개월)</option>
+                  <option value="7">7년 (84개월)</option>
+                  <option value="10" selected>10년 (120개월)</option>
+                </select>
+              </td>
+              <td class="lbl">금리(연)</td>
+              <td class="val"><input type="number" id="inRate" value="4.62" step="0.01" min="0" max="20" oninput="calc()"> %</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- 대출상환결과 -->
+      <section class="sec">
+        <div class="sec-h">대출상환결과</div>
+        <div class="sec-body">
+          <div class="result-row">
+            <div class="result-main">
+              <div class="result-check">
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="result-main-t">
+                <small>월 납부금액</small>
+                <strong id="outMonthly">573,198</strong><em>원</em>
+              </div>
+            </div>
+            <div class="result-sub">
+              <div class="result-sub-row">
+                <div class="l">대출 원금</div>
+                <div class="v"><span id="outPrincipal">55,000,000</span> 원</div>
+              </div>
+              <div class="result-sub-row">
+                <div class="l">총 이자금액</div>
+                <div class="v"><span id="outInterest">13,783,771</span> 원</div>
+              </div>
+              <div class="result-sub-row">
+                <div class="l">총 상환금액</div>
+                <div class="v"><span id="outTotal">68,783,771</span> 원</div>
+              </div>
+            </div>
+            <div class="result-period">
+              <small>상환기간</small>
+              <strong id="outPeriod">10</strong><span style="color:#ffd84d;font-size:18px;font-weight:800;margin-top:2px">년</span>
+              <span>(<span id="outMonths">120</span>개월)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 상세조건 + 상환안내 -->
+      <div class="two-col">
+        <section class="sec" style="margin-bottom:16px">
+          <div class="sec-h">상세 조건</div>
+          <div class="sec-body">
+            <table class="detail-tbl">
+              <tr><td class="l">대출금액</td><td class="v"><span id="dtAmount">55,000,000</span> 원</td></tr>
+              <tr><td class="l">연 금리</td><td class="v"><span id="dtRate">4.62</span> %</td></tr>
+              <tr><td class="l">월 적용금리</td><td class="v"><span id="dtMonthRate">0.385</span> %</td></tr>
+              <tr><td class="l">상환방식</td><td class="v">원리금 균등상환</td></tr>
+              <tr><td class="l">상환기간</td><td class="v"><span id="dtYears">10</span> 년 (<span id="dtMonths2">120</span> 개월)</td></tr>
+            </table>
+          </div>
+        </section>
+        <section class="sec" style="margin-bottom:16px">
+          <div class="sec-h">상환안내</div>
+          <div class="sec-body">
+            <ul class="notes">
+              <li>매월 동일한 금액을 납부합니다.</li>
+              <li>초기에는 이자 비중이 높고, 시간이 지날수록 원금 상환 비중이 높아집니다.</li>
+              <li>중도상환이나 별도 수수료는 반영하지 않았습니다.</li>
+              <li>본 산출은 시뮬레이션이며, 최종 심사 시 변동될 수 있습니다.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <!-- 월별 상환 -->
+      <section class="sec" style="margin-bottom:12px">
+        <div class="sec-h">월별 상환금액 안내 (전체)</div>
+        <div class="sec-body">
+          <div class="sched-wrap">
+            <div class="sched-tbl-wrap">
+              <div class="sched-scroll">
+                <table class="sched-tbl">
+                  <thead>
+                    <tr>
+                      <th style="width:8%">회차</th>
+                      <th style="width:18%">납부일자</th>
+                      <th style="width:19%">월 납부금액</th>
+                      <th style="width:18%">원금</th>
+                      <th style="width:18%">이자</th>
+                      <th style="width:19%">잔여원금</th>
+                    </tr>
+                  </thead>
+                  <tbody id="schedBody">
+                    <!-- 동적으로 삽입 -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="sched-actions">
+              <button class="action-btn print" onclick="window.print()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                인쇄하기
+              </button>
+              <button class="action-btn pdf" onclick="savePDF()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                PDF 저장
+              </button>
+              <button class="action-btn home" onclick="resetAll()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                초기화
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 상태바 -->
+    <div class="statbar">
+      <div class="statbar-l"><i></i> 시스템 정상 운영 중</div>
+      <div class="statbar-r">
+        <span>담당자 :<b>금융상담팀</b></span>
+        <span>최종조회 :<b id="statTime">2026-11-08 14:32:15</b></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* 세자리 콤마 포매팅 */
+function formatAmount(input){
+  let v = input.value.replace(/[^\d]/g,'');
+  if(v.length > 0){
+    input.value = parseInt(v).toLocaleString();
+  }
+}
+
+function getAmount(){
+  return parseInt(document.getElementById('inAmount').value.replace(/[^\d]/g,'')) || 0;
+}
+
+/* 날짜 유틸 */
+function addMonths(dateStr, months){
+  const d = new Date(dateStr);
+  d.setMonth(d.getMonth() + months);
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+day;
+}
+
+/* 메인 계산 */
+function calc(){
+  const principal = getAmount();
+  const years = parseInt(document.getElementById('inYears').value) || 1;
+  const annualRate = parseFloat(document.getElementById('inRate').value) || 0;
+  const startDate = document.getElementById('inDate').value;
+  
+  const months = years * 12;
+  const monthlyRate = annualRate / 100 / 12;
+  
+  // 원리금 균등상환 공식
+  let monthlyPayment;
+  if(monthlyRate === 0){
+    monthlyPayment = Math.round(principal / months);
+  } else {
+    monthlyPayment = Math.round(
+      (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) /
+      (Math.pow(1 + monthlyRate, months) - 1)
+    );
+  }
+  
+  const totalPayment = monthlyPayment * months;
+  const totalInterest = totalPayment - principal;
+  
+  // 결과 렌더링
+  document.getElementById('outMonthly').textContent = monthlyPayment.toLocaleString();
+  document.getElementById('outPrincipal').textContent = principal.toLocaleString();
+  document.getElementById('outInterest').textContent = totalInterest.toLocaleString();
+  document.getElementById('outTotal').textContent = totalPayment.toLocaleString();
+  document.getElementById('outPeriod').textContent = years;
+  document.getElementById('outMonths').textContent = months;
+  
+  // 상세조건
+  document.getElementById('dtAmount').textContent = principal.toLocaleString();
+  document.getElementById('dtRate').textContent = annualRate.toFixed(2);
+  document.getElementById('dtMonthRate').textContent = (monthlyRate * 100).toFixed(3);
+  document.getElementById('dtYears').textContent = years;
+  document.getElementById('dtMonths2').textContent = months;
+  
+  // 월별 상환 스케줄
+  const tbody = document.getElementById('schedBody');
+  tbody.innerHTML = '';
+  let remaining = principal;
+  for(let i=1; i<=months; i++){
+    const interestPayment = Math.round(remaining * monthlyRate);
+    const principalPayment = i === months ? remaining : (monthlyPayment - interestPayment);
+    remaining -= principalPayment;
+    if(remaining < 0) remaining = 0;
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i}</td>
+      <td>${addMonths(startDate, i)}</td>
+      <td><b>${monthlyPayment.toLocaleString()}</b> 원</td>
+      <td>${principalPayment.toLocaleString()} 원</td>
+      <td>${interestPayment.toLocaleString()} 원</td>
+      <td>${remaining.toLocaleString()} 원</td>
+    `;
+    tbody.appendChild(tr);
+  }
+  
+  // 헤더 날짜
+  document.getElementById('hdrDate').textContent = startDate;
+}
+
+/* 이름 변경 반영 */
+function updateHeader(){
+  // 추후 필요 시 반영
+}
+
+/* PDF 저장 안내 */
+function savePDF(){
+  alert('PDF 저장 안내\n\n브라우저 인쇄창에서\n"대상" → "PDF로 저장"을 선택하시면 PDF로 저장됩니다.');
+  setTimeout(() => window.print(), 300);
+}
+
+/* 초기화 */
+function resetAll(){
+  if(!confirm('모든 입력 내용을 초기화하시겠습니까?')) return;
+  document.getElementById('inName').value = '';
+  document.getElementById('inAmount').value = '';
+  document.getElementById('inYears').value = '5';
+  document.getElementById('inRate').value = '4.62';
+  const today = new Date();
+  document.getElementById('inDate').value = today.toISOString().split('T')[0];
+  calc();
+}
+
+/* 실시간 시계 */
+function updateClock(){
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const d = String(now.getDate()).padStart(2,'0');
+  const h = String(now.getHours()).padStart(2,'0');
+  const mi = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('statTime').textContent = `${y}-${m}-${d} ${h}:${mi}:${s}`;
+}
+
+/* 초기 실행 */
+setInterval(updateClock, 1000);
+updateClock();
+calc();
+</script>
+
+</body>
+</html>
