@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 /* =========================================================
    글씨 크기 한 곳에서 관리
@@ -432,7 +433,9 @@ input,select{font-family:inherit}
 .result-period .pm{font-size:calc(17px * var(--scale));margin-top:7px;opacity:.9;position:relative;font-weight:600}
 
 /* ===== 2열 (상세 조건 + 상환안내) ===== */
-.two-col{display:grid;grid-template-columns:1fr 1.3fr;gap:14px;align-items:start}
+.two-col{display:grid;grid-template-columns:1fr 1.3fr;gap:14px;align-items:stretch}
+.two-col > .sec{display:flex;flex-direction:column}
+.two-col > .sec > .sec-body{flex:1;display:flex;flex-direction:column}
 
 .detail-tbl{width:100%;border-collapse:collapse;font-size:var(--f-detail);table-layout:fixed}
 .detail-tbl td{padding:11px 14px;border:1px solid #dde4f5}
@@ -462,6 +465,63 @@ input,select{font-family:inherit}
   background-position:center;
   background-size:12px;
 }
+
+/* ★ 캡쳐 버튼 (상환안내 우측 하단 빈 공간) */
+.capture-zone{
+  margin-top:auto;
+  padding-top:14px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:12px;
+}
+.capture-hint{
+  font-size:calc(14px * var(--scale));
+  color:#9ca3af;
+  font-weight:500;
+}
+.capture-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  padding:13px 24px;
+  border-radius:8px;
+  border:0;
+  background:linear-gradient(135deg,#2e6ff2,#1849b8);
+  color:#fff;
+  font-size:var(--f-btn);
+  font-weight:800;
+  box-shadow:0 4px 12px rgba(30,91,214,.3);
+  transition:.15s;
+  white-space:nowrap;
+}
+.capture-btn:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(30,91,214,.4)}
+.capture-btn:disabled{opacity:.6;cursor:wait;transform:none}
+.capture-btn svg{width:20px;height:20px;flex-shrink:0}
+
+/* 캡쳐 중 토스트 */
+.cap-toast{
+  position:fixed;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%) translateY(14px);
+  background:#0a1030;
+  color:#fff;
+  padding:14px 26px;
+  border-radius:999px;
+  font-size:16px;
+  font-weight:700;
+  box-shadow:0 10px 28px rgba(0,0,0,.3);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+.cap-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ===== 월별 상환 ===== */
 .sched-wrap{display:flex;gap:14px;align-items:stretch}
@@ -545,6 +605,9 @@ input,select{font-family:inherit}
 /* 화면용 / 인쇄용 전환 클래스 */
 .print-only{display:none}
 
+/* ★ 캡쳐 중 임시 숨김 */
+.capturing .capture-zone{visibility:hidden}
+
 /* ===== 인쇄 및 PDF 저장 (A4 세로 + 전체 회차 출력) ===== */
 @media print{
   @page{
@@ -559,7 +622,7 @@ input,select{font-family:inherit}
     min-height:auto !important;
     overflow:visible !important;
   }
-  .sidebar,.top-ctrl,.fs-ctrl,.tabs,.sched-actions,.statbar,.screen-only{
+  .sidebar,.top-ctrl,.fs-ctrl,.tabs,.sched-actions,.statbar,.screen-only,.capture-zone{
     display:none !important;
   }
   .print-only{
@@ -718,122 +781,137 @@ input,select{font-family:inherit}
     <!-- 컨텐츠 -->
     <main class="content">
 
-      <!-- 신청정보 -->
-      <section class="sec">
-        <div class="sec-h">신청정보</div>
-        <div class="sec-body">
-          <table class="info-tbl">
-            <tr>
-              <td class="lbl">신청대상</td>
-              <td class="val"><input type="text" id="inName" class="hl" value="최승원"></td>
-              <td class="lbl">신청일자</td>
-              <td class="val"><input type="date" id="inDate" oninput="calc()"></td>
-              <td class="lbl">상품구분</td>
-              <td class="val">
-                <input type="text" id="inProd" list="prodList" value="일반신용대출">
-                <datalist id="prodList">
-                  <option value="일반신용대출"></option>
-                  <option value="햇살론"></option>
-                  <option value="새희망홀씨"></option>
-                  <option value="사잇돌대출"></option>
-                  <option value="프리랜서대출"></option>
-                </datalist>
-              </td>
-            </tr>
-            <tr>
-              <td class="lbl">대출금액</td>
-              <td class="val">
-                <div class="cell">
-                  <input type="text" id="inAmount" value="55,000,000" oninput="formatAmount(this);calc()">
-                  <span>원</span>
-                </div>
-              </td>
-              <td class="lbl">대출기간</td>
-              <td class="val">
-                <select id="inYears" onchange="calc()">
-                  <option value="1">1년 (12개월)</option>
-                  <option value="2">2년 (24개월)</option>
-                  <option value="3">3년 (36개월)</option>
-                  <option value="5">5년 (60개월)</option>
-                  <option value="7">7년 (84개월)</option>
-                  <option value="10" selected>10년 (120개월)</option>
-                </select>
-              </td>
-              <td class="lbl">금리(연)</td>
-              <td class="val">
-                <div class="cell">
-                  <input type="number" id="inRate" value="4.62" step="0.01" min="0" max="20" oninput="calc()">
-                  <span>%</span>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </section>
+      <!-- ★ 캡쳐 영역 시작 -->
+      <div id="captureArea" style="display:flex;flex-direction:column;gap:14px">
 
-      <!-- 대출상환결과 -->
-      <section class="sec">
-        <div class="sec-h">대출상환결과</div>
-        <div class="sec-body">
-          <div class="result-row">
-            <div class="result-main">
-              <div class="result-check">
-                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-              <div class="result-main-t">
-                <small>월 납부금액</small>
-                <div class="big"><strong id="outMonthly">573,198</strong><em>원</em></div>
-              </div>
-            </div>
-            <div class="result-sub">
-              <div class="result-sub-row">
-                <div class="l">대출 원금</div>
-                <div class="v"><span id="outPrincipal">55,000,000</span><em>원</em></div>
-              </div>
-              <div class="result-sub-row">
-                <div class="l">총 이자금액</div>
-                <div class="v"><span id="outInterest">13,783,760</span><em>원</em></div>
-              </div>
-              <div class="result-sub-row">
-                <div class="l">총 상환금액</div>
-                <div class="v"><span id="outTotal">68,783,760</span><em>원</em></div>
-              </div>
-            </div>
-            <div class="result-period">
-              <div class="pl">상환기간</div>
-              <div class="pv"><strong id="outPeriod">10</strong><i>년</i></div>
-              <div class="pm">(<span id="outMonths">120</span>개월)</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 상세조건 + 상환안내 -->
-      <div class="two-col">
+        <!-- 신청정보 -->
         <section class="sec">
-          <div class="sec-h">상세 조건</div>
+          <div class="sec-h">신청정보</div>
           <div class="sec-body">
-            <table class="detail-tbl">
-              <tr><td class="l">대출금액</td><td class="v"><span id="dtAmount">55,000,000</span> 원</td></tr>
-              <tr><td class="l">연 금리</td><td class="v"><span id="dtRate">4.62</span> %</td></tr>
-              <tr><td class="l">월 적용금리</td><td class="v"><span id="dtMonthRate">0.385</span> %</td></tr>
-              <tr><td class="l">상환방식</td><td class="v">원리금 균등상환</td></tr>
-              <tr><td class="l">상환기간</td><td class="v"><span id="dtYears">10</span> 년 (<span id="dtMonths2">120</span> 개월)</td></tr>
+            <table class="info-tbl">
+              <tr>
+                <td class="lbl">신청대상</td>
+                <td class="val"><input type="text" id="inName" class="hl" value="최승원"></td>
+                <td class="lbl">신청일자</td>
+                <td class="val"><input type="date" id="inDate" oninput="calc()"></td>
+                <td class="lbl">상품구분</td>
+                <td class="val">
+                  <input type="text" id="inProd" list="prodList" value="일반신용대출">
+                  <datalist id="prodList">
+                    <option value="일반신용대출"></option>
+                    <option value="햇살론"></option>
+                    <option value="새희망홀씨"></option>
+                    <option value="사잇돌대출"></option>
+                    <option value="프리랜서대출"></option>
+                  </datalist>
+                </td>
+              </tr>
+              <tr>
+                <td class="lbl">대출금액</td>
+                <td class="val">
+                  <div class="cell">
+                    <input type="text" id="inAmount" value="55,000,000" oninput="formatAmount(this);calc()">
+                    <span>원</span>
+                  </div>
+                </td>
+                <td class="lbl">대출기간</td>
+                <td class="val">
+                  <select id="inYears" onchange="calc()">
+                    <option value="1">1년 (12개월)</option>
+                    <option value="2">2년 (24개월)</option>
+                    <option value="3">3년 (36개월)</option>
+                    <option value="5">5년 (60개월)</option>
+                    <option value="7">7년 (84개월)</option>
+                    <option value="10" selected>10년 (120개월)</option>
+                  </select>
+                </td>
+                <td class="lbl">금리(연)</td>
+                <td class="val">
+                  <div class="cell">
+                    <input type="number" id="inRate" value="4.62" step="0.01" min="0" max="20" oninput="calc()">
+                    <span>%</span>
+                  </div>
+                </td>
+              </tr>
             </table>
           </div>
         </section>
+
+        <!-- 대출상환결과 -->
         <section class="sec">
-          <div class="sec-h">상환안내</div>
+          <div class="sec-h">대출상환결과</div>
           <div class="sec-body">
-            <ul class="notes">
-              <li>매월 동일한 금액을 납부합니다.</li>
-              <li>초기에는 이자 비중이 높고, 시간이 지날수록 원금 상환 비중이 높아집니다.</li>
-              <li>중도상환이나 별도 수수료는 반영하지 않았습니다.</li>
-              <li>본 산출은 시뮬레이션이며, 최종 심사 시 변동될 수 있습니다.</li>
-            </ul>
+            <div class="result-row">
+              <div class="result-main">
+                <div class="result-check">
+                  <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="result-main-t">
+                  <small>월 납부금액</small>
+                  <div class="big"><strong id="outMonthly">573,198</strong><em>원</em></div>
+                </div>
+              </div>
+              <div class="result-sub">
+                <div class="result-sub-row">
+                  <div class="l">대출 원금</div>
+                  <div class="v"><span id="outPrincipal">55,000,000</span><em>원</em></div>
+                </div>
+                <div class="result-sub-row">
+                  <div class="l">총 이자금액</div>
+                  <div class="v"><span id="outInterest">13,783,760</span><em>원</em></div>
+                </div>
+                <div class="result-sub-row">
+                  <div class="l">총 상환금액</div>
+                  <div class="v"><span id="outTotal">68,783,760</span><em>원</em></div>
+                </div>
+              </div>
+              <div class="result-period">
+                <div class="pl">상환기간</div>
+                <div class="pv"><strong id="outPeriod">10</strong><i>년</i></div>
+                <div class="pm">(<span id="outMonths">120</span>개월)</div>
+              </div>
+            </div>
           </div>
         </section>
+
+        <!-- 상세조건 + 상환안내 -->
+        <div class="two-col">
+          <section class="sec">
+            <div class="sec-h">상세 조건</div>
+            <div class="sec-body">
+              <table class="detail-tbl">
+                <tr><td class="l">대출금액</td><td class="v"><span id="dtAmount">55,000,000</span> 원</td></tr>
+                <tr><td class="l">연 금리</td><td class="v"><span id="dtRate">4.62</span> %</td></tr>
+                <tr><td class="l">월 적용금리</td><td class="v"><span id="dtMonthRate">0.385</span> %</td></tr>
+                <tr><td class="l">상환방식</td><td class="v">원리금 균등상환</td></tr>
+                <tr><td class="l">상환기간</td><td class="v"><span id="dtYears">10</span> 년 (<span id="dtMonths2">120</span> 개월)</td></tr>
+              </table>
+            </div>
+          </section>
+          <section class="sec">
+            <div class="sec-h">상환안내</div>
+            <div class="sec-body">
+              <ul class="notes">
+                <li>매월 동일한 금액을 납부합니다.</li>
+                <li>초기에는 이자 비중이 높고, 시간이 지날수록 원금 상환 비중이 높아집니다.</li>
+                <li>중도상환이나 별도 수수료는 반영하지 않았습니다.</li>
+                <li>본 산출은 시뮬레이션이며, 최종 심사 시 변동될 수 있습니다.</li>
+              </ul>
+
+              <!-- ★ 캡쳐 버튼 -->
+              <div class="capture-zone">
+                <span class="capture-hint">조회내역 이미지로 저장</span>
+                <button type="button" class="capture-btn" id="capBtn" onclick="captureScreen()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.5"/></svg>
+                  화면 캡쳐
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+
       </div>
+      <!-- ★ 캡쳐 영역 끝 -->
 
       <!-- 월별 상환 (화면에서는 '예시' 요약본, PDF/인쇄 시에는 '전체' 회차 출력) -->
       <section class="sec sched-sec">
@@ -891,6 +969,12 @@ input,select{font-family:inherit}
     </div>
 
   </div>
+</div>
+
+<!-- 캡쳐 알림 토스트 -->
+<div class="cap-toast" id="capToast">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="capToastText">이미지가 저장되었습니다</span>
 </div>
 
 <script>
@@ -1054,6 +1138,101 @@ function calc(){
   tbodyFull.innerHTML = fullHtml;
 
   document.getElementById('hdrDate').textContent = startDate;
+}
+
+/* ===== ★ 화면 캡쳐 (신청정보 ~ 상환안내까지 PNG 저장) ===== */
+function showCapToast(msg){
+  const t = document.getElementById('capToast');
+  document.getElementById('capToastText').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function captureScreen(){
+  const btn = document.getElementById('capBtn');
+  const area = document.getElementById('captureArea');
+
+  if(typeof html2canvas === 'undefined'){
+    alert('캡쳐 기능을 불러오지 못했습니다.\n인터넷 연결을 확인한 뒤 페이지를 새로고침해 주세요.');
+    return;
+  }
+
+  btn.disabled = true;
+  const originalHtml = btn.innerHTML;
+  btn.innerHTML = '저장 중...';
+  document.body.classList.add('capturing');
+
+  /* 입력칸(input)의 값은 html2canvas가 못 그리는 경우가 있어
+     캡쳐 직전에 텍스트로 임시 치환했다가 복원합니다. */
+  const swapped = [];
+  area.querySelectorAll('input').forEach(inp => {
+    const span = document.createElement('span');
+    const cs = window.getComputedStyle(inp);
+    let shown = inp.value;
+    if(inp.type === 'date' && inp.value){
+      shown = inp.value;  /* YYYY-MM-DD 형태로 통일 */
+    }
+    span.textContent = shown;
+    span.style.cssText =
+      'display:flex;align-items:center;justify-content:center;width:100%;' +
+      'padding:' + cs.padding + ';border:' + cs.border + ';border-radius:' + cs.borderRadius + ';' +
+      'font-size:' + cs.fontSize + ';font-weight:' + cs.fontWeight + ';color:' + cs.color + ';' +
+      'background:' + cs.backgroundColor + ';min-height:' + cs.height + ';box-sizing:border-box;';
+    inp.style.display = 'none';
+    inp.parentNode.insertBefore(span, inp);
+    swapped.push({ inp, span });
+  });
+
+  /* select도 동일 처리 */
+  area.querySelectorAll('select').forEach(sel => {
+    const span = document.createElement('span');
+    const cs = window.getComputedStyle(sel);
+    span.textContent = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+    span.style.cssText =
+      'display:flex;align-items:center;justify-content:center;width:100%;' +
+      'padding:' + cs.padding + ';border:' + cs.border + ';border-radius:' + cs.borderRadius + ';' +
+      'font-size:' + cs.fontSize + ';font-weight:' + cs.fontWeight + ';color:' + cs.color + ';' +
+      'background:' + cs.backgroundColor + ';min-height:' + cs.height + ';box-sizing:border-box;';
+    sel.style.display = 'none';
+    sel.parentNode.insertBefore(span, sel);
+    swapped.push({ inp: sel, span });
+  });
+
+  const restore = () => {
+    swapped.forEach(({ inp, span }) => {
+      span.remove();
+      inp.style.display = '';
+    });
+    document.body.classList.remove('capturing');
+    btn.disabled = false;
+    btn.innerHTML = originalHtml;
+  };
+
+  setTimeout(() => {
+    html2canvas(area, {
+      backgroundColor: '#f5f8ff',
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      scrollX: 0,
+      scrollY: -window.scrollY
+    }).then(canvas => {
+      restore();
+      const name = (document.getElementById('inName').value || '고객').trim();
+      const k = getKST();
+      const p = n => String(n).padStart(2,'0');
+      const stamp = k.getFullYear() + p(k.getMonth()+1) + p(k.getDate()) + '_' + p(k.getHours()) + p(k.getMinutes());
+      const link = document.createElement('a');
+      link.download = '한도조회결과_' + name + '_' + stamp + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showCapToast('이미지가 저장되었습니다');
+    }).catch(err => {
+      restore();
+      console.error(err);
+      alert('캡쳐에 실패했습니다.\n' + err.message);
+    });
+  }, 120);
 }
 
 /* ===== PDF / 초기화 ===== */
