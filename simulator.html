@@ -18,17 +18,18 @@
   --su:1;
   --scale:var(--su);
 
-  --f-nav:calc(15px * var(--scale));    /* 좌측 메뉴 */
-  --f-tab:calc(17px * var(--scale));    /* 상단 탭 */
-  --f-sech:calc(18px * var(--scale));   /* 섹션 제목 */
-  --f-label:calc(17px * var(--scale));  /* 표 라벨 */
-  --f-input:calc(17px * var(--scale));  /* 입력칸 */
-  --f-detail:calc(17px * var(--scale)); /* 상세조건 / 결과 보조표 */
-  --f-note:calc(17px * var(--scale));   /* 상환안내 */
-  --f-sched:calc(16px * var(--scale));  /* 월별 상환표 */
-  --f-btn:calc(16px * var(--scale));    /* 버튼 */
-  --f-big:calc(34px * var(--scale));    /* 월 납부금액 */
-  --f-stat:calc(13px * var(--scale));   /* 상태바 / 헤더 보조 */
+  --f-nav:calc(17px * var(--scale));    /* 좌측 메뉴 */
+  --f-tab:calc(19px * var(--scale));    /* 상단 탭 */
+  --f-sech:calc(21px * var(--scale));   /* 섹션 제목 */
+  --f-label:calc(20px * var(--scale));  /* 표 라벨 */
+  --f-input:calc(21px * var(--scale));  /* 입력칸 */
+  --f-detail:calc(20px * var(--scale)); /* 상세조건 / 결과 보조표 */
+  --f-money:calc(24px * var(--scale));  /* 결과 보조표 금액 */
+  --f-note:calc(19px * var(--scale));   /* 상환안내 */
+  --f-sched:calc(18px * var(--scale));  /* 월별 상환표 */
+  --f-btn:calc(18px * var(--scale));    /* 버튼 */
+  --f-big:calc(58px * var(--scale));    /* 월 납부금액 / 상환기간 */
+  --f-stat:calc(15px * var(--scale));   /* 상태바 / 헤더 보조 */
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -36,9 +37,6 @@ body{
   font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;
   background:#c9d9f5;
   color:#1a2033;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
   min-height:100vh;
   padding:0;
   overflow-x:auto;
@@ -46,19 +44,18 @@ body{
 button{font-family:inherit;cursor:pointer}
 input,select{font-family:inherit}
 
-/* ===== 앱 윈도우 ===== */
+/* ===== 앱 윈도우: 화면 전체 폭 사용 ===== */
 .app{
   display:flex;
-  width:1280px;
+  width:100%;
+  min-width:1180px;
   min-height:100vh;
   background:linear-gradient(135deg,#eaf1ff 0%,#f5f8ff 50%,#e8f0fd 100%);
-  box-shadow:0 10px 40px rgba(10,16,48,.2);
-  flex-shrink:0;
 }
 
 /* ===== 사이드바 ===== */
 .sidebar{
-  width:200px;
+  width:224px;
   background:linear-gradient(180deg,#0a1030 0%,#1a2454 50%,#1e5bd6 100%);
   color:#fff;
   display:flex;
@@ -72,34 +69,34 @@ input,select{font-family:inherit}
   position:absolute;
   bottom:-80px;
   left:-50px;
-  width:300px;
-  height:360px;
+  width:320px;
+  height:380px;
   background:radial-gradient(circle,rgba(255,255,255,.1),transparent 60%);
   pointer-events:none;
 }
 .side-logo{
-  padding:16px 14px;
+  padding:18px 16px;
   border-bottom:1px solid rgba(255,255,255,.1);
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:11px;
   background:rgba(255,255,255,.05);
   position:relative;
 }
 .side-logo img{
-  width:38px;
-  height:38px;
+  width:44px;
+  height:44px;
   object-fit:contain;
   filter:drop-shadow(0 2px 7px rgba(0,0,0,.35));
   flex-shrink:0;
 }
-.side-logo-t{font-size:calc(16px * var(--scale));font-weight:800;letter-spacing:-.02em;white-space:nowrap}
-.side-menu{flex:1;padding:10px 0}
+.side-logo-t{font-size:calc(19px * var(--scale));font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.side-menu{flex:1;padding:12px 0}
 .side-item{
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:11px 14px;
+  gap:12px;
+  padding:14px 16px;
   color:#b5c7f0;
   font-size:var(--f-nav);
   font-weight:500;
@@ -123,10 +120,10 @@ input,select{font-family:inherit}
   width:3px;
   background:#ffd84d;
 }
-.side-item svg{width:17px;height:17px;flex-shrink:0}
+.side-item svg{width:20px;height:20px;flex-shrink:0}
 .side-ft{
-  padding:14px 16px;
-  font-size:calc(11px * var(--scale));
+  padding:15px 16px;
+  font-size:calc(12px * var(--scale));
   color:rgba(255,255,255,.4);
   border-top:1px solid rgba(255,255,255,.08);
   position:relative;
@@ -139,7 +136,7 @@ input,select{font-family:inherit}
 .top{
   background:linear-gradient(135deg,#1e5bd6 0%,#2e6ff2 50%,#5b93f5 100%);
   color:#fff;
-  padding:11px 20px;
+  padding:13px 24px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -152,23 +149,23 @@ input,select{font-family:inherit}
   position:absolute;
   top:-50%;
   right:-10%;
-  width:400px;
-  height:400px;
+  width:460px;
+  height:460px;
   background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%);
   pointer-events:none;
 }
-.top-l{display:flex;align-items:center;gap:11px;position:relative}
+.top-l{display:flex;align-items:center;gap:12px;position:relative}
 .top-l img{
-  width:32px;
-  height:32px;
+  width:38px;
+  height:38px;
   object-fit:contain;
   filter:drop-shadow(0 2px 6px rgba(0,0,0,.25));
 }
-.top-tt{font-size:calc(18px * var(--scale));font-weight:800;letter-spacing:-.02em}
+.top-tt{font-size:calc(22px * var(--scale));font-weight:800;letter-spacing:-.02em}
 .top-r{
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:16px;
   font-size:var(--f-stat);
   color:rgba(255,255,255,.95);
   position:relative;
@@ -177,23 +174,23 @@ input,select{font-family:inherit}
 .top-r b{font-weight:700;margin-left:4px}
 
 /* 글자 크기 조절 */
-.fs-ctrl{display:flex;align-items:center;gap:5px}
+.fs-ctrl{display:flex;align-items:center;gap:6px}
 .fs-ctrl .fs-t{font-weight:700;opacity:.9}
 .fs-ctrl button{
-  min-width:30px;
-  height:26px;
-  padding:0 7px;
+  min-width:34px;
+  height:30px;
+  padding:0 8px;
   border:0;
-  border-radius:4px;
+  border-radius:5px;
   background:rgba(255,255,255,.16);
   color:#fff;
-  font-size:calc(13px * var(--scale));
+  font-size:calc(15px * var(--scale));
   font-weight:800;
   line-height:1;
 }
 .fs-ctrl button:hover{background:rgba(255,255,255,.3)}
 .fs-ctrl .fs-now{
-  min-width:46px;
+  min-width:50px;
   text-align:center;
   font-weight:800;
   font-variant-numeric:tabular-nums;
@@ -201,15 +198,15 @@ input,select{font-family:inherit}
 
 .top-ctrl{display:flex;gap:4px;margin-left:6px}
 .top-ctrl span{
-  width:26px;
-  height:26px;
+  width:30px;
+  height:30px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:4px;
+  border-radius:5px;
   background:rgba(255,255,255,.12);
   font-weight:700;
-  font-size:13px;
+  font-size:15px;
   cursor:pointer;
 }
 .top-ctrl span:hover{background:rgba(255,255,255,.22)}
@@ -217,13 +214,13 @@ input,select{font-family:inherit}
 /* ===== 탭 ===== */
 .tabs{
   background:#f5f8ff;
-  padding:0 20px;
+  padding:0 24px;
   display:flex;
-  gap:4px;
+  gap:5px;
   border-bottom:2px solid #dde4f5;
 }
 .tab{
-  padding:11px 18px;
+  padding:13px 22px;
   font-size:var(--f-tab);
   font-weight:600;
   color:#6b7390;
@@ -245,45 +242,44 @@ input,select{font-family:inherit}
 /* ===== 콘텐츠 ===== */
 .content{
   flex:1;
-  padding:16px 20px;
+  padding:18px 24px;
   background:#f5f8ff;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:14px;
 }
 
 /* ===== 섹션 공통 ===== */
 .sec{
   background:#fff;
-  border-radius:6px;
+  border-radius:7px;
   box-shadow:0 1px 4px rgba(10,16,48,.06);
   border:1px solid #dde4f5;
   overflow:hidden;
 }
 .sec-h{
   background:linear-gradient(90deg,#f0f4ff,#f8faff);
-  padding:9px 15px;
+  padding:11px 18px;
   border-bottom:1px solid #dde4f5;
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:9px;
   font-size:var(--f-sech);
   font-weight:800;
   color:#1849b8;
 }
 .sec-h::before{
   content:"";
-  width:4px;
-  height:15px;
+  width:5px;
+  height:18px;
   background:#1e5bd6;
   border-radius:2px;
 }
-.sec-body{padding:14px 15px}
+.sec-body{padding:16px 18px}
 
-/* ===== 신청정보 입력 표 =====
-   라벨 12% / 입력 21.33% × 3세트 = 100% (칸 폭 균등) */
+/* ===== 신청정보 입력 표 ===== */
 .info-tbl{width:100%;border-collapse:collapse;table-layout:fixed}
-.info-tbl td{padding:9px 10px;border:1px solid #dde4f5;vertical-align:middle}
+.info-tbl td{padding:11px 12px;border:1px solid #dde4f5;vertical-align:middle}
 .info-tbl td.lbl{
   background:#f0f4ff;
   color:#3d4660;
@@ -294,15 +290,15 @@ input,select{font-family:inherit}
   font-size:var(--f-label);
 }
 .info-tbl td.val{background:#fff;color:#1a2033;text-align:center;width:21.33%}
-.info-tbl .cell{display:flex;align-items:center;gap:6px;justify-content:center}
+.info-tbl .cell{display:flex;align-items:center;gap:7px;justify-content:center}
 .info-tbl .cell span{font-size:var(--f-label);color:#3d4660;font-weight:700;flex-shrink:0}
 .info-tbl input,.info-tbl select{
-  width:100%;          /* ← 기존 오타(wid20th) 수정: 칸 틀어짐의 원인 */
+  width:100%;
   min-width:0;
-  padding:7px 8px;
+  padding:9px 10px;
   border:1.5px solid #a3bef5;
-  border-radius:4px;
-  font-size:var(--f-input);   /* ← 기존 오타(font-size:px) 수정 */
+  border-radius:5px;
+  font-size:var(--f-input);
   font-weight:700;
   color:#1a2033;
   text-align:center;
@@ -317,57 +313,56 @@ input,select{font-family:inherit}
 }
 .info-tbl input[type="number"]::-webkit-outer-spin-button,
 .info-tbl input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-/* 날짜 입력은 내부 위젯 폭이 커서 한 단계 작게 */
-.info-tbl input[type="date"]{font-size:calc(var(--f-input) - 2px);padding:7px 4px}
+.info-tbl input[type="date"]{font-size:calc(var(--f-input) - 3px);padding:9px 5px}
 
 /* ===== 대출상환결과 ===== */
-.result-row{display:grid;grid-template-columns:1fr 1.15fr 136px;gap:12px;align-items:stretch}
+.result-row{display:grid;grid-template-columns:1.25fr 1.5fr 230px;gap:14px;align-items:stretch}
 .result-main{
   background:linear-gradient(135deg,#f8faff,#eef4ff);
   border:1px solid #dbe7fe;
-  border-radius:6px;
-  padding:16px;
+  border-radius:7px;
+  padding:20px 22px;
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:18px;
   min-width:0;
 }
 .result-check{
-  width:62px;
-  height:62px;
+  width:86px;
+  height:86px;
   border-radius:50%;
   background:linear-gradient(135deg,#1e5bd6,#2e6ff2);
   display:flex;
   align-items:center;
   justify-content:center;
   color:#fff;
-  box-shadow:0 5px 15px rgba(30,91,214,.3);
+  box-shadow:0 6px 18px rgba(30,91,214,.3);
   flex-shrink:0;
 }
 .result-main-t{flex:1;min-width:0}
-.result-main-t small{display:block;font-size:var(--f-detail);color:#1849b8;font-weight:700;margin-bottom:3px}
-.result-main-t .big{display:flex;align-items:baseline;gap:3px;flex-wrap:wrap}
+.result-main-t small{display:block;font-size:calc(24px * var(--scale));color:#1849b8;font-weight:800;margin-bottom:4px}
+.result-main-t .big{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap}
 .result-main-t strong{
   font-size:var(--f-big);
   font-weight:900;
   color:#1e5bd6;
   letter-spacing:-.02em;
-  line-height:1.15;
+  line-height:1.1;
   font-variant-numeric:tabular-nums;
 }
-.result-main-t em{font-style:normal;font-size:calc(18px * var(--scale));font-weight:700;color:#3d4660}
+.result-main-t em{font-style:normal;font-size:calc(26px * var(--scale));font-weight:800;color:#3d4660}
 
 .result-sub{
   background:#fff;
   border:1px solid #dde4f5;
-  border-radius:6px;
+  border-radius:7px;
   overflow:hidden;
   display:flex;
   flex-direction:column;
 }
 .result-sub-row{
   display:grid;
-  grid-template-columns:128px 1fr;   /* 라벨칸 넓혀 '총 상환금액' 줄바꿈 방지 */
+  grid-template-columns:150px 1fr;
   align-items:stretch;
   border-bottom:1px solid #eef0f6;
   font-size:var(--f-detail);
@@ -376,7 +371,7 @@ input,select{font-family:inherit}
 .result-sub-row:last-child{border-bottom:0}
 .result-sub-row .l{
   background:#f0f4ff;
-  padding:9px 8px;
+  padding:11px 10px;
   color:#3d4660;
   font-weight:700;
   text-align:center;
@@ -386,27 +381,30 @@ input,select{font-family:inherit}
   justify-content:center;
 }
 .result-sub-row .v{
-  padding:9px 14px;
+  padding:11px 18px;
   text-align:right;
-  font-weight:700;
+  font-weight:800;
   color:#1a2033;
+  font-size:var(--f-money);
   font-variant-numeric:tabular-nums;
   display:flex;
   align-items:center;
   justify-content:flex-end;
+  white-space:nowrap;
 }
+.result-sub-row .v em{font-style:normal;font-size:calc(18px * var(--scale));font-weight:700;margin-left:5px;color:#3d4660}
 
 .result-period{
   background:linear-gradient(170deg,#1e5bd6 0%,#1849b8 50%,#0a1030 100%);
-  border-radius:6px;
-  padding:14px 10px;
+  border-radius:7px;
+  padding:16px 14px;
   text-align:center;
   color:#fff;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  box-shadow:0 5px 15px rgba(30,91,214,.3);
+  box-shadow:0 6px 18px rgba(30,91,214,.3);
   position:relative;
   overflow:hidden;
 }
@@ -415,46 +413,46 @@ input,select{font-family:inherit}
   position:absolute;
   top:-30%;
   right:-30%;
-  width:150px;
-  height:150px;
+  width:180px;
+  height:180px;
   background:radial-gradient(circle,rgba(255,216,77,.15),transparent 60%);
   pointer-events:none;
 }
-.result-period .pl{font-size:var(--f-detail);font-weight:800;margin-bottom:4px;opacity:.92;position:relative}
-.result-period .pv{display:flex;align-items:baseline;gap:3px;position:relative}
+.result-period .pl{font-size:calc(24px * var(--scale));font-weight:800;margin-bottom:5px;opacity:.95;position:relative}
+.result-period .pv{display:flex;align-items:baseline;gap:4px;position:relative}
 .result-period .pv strong{
   font-size:var(--f-big);
   font-weight:900;
   color:#ffd84d;
   letter-spacing:-.02em;
   line-height:1;
-  text-shadow:0 2px 8px rgba(255,216,77,.3);
+  text-shadow:0 2px 10px rgba(255,216,77,.35);
 }
-.result-period .pv i{font-style:normal;font-size:calc(17px * var(--scale));font-weight:800;color:#ffd84d}
-.result-period .pm{font-size:calc(13px * var(--scale));margin-top:5px;opacity:.85;position:relative}
+.result-period .pv i{font-style:normal;font-size:calc(28px * var(--scale));font-weight:900;color:#ffd84d}
+.result-period .pm{font-size:calc(17px * var(--scale));margin-top:7px;opacity:.9;position:relative;font-weight:600}
 
 /* ===== 2열 (상세 조건 + 상환안내) ===== */
-.two-col{display:grid;grid-template-columns:1fr 1.25fr;gap:12px;align-items:start}
+.two-col{display:grid;grid-template-columns:1fr 1.3fr;gap:14px;align-items:start}
 
 .detail-tbl{width:100%;border-collapse:collapse;font-size:var(--f-detail);table-layout:fixed}
-.detail-tbl td{padding:8px 12px;border:1px solid #dde4f5}
+.detail-tbl td{padding:11px 14px;border:1px solid #dde4f5}
 .detail-tbl td.l{background:#f0f4ff;color:#3d4660;font-weight:700;width:42%;text-align:center;white-space:nowrap}
-.detail-tbl td.v{text-align:right;color:#1a2033;font-weight:700;font-variant-numeric:tabular-nums}
+.detail-tbl td.v{text-align:right;color:#1a2033;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
 
 .notes{list-style:none;padding:0}
 .notes li{
   display:flex;
   align-items:flex-start;
-  gap:9px;
-  padding:6.5px 0;
+  gap:10px;
+  padding:8px 0;
   font-size:var(--f-note);
   color:#3d4660;
   line-height:1.55;
 }
 .notes li::before{
   content:"";
-  width:17px;
-  height:17px;
+  width:20px;
+  height:20px;
   border-radius:50%;
   background:#1e5bd6;
   flex-shrink:0;
@@ -462,22 +460,22 @@ input,select{font-family:inherit}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 8 7 11 12 5'/%3E%3C/svg%3E");
   background-repeat:no-repeat;
   background-position:center;
-  background-size:10px;
+  background-size:12px;
 }
 
 /* ===== 월별 상환 ===== */
-.sched-wrap{display:flex;gap:12px;align-items:stretch}
+.sched-wrap{display:flex;gap:14px;align-items:stretch}
 .sched-tbl-wrap{
   flex:1;
   border:1px solid #dde4f5;
-  border-radius:6px;
+  border-radius:7px;
   overflow:hidden;
   min-width:0;
 }
 .sched-tbl{width:100%;border-collapse:collapse;font-size:var(--f-sched);table-layout:fixed}
 .sched-tbl thead th{
   background:linear-gradient(180deg,#f0f4ff,#e4ebf8);
-  padding:9px 6px;
+  padding:11px 8px;
   font-weight:800;
   text-align:center;
   color:#1849b8;
@@ -485,7 +483,7 @@ input,select{font-family:inherit}
   white-space:nowrap;
 }
 .sched-tbl tbody td{
-  padding:8px 6px;
+  padding:10px 8px;
   text-align:center;
   border-bottom:1px solid #eef0f6;
   color:#3d4660;
@@ -496,14 +494,14 @@ input,select{font-family:inherit}
 .sched-tbl tbody tr:nth-child(even) td{background:#fafbfd}
 .sched-tbl tbody tr.dots td{color:#9ca3af;letter-spacing:3px;font-weight:700}
 
-.sched-actions{display:flex;flex-direction:column;gap:7px;flex-shrink:0;width:146px}
+.sched-actions{display:flex;flex-direction:column;gap:8px;flex-shrink:0;width:172px}
 .action-btn{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:7px;
-  padding:11px 10px;
-  border-radius:6px;
+  gap:8px;
+  padding:13px 12px;
+  border-radius:7px;
   border:0;
   font-size:var(--f-btn);
   font-weight:700;
@@ -519,29 +517,29 @@ input,select{font-family:inherit}
 .action-btn.pdf{background:linear-gradient(135deg,#059669,#047857)}
 .action-btn.home{background:linear-gradient(135deg,#6b7280,#3d4660)}
 .action-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,91,214,.3)}
-.action-btn svg{width:16px;height:16px;flex-shrink:0}
+.action-btn svg{width:19px;height:19px;flex-shrink:0}
 
 /* ===== 상태바 ===== */
 .statbar{
   background:#fff;
   border-top:1px solid #dde4f5;
-  padding:8px 20px;
+  padding:10px 24px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   font-size:var(--f-stat);
   color:#3d4660;
 }
-.statbar-l{display:flex;align-items:center;gap:7px;color:#059669;font-weight:700}
+.statbar-l{display:flex;align-items:center;gap:8px;color:#059669;font-weight:700}
 .statbar-l i{
-  width:8px;
-  height:8px;
+  width:9px;
+  height:9px;
   border-radius:50%;
   background:#10b981;
   box-shadow:0 0 6px rgba(16,185,129,.5);
   display:inline-block;
 }
-.statbar-r{display:flex;align-items:center;gap:18px;color:#6b7390}
+.statbar-r{display:flex;align-items:center;gap:20px;color:#6b7390}
 .statbar-r b{color:#1a2033;margin:0 4px}
 
 /* 화면용 / 인쇄용 전환 클래스 */
@@ -553,8 +551,7 @@ input,select{font-family:inherit}
     size:A4 portrait;
     margin:10mm 8mm;
   }
-  /* 인쇄물은 한 장에 더 담기도록 화면 배율의 85%로 축소 */
-  :root{--scale:calc(var(--su) * .85)}
+  :root{--scale:calc(var(--su) * .62)}
   body{
     background:#fff !important;
     display:block !important;
@@ -574,6 +571,7 @@ input,select{font-family:inherit}
   .app{
     display:block !important;
     width:100% !important;
+    min-width:0 !important;
     min-height:auto !important;
     box-shadow:none !important;
     background:#fff !important;
@@ -603,7 +601,7 @@ input,select{font-family:inherit}
     page-break-inside:avoid;
     break-inside:avoid;
   }
-  /* 월별 상환 섹션은 1페이지 하단부터 시작해 자연스럽게 이어지도록 설정 */
+  .result-check{width:52px !important;height:52px !important}
   .sec.sched-sec{
     page-break-inside:auto !important;
     break-inside:auto !important;
@@ -671,7 +669,7 @@ input,select{font-family:inherit}
         통계관리
       </div>
       <div class="side-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         시스템설정
       </div>
     </nav>
@@ -780,7 +778,7 @@ input,select{font-family:inherit}
           <div class="result-row">
             <div class="result-main">
               <div class="result-check">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <div class="result-main-t">
                 <small>월 납부금액</small>
@@ -790,15 +788,15 @@ input,select{font-family:inherit}
             <div class="result-sub">
               <div class="result-sub-row">
                 <div class="l">대출 원금</div>
-                <div class="v"><span id="outPrincipal">55,000,000</span>&nbsp;원</div>
+                <div class="v"><span id="outPrincipal">55,000,000</span><em>원</em></div>
               </div>
               <div class="result-sub-row">
                 <div class="l">총 이자금액</div>
-                <div class="v"><span id="outInterest">13,783,760</span>&nbsp;원</div>
+                <div class="v"><span id="outInterest">13,783,760</span><em>원</em></div>
               </div>
               <div class="result-sub-row">
                 <div class="l">총 상환금액</div>
-                <div class="v"><span id="outTotal">68,783,760</span>&nbsp;원</div>
+                <div class="v"><span id="outTotal">68,783,760</span><em>원</em></div>
               </div>
             </div>
             <div class="result-period">
@@ -933,8 +931,8 @@ function initLogos(){
   });
 }
 
-/* ===== 글자 크기 배율 (90% ~ 120%) ===== */
-const SCALES = [0.9, 1, 1.1, 1.2];
+/* ===== 글자 크기 배율 (90% ~ 130%) ===== */
+const SCALES = [0.9, 1, 1.1, 1.2, 1.3];
 let scaleIdx = 1;
 function setScale(step){
   scaleIdx = Math.max(0, Math.min(SCALES.length - 1, scaleIdx + step));
