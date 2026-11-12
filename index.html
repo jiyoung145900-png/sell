@@ -7,351 +7,198 @@
 <title>바른한도플랜 | 내부시스템 가조회 & CB스코어 자체설계</title>
 <link rel="icon" href="./favicon.ico" type="image/x-icon">
 
-  <!-- 2. 오픈 그래프 (페이스북/카카오톡) -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="바른한도플랜 | 내부시스템 가조회 & CB스코어 자체설계">
-  <meta property="og:description" content="신용조회 알람 없이 최대 한도 산출. 개인회생·기대출 과다·DSR 초과 고객 맞춤 전산설계.">
-  <meta property="og:image" content="https://www.barunhando.com/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://www.barunhando.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="바른한도플랜 | 내부시스템 가조회 & CB스코어 자체설계">
+<meta property="og:description" content="신용조회 알람 없이 최대 한도 산출. 개인회생·기대출 과다·DSR 초과 고객 맞춤 전산설계.">
+<meta property="og:image" content="https://www.barunhando.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://www.barunhando.com/">
 
-  <!-- 3. 텔레그램/X 대형 와이드 카드 강제 적용 (본능처럼 크게 나오는 핵심 태그) -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="바른한도플랜 | 내부시스템 가조회 & CB스코어 자체설계">
-  <meta name="twitter:description" content="신용조회 알람 없이 최대 한도 산출. 개인회생·기대출 과다·DSR 초과 고객 맞춤 전산설계.">
-  <meta name="twitter:image" content="https://www.barunhando.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="바른한도플랜 | 내부시스템 가조회 & CB스코어 자체설계">
+<meta name="twitter:description" content="신용조회 알람 없이 최대 한도 산출. 개인회생·기대출 과다·DSR 초과 고객 맞춤 전산설계.">
+<meta name="twitter:image" content="https://www.barunhando.com/og-image.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f5f6fa;--surface:#fff;--surface-2:#fafbfd;--surface-3:#f2f4f9;
-  --border:#e3e6ef;--border-strong:#d1d6e3;--divider:#eef0f6;
+  --bg:#f5f6fa;--surface:#fff;--surface-2:#fafbfd;
+  --border:#e3e6ef;--divider:#eef0f6;
   --ink-1:#0a0e1a;--ink-2:#1a2033;--ink-3:#3d4660;--ink-4:#6b7280;--ink-5:#9ca3af;
-  --navy-900:#0a1030;--navy-800:#121a3e;--navy-700:#1a2454;--navy-600:#243069;
+  --navy-900:#0a1030;--navy-700:#1a2454;
   --blue-700:#1849b8;--blue-600:#1e5bd6;--blue-500:#2e6ff2;--blue-400:#5b93f5;
   --blue-100:#dbe7fe;--blue-50:#eef4ff;
-  --gold-600:#b8862b;--gold-500:#d4a046;--gold-100:#faf0d6;--gold-50:#fdf8ea;
-  --green-700:#047857;--green-600:#059669;--green-500:#10b981;
-  --green-100:#d1fae5;--green-50:#ecfdf5;--red-500:#ef4444;
-  --r-xs:8px;--r-sm:12px;--r-md:16px;--r-lg:20px;--r-xl:28px;--r-full:999px;
-  --sh-xs:0 1px 2px rgba(10,14,26,.04);
-  --sh-sm:0 1px 3px rgba(10,14,26,.06),0 1px 2px rgba(10,14,26,.04);
-  --sh-md:0 4px 12px rgba(10,14,26,.06),0 2px 4px rgba(10,14,26,.04);
-  --sh-lg:0 12px 28px rgba(10,14,26,.08),0 4px 10px rgba(10,14,26,.04);
-  --sh-xl:0 24px 56px rgba(10,14,26,.12),0 8px 20px rgba(10,14,26,.06);
-  --sh-navy:0 12px 36px rgba(10,16,48,.2),0 4px 12px rgba(10,16,48,.1);
-  --sh-blue:0 10px 28px rgba(30,91,214,.3),0 4px 10px rgba(30,91,214,.18);
+  --gold-500:#d4a046;--gold-100:#faf0d6;
+  --green-600:#059669;--green-100:#d1fae5;--green-50:#ecfdf5;
+  --red-500:#ef4444;
+  --r-xs:8px;--r-sm:12px;--r-md:16px;--r-lg:20px;--r-xl:24px;--r-full:999px;
+  --sh-sm:0 1px 3px rgba(10,14,26,.06);
+  --sh-md:0 4px 12px rgba(10,14,26,.08);
+  --sh-lg:0 12px 28px rgba(10,14,26,.1);
+  --sh-blue:0 10px 28px rgba(30,91,214,.3);
   --font-sans:'Inter','Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;
   color-scheme:light;
 }
-@media(prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#0a0e1a;--surface:#131826;--surface-2:#191f30;--surface-3:#1f2638;
-    --border:#242b3f;--border-strong:#2d3650;--divider:#1c2234;
-    --ink-1:#f1f3fa;--ink-2:#d6dae7;--ink-3:#9ba2b8;--ink-4:#6b7390;--ink-5:#4a5170;
-    --blue-700:#7da3f5;--blue-600:#5b8df3;
-    --blue-100:rgba(46,111,242,.22);--blue-50:rgba(46,111,242,.1);
-    --gold-100:rgba(212,160,70,.15);--gold-50:rgba(212,160,70,.08);
-    --green-600:#34d399;--green-100:rgba(52,211,153,.15);--green-50:rgba(52,211,153,.08);
-    --sh-xl:0 24px 56px rgba(0,0,0,.5);--sh-navy:0 12px 36px rgba(0,0,0,.4);
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0a0e1a;--surface:#131826;--surface-2:#191f30;--surface-3:#1f2638;
-  --border:#242b3f;--border-strong:#2d3650;--divider:#1c2234;
-  --ink-1:#f1f3fa;--ink-2:#d6dae7;--ink-3:#9ba2b8;--ink-4:#6b7390;--ink-5:#4a5170;
-  --blue-700:#7da3f5;--blue-600:#5b8df3;
-  --blue-100:rgba(46,111,242,.22);--blue-50:rgba(46,111,242,.1);
-  --gold-100:rgba(212,160,70,.15);
-  --green-600:#34d399;--green-100:rgba(52,211,153,.15);--green-50:rgba(52,211,153,.08);
-}
-html{scroll-behavior:smooth;scroll-padding-top:calc(60px + env(safe-area-inset-top,0px))}
-body{font-family:var(--font-sans);background:var(--bg);color:var(--ink-1);line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;word-break:keep-all;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);min-height:100vh;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--surface)}
-@media(max-width:639px){body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--ink-1);line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;min-height:100vh;overflow-x:hidden}
 
-.bbar{background:#060912;padding:7px 16px;font-size:11px;border-bottom:1px solid #121a2e}
-.bbar-in{max-width:600px;margin:0 auto;display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none}
-.bbar-in::-webkit-scrollbar{display:none}
-.bbar-lbl{color:#6b7390;font-weight:600;flex-shrink:0;white-space:nowrap}
-.bb{padding:4px 11px;border-radius:6px;border:1px solid #1e2744;background:#0f1530;color:#8b93b0;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-sans);white-space:nowrap;transition:.15s}
-.bb.on{background:var(--blue-500);color:#fff;border-color:var(--blue-500)}
-.bbar-x{background:0;border:0;color:#4a5170;font-size:11px;cursor:pointer;margin-left:auto;flex-shrink:0;padding:2px 6px;font-family:var(--font-sans)}
+.hdr{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+.hdr-in{max-width:600px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-ic{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--navy-700),var(--blue-600));display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 12px rgba(30,91,214,.3)}
+.logo-t{font-weight:800;font-size:15px;letter-spacing:-.03em}
+.logo-s{font-size:10px;font-weight:600;color:var(--blue-600)}
+.live{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--r-full);font-size:10.5px;font-weight:700;background:var(--green-50);color:var(--green-600);border:1px solid var(--green-100)}
+.live i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 
-.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(255,255,255,.82);border-bottom:1px solid var(--border);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .hdr{background:rgba(19,24,38,.82)}}
-:root[data-theme="dark"] .hdr{background:rgba(19,24,38,.82)}
-.hdr-in{max-width:600px;margin:0 auto;padding:0 18px;height:60px;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:11px}
-.logo-ic{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--navy-700),var(--blue-600));display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 12px rgba(30,91,214,.28),inset 0 1px 0 rgba(255,255,255,.2);position:relative}
-.logo-ic::after{content:"";position:absolute;inset:0;border-radius:11px;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent 50%);pointer-events:none}
-.logo-wrap{display:flex;flex-direction:column;line-height:1.15}
-.logo-t{font-weight:800;font-size:15.5px;letter-spacing:-.03em;color:var(--ink-1)}
-.logo-s{font-size:10px;font-weight:600;color:var(--blue-600);margin-top:1px}
-.live{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:var(--r-full);font-size:11px;font-weight:700;background:var(--green-50);color:var(--green-600);border:1px solid var(--green-100)}
-.live i{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 0 3px rgba(5,150,105,.2);animation:blink 1.8s infinite}
-@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.88)}}
-
-.hero{position:relative;max-width:600px;margin:0 auto;padding:36px 20px 20px;text-align:center;overflow:hidden}
-.hero::before{content:"";position:absolute;top:-20%;left:50%;width:140%;height:120%;transform:translateX(-50%);background:radial-gradient(ellipse 55% 55% at 50% 30%,rgba(46,111,242,.08),transparent 70%);pointer-events:none;z-index:0}
-.hero>*{position:relative;z-index:1}
-.hero-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:var(--r-full);font-size:11.5px;font-weight:700;background:var(--surface);color:var(--blue-700);border:1px solid var(--blue-100);box-shadow:var(--sh-xs);margin-bottom:18px}
-.hero-pill svg{color:var(--blue-500)}
-.hero h1{font-size:28px;font-weight:900;line-height:1.3;letter-spacing:-.045em;color:var(--ink-1)}
-@media(min-width:420px){.hero h1{font-size:32px}}
-.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--blue-700),var(--navy-700));-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;display:inline-block}
+.hero{max-width:600px;margin:0 auto;padding:24px 20px 16px;text-align:center}
+.hero-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:var(--r-full);font-size:11px;font-weight:700;background:var(--blue-50);color:var(--blue-700);border:1px solid var(--blue-100);margin-bottom:14px}
+.hero h1{font-size:26px;font-weight:900;line-height:1.3;letter-spacing:-.04em;color:var(--ink-1)}
+@media(min-width:420px){.hero h1{font-size:30px}}
+.hero h1 em{font-style:normal;color:var(--blue-600);position:relative;display:inline-block}
 .hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:4%;height:30%;background:var(--gold-100);z-index:-1;border-radius:3px}
-:root[data-theme="dark"] .hero h1 em::after{background:rgba(212,160,70,.18)}
-.hero-desc{font-size:14px;color:var(--ink-3);margin-top:12px;max-width:440px;margin-inline:auto;line-height:1.65}
+.hero-desc{font-size:13px;color:var(--ink-3);margin-top:10px;line-height:1.6}
 .hero-desc b{color:var(--ink-1);font-weight:700}
 
-.trust-strip{max-width:500px;margin:20px auto 0;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);display:grid;grid-template-columns:repeat(3,1fr);gap:4px;box-shadow:var(--sh-sm)}
-.ts-item{text-align:center;padding:4px 2px;border-right:1px solid var(--divider)}
+.trust{max-width:520px;margin:16px auto 0;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);display:grid;grid-template-columns:repeat(3,1fr);gap:4px;box-shadow:var(--sh-sm)}
+.ts-item{text-align:center;padding:2px;border-right:1px solid var(--divider)}
 .ts-item:last-child{border-right:0}
-.ts-val{font-size:18px;font-weight:900;color:var(--ink-1);letter-spacing:-.03em;line-height:1.1}
+.ts-val{font-size:16px;font-weight:900;color:var(--ink-1);line-height:1.1}
 .ts-val em{font-style:normal;color:var(--blue-600)}
-.ts-lbl{font-size:10.5px;color:var(--ink-4);font-weight:600;margin-top:3px}
+.ts-lbl{font-size:10px;color:var(--ink-4);font-weight:600;margin-top:2px}
 
-.tick-w{max-width:500px;margin:14px auto 0;padding:0 20px}
-.tick{display:flex;align-items:center;gap:9px;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);box-shadow:var(--sh-xs);font-size:11.5px}
-.tick-tag{padding:3px 8px;border-radius:5px;font-size:10px;font-weight:800;background:var(--blue-500);color:#fff;flex-shrink:0;letter-spacing:.02em}
-.tick-body{flex:1;color:var(--ink-3);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:opacity .25s}
-.tick-body b{color:var(--ink-1);font-weight:800}
-.tick-body em{font-style:normal;color:var(--green-600);font-weight:800}
+/* 메인 폼 - 핵심 영역 */
+.main-form{max-width:560px;margin:20px auto 0;padding:0 16px}
+.form-card{background:var(--surface);border-radius:var(--r-xl);border:1px solid var(--border);box-shadow:var(--sh-lg);overflow:hidden;position:relative}
+.form-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue-500),var(--blue-700))}
 
-.cw{padding:24px 16px 0;max-width:520px;margin:0 auto}
-.card{background:var(--surface);border-radius:var(--r-xl);border:1px solid var(--border);box-shadow:var(--sh-xl);overflow:hidden;position:relative}
-.card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(46,111,242,.4),transparent);z-index:2}
-.card-top{display:flex;justify-content:space-between;align-items:center;padding:12px 22px;background:var(--surface-2);border-bottom:1px solid var(--divider);font-size:11px;font-weight:700}
-.card-top .l{color:var(--blue-600);display:flex;align-items:center;gap:6px}
-.card-top .l::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--blue-500)}
-.card-top .r{color:var(--ink-4);font-variant-numeric:tabular-nums}
-.pbar{height:3px;background:var(--divider)}
-.pfill{height:3px;background:linear-gradient(90deg,var(--blue-500),var(--blue-700));transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 10px rgba(46,111,242,.4)}
-.card-body{padding:26px 22px 28px}
-@media(min-width:440px){.card-body{padding:30px 28px 32px}}
+.form-header{padding:18px 22px 10px;background:linear-gradient(135deg,var(--blue-50),rgba(46,111,242,.03));border-bottom:1px solid var(--divider)}
+.form-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--r-full);background:var(--blue-500);color:#fff;font-size:10px;font-weight:800;margin-bottom:8px}
+.form-badge i{width:5px;height:5px;border-radius:50%;background:#fff;animation:blink 1.8s infinite}
+.form-title{font-size:17px;font-weight:800;color:var(--ink-1);letter-spacing:-.02em;margin-bottom:3px}
+.form-sub{font-size:11.5px;color:var(--ink-4);font-weight:500}
 
-.stp{display:none;animation:si .35s cubic-bezier(.16,1,.3,1) forwards}
-.stp.on{display:block}
-@keyframes si{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.form-body{padding:20px 22px 22px}
 
-.s-badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;color:var(--blue-600);background:var(--blue-50);padding:4px 10px;border-radius:5px;margin-bottom:10px;letter-spacing:.02em}
-.s-title{font-size:18px;font-weight:800;letter-spacing:-.03em;color:var(--ink-1);margin-bottom:4px}
-.s-desc{font-size:12.5px;color:var(--ink-4);margin-bottom:20px;line-height:1.6}
+.field{margin-bottom:16px}
+.field-label{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:8px}
+.field-label .num{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--blue-500);color:#fff;font-size:10px;font-weight:800}
+.field-label small{font-weight:500;color:var(--ink-5);font-size:10.5px;margin-left:auto}
 
-.fl{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;font-weight:700;color:var(--ink-2);margin-bottom:8px}
-.fl small{font-weight:500;color:var(--ink-5);font-size:10.5px}
-
-.og{display:grid;gap:8px}
+.og{display:grid;gap:6px}
 .og.c2{grid-template-columns:1fr 1fr}
 .og.c3{grid-template-columns:1fr 1fr 1fr}
 .og.c4{grid-template-columns:repeat(4,1fr)}
 
-.oc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 8px;border-radius:var(--r-md);border:1.5px solid var(--border);background:var(--surface);font-size:12.5px;font-weight:700;color:var(--ink-2);cursor:pointer;transition:.18s;text-align:center;font-family:var(--font-sans);position:relative;overflow:hidden}
-.oc svg{width:22px;height:22px;color:var(--ink-4);transition:.18s}
-.oc:hover{border-color:var(--blue-400);background:var(--blue-50)}
-.oc:hover svg{color:var(--blue-500)}
-.oc.sel{border-color:var(--blue-500);background:var(--blue-50);color:var(--blue-700);box-shadow:0 0 0 3px rgba(46,111,242,.08)}
-.oc.sel svg{color:var(--blue-600)}
-.oc.sel::after{content:"";position:absolute;top:8px;right:8px;width:14px;height:14px;border-radius:50%;background:var(--blue-500);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 8 7 11 12 5'/%3E%3C/svg%3E");background-size:10px;background-position:center;background-repeat:no-repeat}
-
-.ch{padding:11px 6px;border-radius:var(--r-xs);border:1.5px solid var(--border);background:var(--surface);font-size:12px;font-weight:700;color:var(--ink-3);cursor:pointer;transition:.15s;text-align:center;font-family:var(--font-sans);line-height:1.3}
+.ch{padding:10px 4px;border-radius:var(--r-xs);border:1.5px solid var(--border);background:var(--surface);font-size:11.5px;font-weight:700;color:var(--ink-3);cursor:pointer;transition:.15s;text-align:center;font-family:var(--font-sans);line-height:1.3}
 .ch:hover{border-color:var(--blue-400);color:var(--ink-2)}
 .ch.sel{border-color:var(--blue-500);background:var(--blue-50);color:var(--blue-700);font-weight:800;box-shadow:inset 0 0 0 1px var(--blue-500)}
 
-.fbox{padding:14px;border-radius:var(--r-md);border:1px solid var(--divider);background:var(--surface-2)}
 .sel-f{width:100%;padding:11px 12px;border-radius:var(--r-xs);border:1.5px solid var(--border);background:var(--surface);font-size:12.5px;font-weight:700;color:var(--ink-1);font-family:var(--font-sans);appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%236b7280' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center}
 .sel-f:focus{outline:none;border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(46,111,242,.12)}
 
-.amt-box{position:relative;text-align:center;padding:20px 16px;border-radius:var(--r-md);background:linear-gradient(135deg,var(--navy-900) 0%,var(--navy-700) 100%);border:1px solid var(--navy-700);color:#fff;margin-bottom:14px;overflow:hidden}
-.amt-box::before{content:"";position:absolute;top:-50%;right:-20%;width:200px;height:200px;background:radial-gradient(circle,rgba(212,160,70,.2),transparent 60%);pointer-events:none}
-.amt-box small{display:block;font-size:11px;color:#8b93b0;font-weight:600;margin-bottom:4px;position:relative}
-.amt-box strong{font-size:30px;font-weight:900;color:#fff;letter-spacing:-.035em;position:relative;display:block}
-.amt-box strong em{font-style:normal;color:var(--gold-500);font-size:18px;font-weight:700;margin-left:4px}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-.brow{display:flex;gap:9px;margin-top:22px}
-.btn{padding:15px 18px;border-radius:var(--r-md);border:none;font-size:14px;font-weight:800;cursor:pointer;font-family:var(--font-sans);letter-spacing:-.01em;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s;position:relative;overflow:hidden}
-.btn-p{background:linear-gradient(135deg,var(--blue-600),var(--navy-700));color:#fff;box-shadow:var(--sh-blue)}
-.btn-p::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 50%);pointer-events:none}
-.btn-p:hover{transform:translateY(-1px);box-shadow:0 14px 32px rgba(30,91,214,.35)}
-.btn-s{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--border);flex:1}
-.btn-s:hover{background:var(--divider);border-color:var(--border-strong)}
-.btn-w{flex:2.2}
-.btn-full{width:100%}
+.contact-section{background:linear-gradient(135deg,var(--navy-900),var(--navy-700));border-radius:var(--r-md);padding:18px;margin-top:4px;color:#fff;position:relative;overflow:hidden}
+.contact-section::before{content:"";position:absolute;top:-30%;right:-20%;width:150px;height:150px;background:radial-gradient(circle,rgba(212,160,70,.15),transparent 60%);pointer-events:none}
+.contact-title{font-size:13px;font-weight:800;margin-bottom:3px;color:#fff;position:relative}
+.contact-sub{font-size:11px;color:#a3bef5;margin-bottom:12px;position:relative}
+.contact-inputs{display:grid;grid-template-columns:1fr 1.3fr;gap:7px;position:relative}
+.inf{width:100%;padding:12px 13px;border-radius:var(--r-xs);border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);font-size:13px;font-weight:600;color:#fff;font-family:var(--font-sans)}
+.inf:focus{outline:none;border-color:var(--gold-500);background:rgba(255,255,255,.15)}
+.inf::placeholder{color:rgba(255,255,255,.5);font-weight:500}
 
-.ld-wrap{text-align:center;padding:30px 10px 20px}
-.spinner{width:84px;height:84px;margin:0 auto 22px;position:relative}
-.sp-ring{position:absolute;inset:0;border-radius:50%;border:3px solid var(--divider);border-top-color:var(--blue-500);border-right-color:var(--blue-400);animation:sp .9s linear infinite}
-.sp-ring.outer{inset:-6px;border-width:2px;border-color:transparent;border-top-color:var(--gold-500);animation:sp 1.6s linear infinite reverse;opacity:.6}
-.sp-core{position:absolute;inset:12px;border-radius:50%;background:linear-gradient(135deg,var(--blue-50),var(--surface));display:flex;align-items:center;justify-content:center;color:var(--blue-600);box-shadow:inset 0 0 20px rgba(46,111,242,.08)}
-@keyframes sp{to{transform:rotate(360deg)}}
-.ld-steps{margin-top:20px;background:var(--surface-2);border:1px solid var(--divider);border-radius:var(--r-sm);padding:12px 16px;text-align:left;font-size:11.5px}
-.ld-si{display:flex;align-items:center;gap:8px;padding:4px 0;font-weight:600;color:var(--ink-4)}
-.ld-si.ok{color:var(--green-600)}
-.ld-si i{width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-style:normal}
-.ld-bar{height:5px;background:var(--divider);border-radius:99px;margin-top:16px;overflow:hidden}
-.ld-fill{height:100%;background:linear-gradient(90deg,var(--blue-500),var(--green-600));width:0;transition:width .4s;border-radius:99px;box-shadow:0 0 12px rgba(46,111,242,.4)}
-
-.r-head{text-align:center;margin-bottom:18px}
-.r-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:var(--r-full);font-size:11px;font-weight:800;background:var(--green-50);color:var(--green-600);border:1px solid var(--green-100);margin-bottom:10px}
-.r-title{font-size:21px;font-weight:900;line-height:1.35;letter-spacing:-.035em;color:var(--ink-1)}
-.r-title em{font-style:normal;color:var(--blue-600);position:relative}
-.r-title em::after{content:"";position:absolute;left:0;right:0;bottom:3%;height:28%;background:var(--gold-100);z-index:-1;border-radius:3px}
-:root[data-theme="dark"] .r-title em::after{background:rgba(212,160,70,.2)}
-.r-sub{font-size:11.5px;color:var(--ink-4);margin-top:6px}
-
-.rpt{background:linear-gradient(170deg,var(--navy-900) 0%,var(--navy-700) 100%);color:#f0f4f8;border-radius:var(--r-md);padding:20px;margin-bottom:16px;box-shadow:var(--sh-navy);border:1px solid var(--navy-700);position:relative;overflow:hidden}
-.rpt::before{content:"";position:absolute;top:-30%;right:-20%;width:220px;height:220px;background:radial-gradient(circle,rgba(212,160,70,.1),transparent 60%);pointer-events:none}
-.rpt-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
-.rpt-ht{font-size:12.5px;font-weight:800;color:#a3bef5}
-.rpt-pill{font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;background:rgba(52,211,153,.15);color:#3dd68c;border:1px solid rgba(52,211,153,.3)}
-.rpt-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;font-size:11.5px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px dashed rgba(255,255,255,.08)}
-.rpt-grid div{display:flex;justify-content:space-between;color:#8b93b0}
-.rpt-grid b{color:#eef1f7;font-weight:700}
-.rpt-sec{font-size:11px;font-weight:800;color:var(--gold-500);margin-bottom:10px;letter-spacing:.02em}
-.rpt-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12.5px}
-.rpt-row .rl{color:#8b93b0}
-.rpt-row .rv{font-weight:700;color:#fff}
-.rpt-row .rv.hi{font-size:16px;font-weight:900;color:#3dd68c;letter-spacing:-.02em}
-
-.calc{background:var(--surface-2);border:1px solid var(--divider);border-radius:var(--r-md);padding:16px;margin-bottom:16px}
-.calc-h{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;font-weight:800;margin-bottom:10px;color:var(--ink-1)}
-.calc-h select{border:1px solid var(--border);border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;background:var(--surface);font-family:var(--font-sans);color:var(--ink-1);cursor:pointer}
-.calc-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px;background:var(--divider);padding:3px;border-radius:var(--r-xs)}
-.ct{padding:8px;border-radius:6px;border:0;background:0;font-size:11.5px;font-weight:700;color:var(--ink-4);cursor:pointer;text-align:center;font-family:var(--font-sans);transition:.15s}
-.ct.on{background:var(--surface);color:var(--blue-700);box-shadow:var(--sh-xs)}
-.calc-out{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xs);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px}
-.calc-out b{color:var(--blue-700);font-size:15px;font-weight:900;letter-spacing:-.02em}
-
-.qf{background:linear-gradient(135deg,var(--blue-50),rgba(46,111,242,.05));border:1px solid var(--blue-100);border-radius:var(--r-md);padding:14px;margin-bottom:14px}
-.qf-head{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800;color:var(--blue-700);margin-bottom:9px}
-.qf-head small{font-size:10px;color:var(--blue-500);font-weight:700}
-.ig{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.inf{width:100%;padding:11px 12px;border-radius:var(--r-xs);border:1px solid var(--border);background:var(--surface);font-size:12.5px;font-weight:600;color:var(--ink-1);font-family:var(--font-sans)}
-.inf:focus{outline:none;border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(46,111,242,.1)}
-.inf::placeholder{color:var(--ink-5);font-weight:500}
-
-.agree-box{display:flex;align-items:flex-start;gap:8px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-xs);margin-bottom:12px;cursor:pointer;font-size:11.5px;color:var(--ink-3);line-height:1.5}
-.agree-box input{margin-top:2px;accent-color:var(--blue-500);flex-shrink:0;width:15px;height:15px;cursor:pointer}
+.agree-box{display:flex;align-items:flex-start;gap:7px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-xs);margin:14px 0 12px;cursor:pointer;font-size:11px;color:var(--ink-3);line-height:1.5}
+.agree-box input{margin-top:2px;accent-color:var(--blue-500);flex-shrink:0;width:14px;height:14px;cursor:pointer}
 .agree-box b{color:var(--ink-1);font-weight:700}
 .agree-box a{color:var(--blue-600);text-decoration:underline;font-weight:700}
 
-.note{font-size:10.5px;color:var(--ink-4);text-align:center;margin-top:12px;line-height:1.55}
-.note b{color:var(--ink-2);font-weight:700}
+.cta-mega{width:100%;padding:18px 20px;font-size:16px;font-weight:800;background:linear-gradient(135deg,var(--blue-600),var(--navy-700));color:#fff;border:0;border-radius:var(--r-md);box-shadow:var(--sh-blue);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--font-sans);letter-spacing:-.01em;transition:.2s;position:relative;overflow:hidden}
+.cta-mega::after{content:"";position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shimmer 2.5s infinite}
+@keyframes shimmer{0%{left:-100%}60%,100%{left:200%}}
+.cta-mega:hover{transform:translateY(-1px)}
 
-.cta-mega{width:100%;padding:17px 20px;font-size:15.5px;font-weight:800;background:linear-gradient(135deg,var(--blue-600) 0%,var(--navy-700) 100%);color:#fff;border:0;border-radius:var(--r-md);box-shadow:0 10px 30px rgba(30,91,214,.35),0 4px 10px rgba(30,91,214,.2),inset 0 1px 0 rgba(255,255,255,.2);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--font-sans);letter-spacing:-.01em;transition:.2s;position:relative;overflow:hidden}
-.cta-mega::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 50%);pointer-events:none}
-.cta-mega::after{content:"";position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shimmer 3s infinite;pointer-events:none}
-@keyframes shimmer{0%{left:-100%}50%,100%{left:200%}}
-.cta-mega:hover{transform:translateY(-1px);box-shadow:0 14px 36px rgba(30,91,214,.4)}
+.cta-note{font-size:10.5px;color:var(--ink-4);text-align:center;margin-top:10px;line-height:1.5}
+.cta-note b{color:var(--green-600);font-weight:700}
 
-.sec{max-width:600px;margin:0 auto;padding:40px 20px}
-.sec-h{text-align:center;margin-bottom:22px}
-.sec-h .lbl{font-size:11px;font-weight:800;color:var(--blue-600);letter-spacing:.08em;margin-bottom:4px;text-transform:uppercase}
-.sec-h h3{font-size:19px;font-weight:800;letter-spacing:-.03em;line-height:1.35}
-.sec-h p{font-size:12.5px;color:var(--ink-4);margin-top:5px;max-width:420px;margin-inline:auto}
-.pgrid{display:grid;gap:10px}
+/* 보조 섹션들 */
+.sec{max-width:600px;margin:0 auto;padding:32px 20px}
+.sec-h{text-align:center;margin-bottom:18px}
+.sec-h .lbl{font-size:10.5px;font-weight:800;color:var(--blue-600);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.sec-h h3{font-size:17px;font-weight:800;letter-spacing:-.03em;line-height:1.35}
+.sec-h p{font-size:12px;color:var(--ink-4);margin-top:4px}
+
+.pgrid{display:grid;gap:8px}
 @media(min-width:560px){.pgrid{grid-template-columns:repeat(3,1fr)}}
-.pcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:20px;box-shadow:var(--sh-xs);position:relative;overflow:hidden;transition:.2s}
-.pcard:hover{box-shadow:var(--sh-md);transform:translateY(-2px);border-color:var(--border-strong)}
-.pcard-num{position:absolute;top:14px;right:18px;font-size:32px;font-weight:900;color:var(--divider);letter-spacing:-.03em;line-height:1}
-.pcard-ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;position:relative;z-index:1}
-.pcard h4{font-size:13.5px;font-weight:800;margin-bottom:5px;letter-spacing:-.02em;position:relative;z-index:1}
-.pcard p{font-size:11.5px;color:var(--ink-4);line-height:1.6;position:relative;z-index:1}
+.pcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;position:relative}
+.pcard-num{position:absolute;top:10px;right:14px;font-size:28px;font-weight:900;color:var(--divider);line-height:1}
+.pcard-ic{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.pcard h4{font-size:13px;font-weight:800;margin-bottom:4px;letter-spacing:-.02em}
+.pcard p{font-size:11px;color:var(--ink-4);line-height:1.55}
 
-.cmp-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--sh-sm)}
-.cmp-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
-.cmp-tbl thead th{padding:13px 10px;font-weight:800;text-align:center;background:var(--surface-2);border-bottom:1px solid var(--border);font-size:11px}
-.cmp-tbl thead th.ours{background:linear-gradient(135deg,var(--blue-600),var(--navy-700));color:#fff;position:relative}
-.cmp-tbl thead th.ours::after{content:"BEST";position:absolute;top:-6px;right:-6px;background:var(--gold-500);color:#fff;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:800;letter-spacing:.05em}
-.cmp-tbl tbody td{padding:11px 10px;text-align:center;border-bottom:1px solid var(--divider);color:var(--ink-3);vertical-align:middle}
-.cmp-tbl tbody td:first-child{text-align:left;color:var(--ink-2);font-weight:700;font-size:11.5px;padding-left:14px}
-.cmp-tbl tbody td.ours{background:var(--blue-50);color:var(--blue-700);font-weight:800}
-.cmp-tbl tbody tr:last-child td{border-bottom:0}
-.cmp-tbl .ok-ic{color:var(--green-600);font-weight:900;font-size:14px}
-.cmp-tbl .no-ic{color:var(--red-500);font-weight:900;font-size:14px}
-
-.tm-grid{display:grid;gap:10px}
+.tm-grid{display:grid;gap:8px}
 @media(min-width:560px){.tm-grid{grid-template-columns:1fr 1fr}}
-.tm-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--sh-xs)}
-.tm-stars{color:var(--gold-500);font-size:12px;margin-bottom:6px;letter-spacing:1px}
-.tm-text{font-size:12px;color:var(--ink-2);line-height:1.65;margin-bottom:10px;font-weight:500}
-.tm-text b{background:var(--gold-50);color:var(--gold-600);font-weight:800;padding:0 2px;border-radius:2px}
-:root[data-theme="dark"] .tm-text b{background:transparent;color:var(--gold-500)}
-.tm-meta{display:flex;align-items:center;gap:8px;padding-top:10px;border-top:1px solid var(--divider)}
-.tm-ava{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue-500),var(--navy-700));display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800;flex-shrink:0}
-.tm-info{flex:1;line-height:1.3}
-.tm-name{font-size:11px;font-weight:800;color:var(--ink-1)}
+.tm-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px}
+.tm-stars{color:var(--gold-500);font-size:11px;margin-bottom:5px;letter-spacing:1px}
+.tm-text{font-size:11.5px;color:var(--ink-2);line-height:1.6;margin-bottom:8px}
+.tm-text b{color:var(--gold-500);font-weight:800}
+.tm-meta{display:flex;align-items:center;gap:7px;padding-top:8px;border-top:1px solid var(--divider)}
+.tm-ava{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--blue-500),var(--navy-700));display:flex;align-items:center;justify-content:center;color:#fff;font-size:10.5px;font-weight:800}
+.tm-name{font-size:10.5px;font-weight:800}
 .tm-desc{font-size:10px;color:var(--ink-5)}
 
-.faq-list{display:flex;flex-direction:column;gap:7px}
-.faq-i{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;transition:.2s}
-.faq-i:has(.faq-q.open){border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(46,111,242,.08)}
-.faq-q{width:100%;padding:14px 18px;background:0;border:0;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;font-weight:800;color:var(--ink-1);text-align:left;cursor:pointer;font-family:var(--font-sans);letter-spacing:-.01em}
-.faq-q svg{width:14px;height:14px;color:var(--ink-4);flex-shrink:0;transition:transform .25s}
+.faq-list{display:flex;flex-direction:column;gap:6px}
+.faq-i{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
+.faq-q{width:100%;padding:12px 16px;background:0;border:0;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--ink-1);text-align:left;cursor:pointer;font-family:var(--font-sans)}
+.faq-q svg{width:13px;height:13px;color:var(--ink-4);flex-shrink:0;transition:transform .25s}
 .faq-q.open svg{transform:rotate(180deg);color:var(--blue-500)}
-.faq-a{display:none;padding:0 18px 15px;font-size:12px;color:var(--ink-3);line-height:1.7;border-top:1px solid var(--divider);padding-top:12px}
-.faq-a.open{display:block;animation:si .25s ease}
+.faq-a{display:none;padding:0 16px 13px;font-size:11.5px;color:var(--ink-3);line-height:1.7;border-top:1px solid var(--divider);padding-top:10px}
+.faq-a.open{display:block}
 .faq-a b{color:var(--ink-1);font-weight:700}
 
-.ft{background:#060912;color:#6b7390;padding:36px 20px;font-size:11px;line-height:1.7;margin-top:30px}
+/* 푸터 */
+.ft{background:#060912;color:#6b7390;padding:28px 20px;font-size:10.5px;line-height:1.65;margin-top:24px}
 .ft-in{max-width:600px;margin:0 auto}
-.ft-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid #121a2e}
-.ft-brand{font-size:14px;font-weight:800;color:#fff}
-.ft-top span{font-size:10px;color:#6b7390}
-.ft-warn{background:#0f1530;border:1px solid #1e2744;padding:13px 15px;border-radius:var(--r-xs);margin-bottom:14px;font-size:10.5px;color:#8b93b0}
-.ft-warn b{color:var(--gold-500);display:block;margin-bottom:4px;font-size:11px}
-.ft-biz{background:#0f1530;border:1px solid #1e2744;padding:14px 16px;border-radius:var(--r-xs);margin-bottom:14px;font-size:10.5px;color:#8b93b0;line-height:1.75}
-.ft-biz b{color:#fff;display:block;margin-bottom:6px;font-size:11.5px}
-.ft-biz-grid{display:grid;grid-template-columns:80px 1fr;gap:4px 10px}
+.ft-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid #121a2e}
+.ft-brand{font-size:13px;font-weight:800;color:#fff}
+.ft-warn{background:#0f1530;border:1px solid #1e2744;padding:11px 13px;border-radius:var(--r-xs);margin-bottom:12px;font-size:10px;color:#8b93b0}
+.ft-warn b{color:var(--gold-500);display:block;margin-bottom:3px;font-size:10.5px}
+.ft-biz{background:#0f1530;border:1px solid #1e2744;padding:12px 14px;border-radius:var(--r-xs);margin-bottom:12px;font-size:10px;color:#8b93b0}
+.ft-biz b{color:#fff;display:block;margin-bottom:5px;font-size:11px}
+.ft-biz-grid{display:grid;grid-template-columns:70px 1fr;gap:3px 10px}
 .ft-biz-grid span:nth-child(odd){color:#6b7390}
-.ft-links{display:flex;gap:16px;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid #121a2e;font-size:11.5px;font-weight:700}
+.ft-links{display:flex;gap:14px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #121a2e;font-size:11px;font-weight:700}
 .ft-links a{color:#a3bef5;text-decoration:none}
-.ft-links a:hover{color:#fff}
-.ft-copy{margin-top:14px;padding-top:12px;border-top:1px solid #121a2e;font-size:10px;color:#4a5170}
+.ft-copy{font-size:9.5px;color:#4a5170}
 
-.mbar{position:fixed;bottom:0;left:0;right:0;z-index:40;padding:11px 14px calc(11px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.92);border-top:1px solid var(--border);backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);display:flex;align-items:center;gap:10px;box-shadow:0 -8px 24px rgba(10,14,26,.06)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .mbar{background:rgba(19,24,38,.92)}}
-:root[data-theme="dark"] .mbar{background:rgba(19,24,38,.92)}
-@media(min-width:640px){.mbar{display:none}}
-.mbar-t{line-height:1.25}
-.mbar-t small{display:block;font-size:10px;font-weight:700;color:var(--blue-600)}
-.mbar-t b{font-size:12.5px;font-weight:800}
-.mbar .btn{flex:1;padding:12px 14px;font-size:12.5px}
-
-.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink-1);color:var(--surface);padding:10px 17px;border-radius:var(--r-full);font-size:11.5px;font-weight:700;box-shadow:0 10px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.25s;z-index:120;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink-1);color:#fff;padding:10px 17px;border-radius:var(--r-full);font-size:11.5px;font-weight:700;box-shadow:0 10px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.25s;z-index:120;display:flex;align-items:center;gap:6px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 .mo{position:fixed;inset:0;z-index:80;background:rgba(10,14,26,.6);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:16px}
-.mo.open{display:flex;animation:fadein .2s}
-@keyframes fadein{from{opacity:0}to{opacity:1}}
-.cwin{width:100%;max-width:400px;max-height:85vh;background:var(--surface);border-radius:var(--r-xl);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh-xl);border:1px solid var(--border);animation:si .25s cubic-bezier(.16,1,.3,1)}
-.cwin-top{background:linear-gradient(135deg,var(--navy-700),var(--blue-600));color:#fff;padding:15px 17px;display:flex;align-items:center;justify-content:space-between}
-.cwin-ag{display:flex;align-items:center;gap:11px}
-.cwin-av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;border:1.5px solid rgba(255,255,255,.35);position:relative}
-.cwin-av::after{content:"";position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-radius:50%;background:#3dd68c;border:2px solid var(--navy-700)}
-.cwin-nm{font-size:13px;font-weight:800}
-.cwin-st{font-size:10px;color:#b5c7f0;display:flex;align-items:center;gap:4px;margin-top:2px}
-.cwin-x{width:30px;height:30px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px}
-.cwin-msgs{flex:1;overflow-y:auto;padding:16px;background:var(--surface-2);display:flex;flex-direction:column;gap:11px}
-.msg{max-width:86%;padding:11px 14px;border-radius:14px;font-size:12px;line-height:1.6}
-.msg.ag{background:var(--surface);color:var(--ink-1);align-self:flex-start;border-top-left-radius:4px;border:1px solid var(--divider);box-shadow:var(--sh-xs)}
-.msg.us{background:linear-gradient(135deg,var(--blue-600),var(--blue-700));color:#fff;align-self:flex-end;border-bottom-right-radius:4px;white-space:pre-line;font-size:11px;box-shadow:0 2px 6px rgba(30,91,214,.2)}
-.cwin-bt{padding:11px;background:var(--surface);border-top:1px solid var(--divider);display:flex;gap:7px}
-.cin{flex:1;padding:11px 13px;border-radius:var(--r-xs);border:1px solid var(--border);background:var(--surface-2);font-size:12.5px;font-family:var(--font-sans);color:var(--ink-1)}
-.cin:focus{outline:none;border-color:var(--blue-500);background:var(--surface)}
-.csend{padding:0 15px;border-radius:var(--r-xs);border:0;background:var(--blue-600);color:#fff;font-size:12px;font-weight:800;cursor:pointer;font-family:var(--font-sans)}
-
-.mb12{margin-bottom:12px}.mb14{margin-bottom:14px}.mb16{margin-bottom:16px}.mb20{margin-bottom:20px}
-
-.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.16,1,.3,1)}
-.rv.in{opacity:1;transform:none}
+.mo.open{display:flex}
+.cwin{width:100%;max-width:400px;max-height:85vh;background:var(--surface);border-radius:var(--r-xl);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh-lg)}
+.cwin-top{background:linear-gradient(135deg,var(--navy-700),var(--blue-600));color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.cwin-ag{display:flex;align-items:center;gap:10px}
+.cwin-av{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;border:1.5px solid rgba(255,255,255,.35)}
+.cwin-nm{font-size:12.5px;font-weight:800}
+.cwin-st{font-size:10px;color:#b5c7f0;margin-top:2px}
+.cwin-x{width:28px;height:28px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;font-size:14px}
+.cwin-msgs{flex:1;overflow-y:auto;padding:14px;background:var(--surface-2);display:flex;flex-direction:column;gap:10px}
+.msg{max-width:86%;padding:10px 13px;border-radius:12px;font-size:11.5px;line-height:1.55}
+.msg.ag{background:var(--surface);color:var(--ink-1);align-self:flex-start;border:1px solid var(--divider)}
+.msg.us{background:linear-gradient(135deg,var(--blue-600),var(--blue-700));color:#fff;align-self:flex-end;white-space:pre-line;font-size:10.5px}
+.cwin-bt{padding:10px;background:var(--surface);border-top:1px solid var(--divider);display:flex;gap:7px}
+.cin{flex:1;padding:10px 12px;border-radius:var(--r-xs);border:1px solid var(--border);background:var(--surface-2);font-size:12px;font-family:var(--font-sans)}
+.csend{padding:0 15px;border-radius:var(--r-xs);border:0;background:var(--blue-600);color:#fff;font-size:12px;font-weight:800;cursor:pointer}
 </style>
 
-<!-- 1. 메타(Meta) 픽셀 기본 코드 -->
+<!-- Meta 픽셀 -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -368,7 +215,7 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1791927372095155&ev=PageView&noscript=1"
 /></noscript>
 
-<!-- 2. 틱톡(TikTok) 픽셀 기본 코드 -->
+<!-- TikTok 픽셀 -->
 <script>
 !function (w, d, t) {
   w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
@@ -380,413 +227,203 @@ src="https://www.facebook.com/tr?id=1791927372095155&ev=PageView&noscript=1"
 </head>
 <body>
 
-<div class="bbar" id="brandBar">
-  <div class="bbar-in">
-    <span class="bbar-lbl">프리셋:</span>
-    <button class="bb on" onclick="setBrand('바른한도플랜','내부심사 맞춤 금융 솔루션',this)">바른한도플랜</button>
-    <button class="bb" onclick="setBrand('핀포커스','스마트 CB스코어 컨설팅',this)">핀포커스</button>
-    <button class="bb" onclick="setBrand('모두의한도','개인회생·기대출 맞춤설계',this)">모두의한도</button>
-    <button class="bb" onclick="setBrand('든든파이낸스','1:1 전산설계 솔루션',this)">든든파이낸스</button>
-    <button class="bbar-x" onclick="document.getElementById('brandBar').style.display='none'">✕ 숨기기</button>
-  </div>
-</div>
-
 <header class="hdr">
   <div class="hdr-in">
     <div class="logo">
       <div class="logo-ic">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>
         </svg>
       </div>
-      <div class="logo-wrap">
-        <span class="logo-t brand-t">바른한도플랜</span>
-        <span class="logo-s" id="brandSlogan">내부심사 맞춤 금융 솔루션</span>
+      <div>
+        <div class="logo-t">바른한도플랜</div>
+        <div class="logo-s">내부심사 맞춤 금융 솔루션</div>
       </div>
     </div>
-    <span class="live"><i></i> 내부전산 가동중</span>
+    <span class="live"><i></i> 가동중</span>
   </div>
 </header>
 
 <section class="hero">
   <div class="hero-pill">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    신용조회 알람 ZERO · 무보증 · 자체 내부시스템 가조회
+    🛡️ 신용조회 알람 ZERO · 무보증
   </div>
-  <h1>개인회생·기대출 과다<br>DSR 초과도<br><em>CB스코어 자체설계</em>로 승인</h1>
-  <p class="hero-desc">신용평점 미달이나 기대출로 일반 심사가 부결되셨나요?<br><b>보증인 없이</b> 금융권 내부 심사 평점을 상향 설계해 승인 플랜을 도와드립니다.</p>
-  <div class="trust-strip">
-    <div class="ts-item"><div class="ts-val"><em>12,800</em>+</div><div class="ts-lbl">누적 승인 건수</div></div>
+  <h1>개인회생·기대출 과다도<br><em>CB스코어 자체설계</em>로 승인</h1>
+  <p class="hero-desc"><b>보증인 없이</b> 금융권 내부 심사 평점을 상향 설계<br>지금 1분 안에 무료로 한도 산출받으세요</p>
+  
+  <div class="trust">
+    <div class="ts-item"><div class="ts-val"><em>12,800</em>+</div><div class="ts-lbl">누적 승인</div></div>
     <div class="ts-item"><div class="ts-val"><em>94.6</em>%</div><div class="ts-lbl">심사 통과율</div></div>
-    <div class="ts-item"><div class="ts-val"><em>2~3</em>일</div><div class="ts-lbl">평균 수령 기간</div></div>
+    <div class="ts-item"><div class="ts-val"><em>2~3</em>일</div><div class="ts-lbl">평균 수령</div></div>
   </div>
 </section>
 
-<div class="tick-w">
-  <div class="tick">
-    <span class="tick-tag">LIVE</span>
-    <div class="tick-body" id="tickT"><b>김*진님 (회생 3회이상)</b> → <em>1,400만원 (4.62%)</em> 산출 완료</div>
-  </div>
-</div>
-
-<section class="cw" id="calcSec">
-<div class="card">
-  <div class="card-top">
-    <span class="l" id="siText">STEP 01. 기본 소득 정보</span>
-    <span class="r" id="siPct">1 / 3 단계</span>
-  </div>
-  <div class="pbar"><div class="pfill" id="pBar" style="width:33%"></div></div>
-  <div class="card-body">
-
-    <div class="stp on" id="s1">
-      <span class="s-badge">STEP 01</span>
-      <h2 class="s-title">직장여부와 월 소득을 알려주세요</h2>
-      <p class="s-desc">겸직의 경우 합산 월평균소득 기준으로 산출됩니다.</p>
-
-      <div class="fl"><span>직장여부</span><small>가장 가까운 직군</small></div>
-      <div class="og c2 mb16">
-        <button class="oc sel" data-g="job" onclick="pk(this,'job','직장인')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-          직장인
-        </button>
-        <button class="oc" data-g="job" onclick="pk(this,'job','직장인 겸 설계사/투잡')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          직장인 겸 투잡
-        </button>
-        <button class="oc" data-g="job" onclick="pk(this,'job','개인/법인 사업자')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          개인/법인 사업자
-        </button>
-        <button class="oc" data-g="job" onclick="pk(this,'job','설계사/프리랜서')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          설계사/프리랜서
-        </button>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" class="mb20">
-        <div class="fbox">
-          <div class="fl">4대보험</div>
-          <div class="og c2">
-            <button class="ch sel" data-g="ins" onclick="pk(this,'insurance','유')">유 (가입)</button>
-            <button class="ch" data-g="ins" onclick="pk(this,'insurance','무')">무 (미가입)</button>
-          </div>
-        </div>
-        <div class="fbox">
-          <div class="fl">월평균소득</div>
-          <select class="sel-f" onchange="S.income=this.value">
-            <option value="200">월 200만원</option>
-            <option value="300">월 300만원</option>
-            <option value="400">월 400만원</option>
-            <option value="500" selected>월 500만원</option>
-            <option value="600">월 600만원+</option>
-          </select>
-        </div>
-      </div>
-
-      <button class="btn btn-p btn-full" onclick="go(2)">
-        다음 단계
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </button>
+<!-- 메인 1단계 폼 -->
+<section class="main-form" id="formSec">
+  <div class="form-card">
+    <div class="form-header">
+      <div class="form-badge"><i></i>실시간 가조회</div>
+      <div class="form-title">무료 한도 산출 신청</div>
+      <div class="form-sub">아래 정보만 입력하시면 전문 상담사가 바로 연락드립니다</div>
     </div>
-
-    <div class="stp" id="s2">
-      <span class="s-badge">STEP 02</span>
-      <h2 class="s-title">회생·신용 상태를 선택해주세요</h2>
-      <p class="s-desc">나이스 평점을 모르셔도 내부시스템으로 확인됩니다.</p>
-
-      <div class="fbox mb14">
-        <div class="fl"><span>개인회생 상태</span><small>변제 회차 기준</small></div>
+    
+    <div class="form-body">
+      
+      <div class="field">
+        <div class="field-label"><span class="num">1</span>직장 여부</div>
         <div class="og c2">
-          <button class="ch sel" data-g="rh" onclick="pk(this,'rehab','회생 3회이상')">회생 3회 이상</button>
+          <button class="ch sel" data-g="job" onclick="pk(this,'job','직장인')">직장인</button>
+          <button class="ch" data-g="job" onclick="pk(this,'job','사업자')">사업자</button>
+          <button class="ch" data-g="job" onclick="pk(this,'job','프리랜서')">프리랜서</button>
+          <button class="ch" data-g="job" onclick="pk(this,'job','무직')">기타/무직</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span class="num">2</span>월평균 소득</div>
+        <select class="sel-f" onchange="S.income=this.value">
+          <option value="200">월 200만원 이하</option>
+          <option value="300">월 300만원</option>
+          <option value="400">월 400만원</option>
+          <option value="500" selected>월 500만원</option>
+          <option value="600">월 600만원 이상</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span class="num">3</span>개인회생 상태</div>
+        <div class="og c2">
+          <button class="ch" data-g="rh" onclick="pk(this,'rehab','회생 3회이상')">회생 3회 이상</button>
           <button class="ch" data-g="rh" onclick="pk(this,'rehab','회생 3회미만')">회생 3회 미만</button>
-          <button class="ch" data-g="rh" onclick="pk(this,'rehab','회생 인가전/개시')">회생 인가전/개시</button>
-          <button class="ch" data-g="rh" onclick="pk(this,'rehab','해당없음 (기대출)')">해당 없음</button>
+          <button class="ch" data-g="rh" onclick="pk(this,'rehab','회생 인가전')">회생 인가전</button>
+          <button class="ch sel" data-g="rh" onclick="pk(this,'rehab','해당없음')">해당없음</button>
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" class="mb20">
-        <div class="fbox">
-          <div class="fl">파산면책</div>
-          <div class="og c2">
-            <button class="ch sel" data-g="bk" onclick="pk(this,'bankruptcy','없음')">없음</button>
-            <button class="ch" data-g="bk" onclick="pk(this,'bankruptcy','있음')">있음</button>
-          </div>
-        </div>
-        <div class="fbox">
-          <div class="fl">NICE 평점</div>
-          <select class="sel-f" onchange="S.niceScore=this.value">
-            <option value="모름" selected>모름</option>
-            <option value="600점 미만">600점 미만</option>
-            <option value="600~700점대">600~700점대</option>
-            <option value="700점 이상">700점 이상</option>
-          </select>
+      <div class="field">
+        <div class="field-label"><span class="num">4</span>희망 대출 금액</div>
+        <div class="og c4">
+          <button class="ch" data-g="amt" onclick="pk(this,'requestedAmount',500)">500만</button>
+          <button class="ch sel" data-g="amt" onclick="pk(this,'requestedAmount',1000)">1,000만</button>
+          <button class="ch" data-g="amt" onclick="pk(this,'requestedAmount',2000)">2,000만</button>
+          <button class="ch" data-g="amt" onclick="pk(this,'requestedAmount',3000)">3,000만+</button>
         </div>
       </div>
 
-      <div class="brow">
-        <button class="btn btn-s" onclick="go(1)">이전</button>
-        <button class="btn btn-p btn-w" onclick="go(3)">
-          필요 한도 설정
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="stp" id="s3">
-      <span class="s-badge">STEP 03</span>
-      <h2 class="s-title">필요하신 금액은 얼마인가요?</h2>
-      <p class="s-desc">CB스코어 상향 시 가능한 최대 한도를 계산합니다.</p>
-
-      <div class="amt-box">
-        <small>희망 대출 신청 금액</small>
-        <strong id="amtD">1,000<em>만원</em></strong>
-      </div>
-
-      <div class="og c4 mb14">
-        <button class="ch" onclick="setA(500,this)">500만</button>
-        <button class="ch sel" onclick="setA(1000,this)">1,000만</button>
-        <button class="ch" onclick="setA(2000,this)">2,000만</button>
-        <button class="ch" onclick="setA(3000,this)">3,000만+</button>
-      </div>
-
-      <div class="fbox mb20">
-        <div class="fl">현재 기대출 총액 (대부업·금융권 포함)</div>
+      <div class="field">
+        <div class="field-label"><span class="num">5</span>현재 기대출</div>
         <div class="og c3">
-          <button class="ch sel" data-g="ln" onclick="pk(this,'existingLoan','2,000만원 미만')">2천만 미만</button>
-          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','2,000~3,500만원')">2천~3,500만</button>
-          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','3,500만원 이상')">3,500만+</button>
+          <button class="ch sel" data-g="ln" onclick="pk(this,'existingLoan','2천만 미만')">2천만 미만</button>
+          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','2천~3,500만')">2천~3,500만</button>
+          <button class="ch" data-g="ln" onclick="pk(this,'existingLoan','3,500만 이상')">3,500만+</button>
         </div>
       </div>
 
-      <div class="brow">
-        <button class="btn btn-s" onclick="go(2)">이전</button>
-        <button class="btn btn-p btn-w" onclick="analyze()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          내부시스템 가조회 시작
-        </button>
-      </div>
-    </div>
-
-    <div class="stp" id="s4">
-      <div class="ld-wrap">
-        <div class="spinner">
-          <div class="sp-ring outer"></div>
-          <div class="sp-ring"></div>
-          <div class="sp-core">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
-          </div>
-        </div>
-        <h3 class="s-title" id="ldT">내부시스템 가조회 진행 중</h3>
-        <p class="s-desc" style="margin-bottom:0">외부 신용조회 알람 없이 CB스코어 상향 한도를 산출합니다.</p>
-        <div class="ld-steps">
-          <div class="ld-si ok" id="ls1"><i>✓</i> 보안 세션 연결 완료</div>
-          <div class="ld-si" id="ls2"><i>·</i> DSR 초과 예외 심사 대조 중...</div>
-          <div class="ld-si" id="ls3"><i>·</i> CB스코어 상향 최대 한도 산출</div>
-        </div>
-        <div class="ld-bar"><div class="ld-fill" id="ldB"></div></div>
-      </div>
-    </div>
-
-    <div class="stp" id="s5">
-      <div class="r-head">
-        <div class="r-badge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          가조회 산출 완료
-        </div>
-        <h2 class="r-title">CB스코어 전산설계 시<br><em id="hlLim">최대 14,000,000원</em> 산출</h2>
-        <p class="r-sub">보증인 불필요 · 서류 제출 시 빠르면 2~3일 내 수령</p>
-      </div>
-
-      <div class="rpt">
-        <div class="rpt-head">
-          <span class="rpt-ht">〈 내부시스템 가조회 내역 〉</span>
-          <span class="rpt-pill">신용알람 미발생</span>
-        </div>
-        <div class="rpt-grid">
-          <div><span>직장여부</span><b id="rJ">직장인</b></div>
-          <div><span>월평균소득</span><b id="rI">500만원</b></div>
-          <div><span>4대보험</span><b id="rN">유</b></div>
-          <div><span>NICE 평점</span><b id="rNi">모름</b></div>
-          <div><span>파산면책</span><b id="rB">없음</b></div>
-          <div><span>개인회생</span><b id="rR">회생 3회이상</b></div>
-        </div>
-        <div class="rpt-sec">◆ 자체설계 산출사항</div>
-        <div class="rpt-row"><span class="rl">자체설계 최대 한도</span><span class="rv hi" id="rL">14,000,000원</span></div>
-        <div class="rpt-row"><span class="rl">적용 예상 금리</span><span class="rv">연 4.62%</span></div>
-        <div class="rpt-row"><span class="rl">상환 기간</span><span class="rv">1년 ~ 10년</span></div>
-        <div class="rpt-row"><span class="rl">상환 방식</span><span class="rv" style="color:#a3bef5;font-size:11px">원리금균등 / 만기일시</span></div>
-      </div>
-
-      <div class="calc">
-        <div class="calc-h">
-          <span>예상 상환 시뮬레이션 (연 4.62%)</span>
-          <select id="rpY" onchange="upCalc()">
-            <option value="3">3년</option>
-            <option value="5" selected>5년</option>
-            <option value="7">7년</option>
-            <option value="10">10년</option>
-          </select>
-        </div>
-        <div class="calc-tabs">
-          <button class="ct on" id="tEq" onclick="setRM('원리금균등상환')">원리금균등</button>
-          <button class="ct" id="tBl" onclick="setRM('만기일시상환')">만기일시</button>
-        </div>
-        <div class="calc-out">
-          <span style="color:var(--ink-4);font-weight:600" id="cDL">5년 원리금균등 월 납입금</span>
-          <b id="cMV">월 261,800원</b>
-        </div>
-      </div>
-
-      <div class="qf">
-        <div class="qf-head">
-          <span>📋 상담원 즉시 조회용 정보</span>
-          <small>입력 시 상담 시간 단축</small>
-        </div>
-        <div class="ig">
-          <input type="text" id="cNm" class="inf" placeholder="성명 (예: 김효진)">
-          <input type="tel" id="cPh" class="inf" placeholder="연락처 (010-)">
+      <!-- 핵심: 연락처 받기 -->
+      <div class="contact-section">
+        <div class="contact-title">📞 상담사 연결 정보</div>
+        <div class="contact-sub">입력하신 번호로 1:1 전문 상담사가 바로 연락드립니다</div>
+        <div class="contact-inputs">
+          <input type="text" id="cNm" class="inf" placeholder="성명">
+          <input type="tel" id="cPh" class="inf" placeholder="연락처 (010-0000-0000)">
         </div>
       </div>
 
       <label class="agree-box">
         <input type="checkbox" id="agreePrivacy" checked>
-        <span>
-          <b>[필수]</b> 
-          <a href="/privacy.html" target="_blank">개인정보 수집·이용</a> 및 
-          <a href="/terms.html" target="_blank">이용약관</a>에 동의합니다.
-        </span>
+        <span><b>[필수]</b> <a href="/privacy.html" target="_blank">개인정보 수집·이용</a> 및 <a href="/terms.html" target="_blank">이용약관</a>에 동의합니다.</span>
       </label>
 
-      <button class="cta-mega" onclick="triggerChat()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        가조회 내역 복사 & 1:1 전산설계 상담
+      <button class="cta-mega" onclick="submitLead()">
+        무료 한도 산출 & 상담 신청
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </button>
-      <p class="note">* 버튼 클릭 시 <b>조회 양식이 자동 복사</b>되며, 실시간 1:1 상담창으로 즉시 연결됩니다.</p>
+      <p class="cta-note">✓ <b>신용조회 알람 발생 없음</b> · 1분 내 상담사 배정</p>
     </div>
-
   </div>
-</div>
 </section>
 
+<!-- 보조: 프로세스 -->
 <section class="sec">
-  <div class="sec-h rv">
+  <div class="sec-h">
     <div class="lbl">PROCESS</div>
-    <h3>일반 심사 부결 고객을 위한<br><span class="brand-t" style="color:var(--blue-600)">바른한도플랜</span> 프로세스</h3>
-    <p>기대출 과다·개인회생 고객님들을 위한 체계적 전산 설계</p>
+    <h3>바른한도플랜만의 3단계 프로세스</h3>
   </div>
   <div class="pgrid">
-    <div class="pcard rv">
+    <div class="pcard">
       <div class="pcard-num">01</div>
       <div class="pcard-ic" style="background:var(--blue-50);color:var(--blue-600)">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
       </div>
-      <h4>신용알람 없는 내부가조회</h4>
-      <p>자체 내부시스템 가조회로 진행되어 신용조회 알람이 울리지 않으며 점수 하락이 전혀 없습니다.</p>
+      <h4>신용알람 없는 가조회</h4>
+      <p>자체 내부시스템으로 진행되어 신용점수 하락이 전혀 없습니다.</p>
     </div>
-    <div class="pcard rv">
+    <div class="pcard">
       <div class="pcard-num">02</div>
       <div class="pcard-ic" style="background:var(--green-50);color:var(--green-600)">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
       </div>
-      <h4>CB스코어 상향 전산설계</h4>
-      <p>DSR 초과·신용점수 미달 고객님께 보증인 없이 금융권 내부 심사 평점을 상향시킵니다.</p>
+      <h4>CB스코어 상향설계</h4>
+      <p>DSR 초과·신용점수 미달 고객님께 보증인 없이 평점을 상향시킵니다.</p>
     </div>
-    <div class="pcard rv">
+    <div class="pcard">
       <div class="pcard-num">03</div>
-      <div class="pcard-ic" style="background:var(--gold-50);color:var(--gold-600)">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <div class="pcard-ic" style="background:#fdf8ea;color:var(--gold-500)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       </div>
       <h4>2~3일 내 신속 수령</h4>
-      <p>비대면 실명인증 및 제휴 금융권 지정으로 빠르면 2~3일 내 신청 금액을 수령하실 수 있습니다.</p>
+      <p>비대면 실명인증으로 빠르면 2~3일 내 신청 금액을 수령합니다.</p>
     </div>
   </div>
 </section>
 
+<!-- 후기 -->
 <section class="sec">
-  <div class="sec-h rv">
-    <div class="lbl">COMPARISON</div>
-    <h3>일반 심사 vs <span class="brand-t" style="color:var(--blue-600)">바른한도플랜</span></h3>
-    <p>왜 저희 설계가 다른지 한눈에 비교해보세요</p>
-  </div>
-  <div class="cmp-wrap rv">
-    <table class="cmp-tbl">
-      <thead>
-        <tr><th style="text-align:left;padding-left:14px">항목</th><th>일반 금융사</th><th class="ours brand-t">바른한도플랜</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>신용조회 알람</td><td><span class="no-ic">✕</span> 발생</td><td class="ours"><span class="ok-ic">✓</span> 미발생</td></tr>
-        <tr><td>회생 중 승인</td><td><span class="no-ic">✕</span> 부결</td><td class="ours"><span class="ok-ic">✓</span> 가능</td></tr>
-        <tr><td>DSR 초과 대응</td><td><span class="no-ic">✕</span> 제한</td><td class="ours"><span class="ok-ic">✓</span> 전산설계</td></tr>
-        <tr><td>보증인</td><td>필요할 수 있음</td><td class="ours"><span class="ok-ic">✓</span> 불필요</td></tr>
-        <tr><td>평균 수령 기간</td><td>7~14일</td><td class="ours">2~3일</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="sec-h rv">
+  <div class="sec-h">
     <div class="lbl">REVIEWS</div>
     <h3>실제 승인 고객 후기</h3>
-    <p>최근 1:1 전산설계로 승인받으신 분들의 생생한 후기</p>
   </div>
   <div class="tm-grid">
-    <div class="tm-card rv">
+    <div class="tm-card">
       <div class="tm-stars">★★★★★</div>
-      <p class="tm-text">회생 중이라 어디서도 안됐는데 여기서 <b>1,400만원</b> 승인났어요. 담당자님 진짜 친절하시고 설명도 잘해주셨어요.</p>
-      <div class="tm-meta"><div class="tm-ava">김</div><div class="tm-info"><div class="tm-name">김*진 님</div><div class="tm-desc">직장인 · 회생 3회이상</div></div></div>
+      <p class="tm-text">회생 중이라 어디서도 안됐는데 여기서 <b>1,400만원</b> 승인났어요. 담당자님 진짜 친절하셨어요.</p>
+      <div class="tm-meta"><div class="tm-ava">김</div><div><div class="tm-name">김*진 님</div><div class="tm-desc">직장인 · 회생 3회이상</div></div></div>
     </div>
-    <div class="tm-card rv">
+    <div class="tm-card">
       <div class="tm-stars">★★★★★</div>
-      <p class="tm-text">DSR 초과로 거절만 당하다가 여기서 <b>2,100만원</b> 됐습니다. 신용조회 안 뜬 것도 신기하고 3일만에 입금됐어요.</p>
-      <div class="tm-meta"><div class="tm-ava">박</div><div class="tm-info"><div class="tm-name">박*훈 님</div><div class="tm-desc">직장인 · 기대출 4건</div></div></div>
-    </div>
-    <div class="tm-card rv">
-      <div class="tm-stars">★★★★★</div>
-      <p class="tm-text">프리랜서인데 <b>1,000만원</b> 받았어요. 소득증빙 복잡한거 다 알아서 해주시고 수령까지 2일걸렸습니다.</p>
-      <div class="tm-meta"><div class="tm-ava">이</div><div class="tm-info"><div class="tm-name">이*영 님</div><div class="tm-desc">프리랜서 · 회생 납부중</div></div></div>
-    </div>
-    <div class="tm-card rv">
-      <div class="tm-stars">★★★★★</div>
-      <p class="tm-text">개인사업자인데 기대출 많아서 포기했다가 혹시해서 조회했는데 <b>2,800만원</b>이나 산출됐네요. 진짜 감사합니다.</p>
-      <div class="tm-meta"><div class="tm-ava">최</div><div class="tm-info"><div class="tm-name">최*석 님</div><div class="tm-desc">개인사업자 · DSR 초과</div></div></div>
+      <p class="tm-text">DSR 초과로 거절만 당하다가 여기서 <b>2,100만원</b> 됐습니다. 3일만에 입금됐어요.</p>
+      <div class="tm-meta"><div class="tm-ava">박</div><div><div class="tm-name">박*훈 님</div><div class="tm-desc">직장인 · 기대출 4건</div></div></div>
     </div>
   </div>
 </section>
 
+<!-- FAQ -->
 <section class="sec">
-  <div class="sec-h rv">
+  <div class="sec-h">
     <div class="lbl">FAQ</div>
     <h3>자주 묻는 질문</h3>
   </div>
   <div class="faq-list">
-    <div class="faq-i rv">
+    <div class="faq-i">
       <button class="faq-q" onclick="tFaq(this)">
-        <span>한도 산출 후 왜 신용조회 알람이 안 오나요?</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        <span>신용조회 알람이 정말 안 오나요?</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <div class="faq-a">정식 서류 접수 전 <b>자체 내부시스템 가조회</b>를 통해 산출된 결과이므로, 외부 신용조회 알람이 발송되지 않으며 고객님의 신용평점이나 조회 이력에 영향이 없습니다.</div>
+      <div class="faq-a"><b>자체 내부시스템 가조회</b>를 통해 산출된 결과이므로, 외부 신용조회 알람이 발송되지 않으며 신용평점에 영향이 없습니다.</div>
     </div>
-    <div class="faq-i rv">
+    <div class="faq-i">
       <button class="faq-q" onclick="tFaq(this)">
         <span>개인회생 중인데 보증인이 필요한가요?</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <div class="faq-a">보증인은 전혀 없으셔도 됩니다. <b>CB스코어 점수를 상향시키는 전산 설계 방식</b>으로 진행되며, 복잡한 서류 준비도 당사에서 1:1로 지원해 드립니다.</div>
+      <div class="faq-a">보증인은 전혀 없으셔도 됩니다. <b>CB스코어 상향 전산 설계 방식</b>으로 진행되며 서류 준비도 1:1로 지원해 드립니다.</div>
     </div>
-    <div class="faq-i rv">
+    <div class="faq-i">
       <button class="faq-q" onclick="tFaq(this)">
-        <span>상환 방식과 수령까지 걸리는 기간은?</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        <span>수령까지 얼마나 걸리나요?</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <div class="faq-a">상환기간은 <b>1년~10년</b> 설정 가능하며, <b>원리금균등상환</b>과 <b>만기일시상환</b> 중 선택하실 수 있습니다. 비대면 실명인증 완료 시 빠르면 2~3일 내 수령 가능합니다.</div>
-    </div>
-    <div class="faq-i rv">
-      <button class="faq-q" onclick="tFaq(this)">
-        <span>소득이 불규칙한 프리랜서도 가능한가요?</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-      </button>
-      <div class="faq-a">네, 가능합니다. 프리랜서·보험설계사·개인사업자 등 비정형 소득자의 경우 <b>최근 3개월 합산 평균 소득</b>을 기준으로 전산 설계를 진행합니다.</div>
+      <div class="faq-a">비대면 실명인증 완료 시 빠르면 <b>2~3일 내</b> 수령 가능합니다. 상환기간은 1년~10년 설정 가능합니다.</div>
     </div>
   </div>
 </section>
@@ -794,53 +431,35 @@ src="https://www.facebook.com/tr?id=1791927372095155&ev=PageView&noscript=1"
 <footer class="ft">
   <div class="ft-in">
     <div class="ft-top">
-      <span class="ft-brand brand-t">바른한도플랜</span>
-      <span>주식회사 엘아이 운영</span>
+      <span class="ft-brand">바른한도플랜</span>
+      <span style="font-size:10px;color:#6b7390">주식회사 엘아이 운영</span>
     </div>
-
     <div class="ft-warn">
       <b>⚠ 금융소비자 보호 유의사항</b>
-      본 서비스는 금융 관련 상담 및 컨설팅 서비스로, 대출의 심사·승인·실행 당사자가 아닙니다. 모든 대출 관련 최종 결정은 해당 금융기관의 심사에 따라 이루어지며, 본 상담 결과가 대출 승인을 보장하지 않습니다.<br><br>
+      본 서비스는 금융 관련 상담 및 컨설팅 서비스로, 대출의 심사·승인·실행 당사자가 아닙니다.<br>
       • 과도한 빚은 당신에게 큰 불행을 안겨줄 수 있습니다.<br>
-      • 정식 대출 실행 시 신용등급이 하락할 수 있습니다.<br>
-      • 대출 금리: 연 4.62% ~ 최고 연 19.9% 이내 (법정 최고금리 연 20% 준수)<br>
-      • 상환 기간: 12개월 ~ 120개월 | 원리금균등상환, 만기일시상환
+      • 대출 금리: 연 4.62% ~ 최고 연 19.9% 이내 (법정 최고금리 연 20% 준수)
     </div>
-
     <div class="ft-biz">
       <b>사업자 정보</b>
       <div class="ft-biz-grid">
         <span>상호</span><span>주식회사 엘아이</span>
         <span>대표자</span><span>노종구</span>
         <span>사업자등록번호</span><span>650-81-00293</span>
-        <span>주소</span><span>서울특별시 강남구 도산대로 445, 6층 (청담동)</span>
-        <span>업종</span><span>컨설팅</span>
+        <span>주소</span><span>서울특별시 강남구 도산대로 445, 6층</span>
       </div>
     </div>
-
     <div class="ft-links">
       <a href="/privacy.html">개인정보처리방침</a>
       <a href="/terms.html" style="color:#8b93b0">이용약관</a>
     </div>
-
     <div class="ft-copy">© <span id="yr"></span> 주식회사 엘아이. All rights reserved.</div>
   </div>
 </footer>
 
-<div class="mbar">
-  <div class="mbar-t">
-    <small>신용알람 없는 내부가조회</small>
-    <b>CB스코어 자체설계 한도</b>
-  </div>
-  <button class="btn btn-p" onclick="document.getElementById('calcSec').scrollIntoView({behavior:'smooth'})">
-    무료 한도 산출
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-  </button>
-</div>
-
 <div class="toast" id="toast">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  가조회 양식이 복사되었습니다
+  상담 신청이 접수되었습니다
 </div>
 
 <div class="mo" id="chatM">
@@ -850,34 +469,29 @@ src="https://www.facebook.com/tr?id=1791927372095155&ev=PageView&noscript=1"
         <div class="cwin-av">상담</div>
         <div>
           <div class="cwin-nm">이재훈 팀장 · 1:1 전산설계</div>
-          <div class="cwin-st">● 가조회 데이터 연동 완료</div>
+          <div class="cwin-st">● 접수 완료 · 바로 연락드립니다</div>
         </div>
       </div>
       <button class="cwin-x" onclick="closeChat()">✕</button>
     </div>
     <div class="cwin-msgs" id="chatBox">
-      <div class="msg ag">안녕하세요 ^^ 대출신청 문의 주셨을까요?<br>홈페이지에서 조회하신 <b>내부시스템 가조회 내역</b>이 자동 접수되었습니다.</div>
+      <div class="msg ag">안녕하세요 ^^ 바른한도플랜입니다.<br>신청해주신 정보 확인 완료했습니다.</div>
       <div class="msg us" id="chatSum"></div>
-      <div class="msg ag">고객님 같은 경우 현재 회생/기대출 상태로 일반 진행이 어려우시나, <b>CB스코어를 상향시켜 진행하는 방식</b>으로 <b>최대 <span id="mLim" style="color:#2e6ff2;font-weight:800">1,400만원</span> (연 4.62%)</b>까지 산출되십니다.<br><br>보증인 없이 진행 가능하며, 서류는 저희가 안내드립니다.</div>
+      <div class="msg ag">담당 상담사가 <b>5분 이내로 연락</b>드릴 예정입니다.<br>번호 꼭 확인 부탁드립니다!</div>
     </div>
     <div class="cwin-bt">
-      <input type="text" class="cin" id="chatIn" placeholder="메시지 입력 또는 붙여넣기(Ctrl+V)...">
+      <input type="text" class="cin" id="chatIn" placeholder="메시지 입력...">
       <button class="csend" onclick="sendMsg()">전송</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ===== 한국시간 (KST, Asia/Seoul) 유틸 ===== */
 function getKSTDateTime(){
   const formatter = new Intl.DateTimeFormat('ko-KR', {
     timeZone: 'Asia/Seoul',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
     hourCycle: 'h23'
   });
   const p = {};
@@ -885,168 +499,21 @@ function getKSTDateTime(){
   return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second}`;
 }
 
-// 푸터 연도 (한국 시간 기준)
-const kstParts = new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', year: 'numeric' }).format(new Date());
-document.getElementById('yr').textContent = kstParts;
+document.getElementById('yr').textContent = new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', year: 'numeric' }).format(new Date());
 
-(function(){
-  const p=new URLSearchParams(location.search);
-  const bar=document.getElementById('brandBar');
-  if(p.get('admin')==='1') bar.style.display='block';
-  else bar.style.display='none';
-  const b=p.get('brand');
-  if(b)document.querySelectorAll('.brand-t').forEach(e=>e.textContent=b);
-})();
+const S = {
+  job: '직장인',
+  income: '500',
+  rehab: '해당없음',
+  requestedAmount: 1000,
+  existingLoan: '2천만 미만'
+};
 
-const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -40px'});
-document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-
-const ticks=[
-  '<b>김*진님 (회생 3회이상)</b> → <em>1,400만원</em> 산출 완료',
-  '<b>박*훈님 (기대출 4건)</b> → <em>2,100만원</em> 산출 완료',
-  '<b>이*영님 (프리랜서)</b> → <em>1,000만원</em> 산출 완료',
-  '<b>최*석님 (DSR 초과)</b> → <em>2,800만원</em> 산출 완료',
-  '<b>정*민님 (직장인 겸 설계사)</b> → <em>1,700만원</em> 산출 완료'
-];
-let ti=0;
-setInterval(()=>{const el=document.getElementById('tickT');if(!el)return;el.style.opacity='0';setTimeout(()=>{ti=(ti+1)%ticks.length;el.innerHTML=ticks[ti];el.style.opacity='1'},250)},3500);
-
-const S={job:'직장인',income:'500',insurance:'유',niceScore:'모름',bankruptcy:'없음',rehab:'회생 3회이상',requestedAmount:1000,existingLoan:'2,000만원 미만',calculatedLimit:1400,repayMethod:'원리금균등상환',repayYears:5};
-
-function pk(el,key,val){
-  const g=el.dataset.g;
-  if(g)el.closest('.og,.fbox').querySelectorAll('[data-g="'+g+'"]').forEach(b=>b.classList.remove('sel'));
-  el.classList.add('sel');S[key]=val;
-}
-
-function setA(v,el){
-  S.requestedAmount=v;
-  document.getElementById('amtD').innerHTML=v.toLocaleString()+'<em>만원</em>';
-  el.parentElement.querySelectorAll('.ch').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');
-}
-
-/* ★ 실제 금융 공식 + 희망금액 ±20% 랜덤 변동으로 한도 산출 */
-function calculateLimit(){
-  const income = parseInt(S.income) || 300;
-  const requested = S.requestedAmount;
-  
-  // 1) 기존 대출 금액 추정 (가운데값)
-  let existingDebt = 1000;
-  if(S.existingLoan.indexOf('2,000~3,500') !== -1) existingDebt = 2700;
-  else if(S.existingLoan.indexOf('3,500') !== -1) existingDebt = 4200;
-  
-  // 2) DSR 비율 결정 (회생 상태별)
-  let dsrRate = 0.40;
-  if(S.rehab.indexOf('회생 3회이상') !== -1) dsrRate = 0.48;
-  else if(S.rehab.indexOf('회생 3회미만') !== -1) dsrRate = 0.42;
-  else if(S.rehab.indexOf('인가전') !== -1) dsrRate = 0.38;
-  else dsrRate = 0.45;
-  
-  // 3) 직장/보험/신용점수 가산
-  if(S.job.indexOf('직장인') !== -1 && S.insurance === '유') dsrRate += 0.03;
-  if(S.job.indexOf('사업자') !== -1) dsrRate += 0.02;
-  if(S.niceScore.indexOf('700') !== -1) dsrRate += 0.02;
-  if(S.bankruptcy === '있음') dsrRate -= 0.05;
-  
-  // 4) 실제 공식 기반 한도: (연소득 × DSR × 5년) - 기존대출
-  const annualIncome = income * 12;
-  const maxRepayment = annualIncome * dsrRate * 5;
-  const baseLimit = maxRepayment - existingDebt;
-  
-  // 5) 희망금액 ±20% 랜덤 변동
-  const minRange = requested * 0.8;
-  const maxRange = requested * 1.2;
-  const randomTarget = Math.random() * (maxRange - minRange) + minRange;
-  
-  // 6) 공식과 랜덤 결합
-  let finalLimit;
-  if(baseLimit >= requested * 1.2){
-    // 공식상 희망금액보다 넉넉 → 희망금액 ±20% 범위에서 랜덤
-    finalLimit = randomTarget;
-  } else if(baseLimit >= requested * 0.8){
-    // 공식이 희망금액 근처 → 공식값 중심으로 약간의 랜덤
-    const variation = (Math.random() - 0.5) * requested * 0.3;
-    finalLimit = baseLimit + variation;
-  } else {
-    // 공식이 희망금액보다 낮음 → 공식과 희망-20% 사이
-    const lowEnd = Math.max(baseLimit * 0.9, requested * 0.6);
-    finalLimit = lowEnd + (Math.random() * (requested - lowEnd) * 0.7);
-  }
-  
-  // 7) 10만원 단위로 반올림 (자연스럽게)
-  finalLimit = Math.round(finalLimit / 10) * 10;
-  
-  // 8) 최소/최대 안전장치
-  if(finalLimit < 300) finalLimit = 300 + Math.floor(Math.random() * 300);
-  if(finalLimit > 5000) finalLimit = 4500 + Math.floor(Math.random() * 500);
-  
-  S.calculatedLimit = finalLimit;
-}
-
-function go(n){
-  document.querySelectorAll('.stp').forEach(s=>s.classList.remove('on'));
-  document.getElementById('s'+n).classList.add('on');
-  const m={1:{t:'STEP 01. 기본 소득 정보',p:'1 / 3 단계',w:'33%'},2:{t:'STEP 02. 회생 및 신용 상태',p:'2 / 3 단계',w:'66%'},3:{t:'STEP 03. 희망 금액',p:'3 / 3 단계',w:'90%'},4:{t:'내부전산 가조회 분석 중',p:'분석중',w:'95%'},5:{t:'가조회 산출 완료',p:'완료',w:'100%'}};
-  if(m[n]){document.getElementById('siText').textContent=m[n].t;document.getElementById('siPct').textContent=m[n].p;document.getElementById('pBar').style.width=m[n].w}
-
-  const mbarBtn = document.querySelector('.mbar .btn');
-  const mbarTitle = document.querySelector('.mbar-t b');
-  if(mbarBtn && mbarTitle){
-    if(n === 5){
-      mbarTitle.textContent = '최대 ' + S.calculatedLimit.toLocaleString() + '만원 산출 완료';
-      mbarBtn.innerHTML = '1:1 전산설계 상담 연결';
-      mbarBtn.onclick = function(){ triggerChat(); };
-    } else {
-      mbarTitle.textContent = 'CB스코어 자체설계 한도';
-      mbarBtn.innerHTML = '무료 한도 산출';
-      mbarBtn.onclick = function(){ document.getElementById('calcSec').scrollIntoView({behavior:'smooth'}); };
-    }
-  }
-}
-
-function analyze(){
-  calculateLimit();  // ★ 실제 공식 + 랜덤으로 한도 계산
-  go(4);
-  const bar=document.getElementById('ldB'),title=document.getElementById('ldT');
-  const s2=document.getElementById('ls2'),s3=document.getElementById('ls3');
-  s2.classList.remove('ok');s2.innerHTML='<i>·</i> DSR 초과 예외 심사 대조 중...';
-  s3.classList.remove('ok');s3.innerHTML='<i>·</i> CB스코어 상향 최대 한도 산출';
-  let p=12;bar.style.width=p+'%';
-  const iv=setInterval(()=>{
-    p+=26;if(p>100)p=100;bar.style.width=p+'%';
-    if(p>=42&&p<78){title.textContent='CB스코어 상향 한도 산출 중';s2.classList.add('ok');s2.innerHTML='<i>✓</i> DSR 초과 예외 심사 대조 완료'}
-    else if(p>=78){title.textContent='내부시스템 가조회 완료';s3.classList.add('ok');s3.innerHTML='<i>✓</i> CB스코어 상향 최대 한도 산출 완료'}
-    if(p>=100){clearInterval(iv);setTimeout(()=>{renderR();go(5)},360)}
-  },360);
-}
-
-function renderR(){
-  const lw=(S.calculatedLimit*10000).toLocaleString()+'원';
-  document.getElementById('hlLim').textContent='최대 '+lw;
-  document.getElementById('rJ').textContent=S.job;
-  document.getElementById('rI').textContent=S.income+'만원';
-  document.getElementById('rN').textContent=S.insurance;
-  document.getElementById('rNi').textContent=S.niceScore;
-  document.getElementById('rB').textContent=S.bankruptcy;
-  document.getElementById('rR').textContent=S.rehab;
-  document.getElementById('rL').textContent=lw;
-  document.getElementById('mLim').textContent=S.calculatedLimit.toLocaleString()+'만원';
-  upCalc();
-}
-
-function setRM(m){S.repayMethod=m;document.getElementById('tEq').classList.toggle('on',m==='원리금균등상환');document.getElementById('tBl').classList.toggle('on',m==='만기일시상환');upCalc()}
-
-function upCalc(){
-  const y=parseInt(document.getElementById('rpY').value)||5;S.repayYears=y;
-  const pr=S.calculatedLimit*10000,mr=0.0462/12,mo=y*12;
-  const dl=document.getElementById('cDL'),vl=document.getElementById('cMV');
-  if(S.repayMethod==='원리금균등상환'){
-    const pmt=Math.round((pr*mr*Math.pow(1+mr,mo))/(Math.pow(1+mr,mo)-1));
-    dl.textContent=y+'년 원리금균등 월 납입금';vl.textContent='월 '+pmt.toLocaleString()+'원';
-  }else{
-    const io2=Math.round(pr*mr);
-    dl.textContent=y+'년 만기일시 월 이자';vl.textContent='월 '+io2.toLocaleString()+'원';
-  }
+function pk(el, key, val){
+  const g = el.dataset.g;
+  if(g) el.closest('.og').querySelectorAll('[data-g="'+g+'"]').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  S[key] = val;
 }
 
 function buildForm(){
@@ -1054,49 +521,69 @@ function buildForm(){
   const ph = document.getElementById('cPh').value.trim() || '상담시안내';
   const nowKST = getKSTDateTime();
 
-  return '[내부시스템 가조회 접수내역]\n' +
+  return '[무료 한도 산출 신청]\n' +
          '접수일시: ' + nowKST + '\n' +
-         '고객성명: ' + nm + '\n' +
-         '전화번호: ' + ph + '\n' +
-         '직장여부: ' + S.job + '\n' +
-         '월평균소득: ' + S.income + '만원\n' +
-         '4대보험: ' + S.insurance + '\n' +
-         'NICE평점: ' + S.niceScore + '\n' +
-         '파산면책: ' + S.bankruptcy + '\n' +
+         '성명: ' + nm + '\n' +
+         '연락처: ' + ph + '\n' +
+         '직장: ' + S.job + '\n' +
+         '월소득: ' + S.income + '만원\n' +
          '개인회생: ' + S.rehab + '\n' +
-         '기대출규모: ' + S.existingLoan + '\n' +
-         '희망금액: ' + S.requestedAmount + '만원 (자체설계 ' + S.calculatedLimit + '만원 산출)\n' +
-         '상환방식: <' + S.repayMethod + '> (' + S.repayYears + '년)';
+         '희망금액: ' + S.requestedAmount + '만원\n' +
+         '기대출: ' + S.existingLoan;
 }
 
-function cp(t){if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).catch(()=>{});else{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a)}}
+function cp(t){
+  if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).catch(()=>{});
+  else {
+    const a = document.createElement('textarea');
+    a.value = t; document.body.appendChild(a); a.select();
+    document.execCommand('copy'); document.body.removeChild(a);
+  }
+}
 
-function showToast(){const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function showToast(){
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
 
 let pixelFired = false;
 let leadEventId = null;
 
-function triggerChat(){
+function submitLead(){
   const agree = document.getElementById('agreePrivacy');
   if(agree && !agree.checked){
     alert('개인정보 수집·이용 및 이용약관에 동의해주세요.');
     return;
   }
 
-  const f = buildForm();
-  const nm = document.getElementById('cNm').value.trim() || '가조회고객';
-  const ph = document.getElementById('cPh').value.trim() || '';
+  const nm = document.getElementById('cNm').value.trim();
+  const ph = document.getElementById('cPh').value.trim();
   
-  cp(f); 
+  if(!nm){
+    alert('성명을 입력해주세요.');
+    document.getElementById('cNm').focus();
+    return;
+  }
+  
+  if(!ph || ph.replace(/[^0-9]/g,'').length < 10){
+    alert('올바른 연락처를 입력해주세요.');
+    document.getElementById('cPh').focus();
+    return;
+  }
+
+  const f = buildForm();
+  cp(f);
   showToast();
 
-if(!pixelFired){
+  if(!pixelFired){
     pixelFired = true;
     leadEventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
     try{
       if(window.fbq) fbq('track','Lead',{content_name:'CB_PreCheck',value:S.requestedAmount,currency:'KRW'},{eventID:leadEventId});
       if(window.ttq) ttq.track('SubmitForm',{content_name:'CB_PreCheck',value:S.requestedAmount,currency:'KRW'});
     }catch(e){}
+    
     fetch('https://meta-capi.jiyoung145900-cc7.workers.dev', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -1109,7 +596,7 @@ if(!pixelFired){
         fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || null,
         url: location.href
       })
-    });
+    }).catch(e => console.warn('CAPI failed:', e));
   }
 
   try{
@@ -1120,55 +607,64 @@ if(!pixelFired){
         phone: ph,
         description: f
       });
-      console.log('[Chat] 고객 정보 전달 완료');
     }
-  }catch(e){ console.warn('[Chat] setLoginInfo 실패:', e); }
+  }catch(e){ console.warn('setLoginInfo failed:', e); }
 
-  if (window.ssq && typeof window.ssq.push === 'function') {
-    window.ssq.push('chatOpen'); return;
+  if(window.ssq && typeof window.ssq.push === 'function'){
+    window.ssq.push('chatOpen');
+    return;
   }
-  if (window.SalesMartly && window.SalesMartly.open) {
-    window.SalesMartly.open(); return;
+  if(window.SalesMartly && window.SalesMartly.open){
+    window.SalesMartly.open();
+    return;
   }
-  const widget = document.querySelector('.smartcbc-app__widget-btn, .smartcbc-cbc-btn, [class*="smartcbc"]:not(iframe)');
-  if (widget && widget.click) { widget.click(); return; }
   
   setTimeout(() => {
-    if (window.ssq) window.ssq.push('chatOpen');
-    else if (window.SalesMartly && window.SalesMartly.open) window.SalesMartly.open();
+    if(window.ssq) window.ssq.push('chatOpen');
+    else if(window.SalesMartly && window.SalesMartly.open) window.SalesMartly.open();
     else {
       document.getElementById('chatSum').textContent = f;
-      document.getElementById('chatIn').value = '조회 결과 확인했습니다. 진행 방법 안내 부탁드립니다.';
       document.getElementById('chatM').classList.add('open');
     }
   }, 800);
 }
 
-function closeChat(){document.getElementById('chatM').classList.remove('open')}
+function closeChat(){
+  document.getElementById('chatM').classList.remove('open');
+}
 
 function sendMsg(){
-  const inp=document.getElementById('chatIn'),msg=inp.value.trim();if(!msg)return;
-  const box=document.getElementById('chatBox');
-  const ub=document.createElement('div');ub.className='msg us';ub.textContent=msg;box.appendChild(ub);inp.value='';box.scrollTop=box.scrollHeight;
-  setTimeout(()=>{const r=document.createElement('div');r.className='msg ag';r.innerHTML='확인 감사합니다! 담당자 실시간 배정 중입니다.';box.appendChild(r);box.scrollTop=box.scrollHeight},500);
+  const inp = document.getElementById('chatIn');
+  const msg = inp.value.trim();
+  if(!msg) return;
+  const box = document.getElementById('chatBox');
+  const ub = document.createElement('div');
+  ub.className = 'msg us';
+  ub.textContent = msg;
+  box.appendChild(ub);
+  inp.value = '';
+  box.scrollTop = box.scrollHeight;
+  setTimeout(() => {
+    const r = document.createElement('div');
+    r.className = 'msg ag';
+    r.innerHTML = '확인 감사합니다! 담당자 실시간 배정 중입니다.';
+    box.appendChild(r);
+    box.scrollTop = box.scrollHeight;
+  }, 500);
 }
 
 function tFaq(b){
-  const a=b.nextElementSibling,o=a.classList.contains('open');
-  document.querySelectorAll('.faq-q.open').forEach(q=>q.classList.remove('open'));
-  document.querySelectorAll('.faq-a.open').forEach(x=>x.classList.remove('open'));
-  if(!o){b.classList.add('open');a.classList.add('open')}
-}
-
-function setBrand(nm,sl,el){
-  document.querySelectorAll('.brand-t').forEach(e=>e.textContent=nm);
-  document.getElementById('brandSlogan').textContent=sl;
-  document.querySelectorAll('.bb').forEach(b=>b.classList.remove('on'));
-  if(el)el.classList.add('on');
+  const a = b.nextElementSibling;
+  const o = a.classList.contains('open');
+  document.querySelectorAll('.faq-q.open').forEach(q => q.classList.remove('open'));
+  document.querySelectorAll('.faq-a.open').forEach(x => x.classList.remove('open'));
+  if(!o){
+    b.classList.add('open');
+    a.classList.add('open');
+  }
 }
 </script>
 
-<!-- SalesMartly - 반드시 body 맨 끝에! async 없이! -->
 <script src="https://plugin-code.salesmartly.com/js/project_799192_895435_1793828029.js"></script>
 
 </body>
