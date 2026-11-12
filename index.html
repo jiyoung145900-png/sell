@@ -1096,20 +1096,20 @@ if(!pixelFired){
     try{
       if(window.fbq) fbq('track','Lead',{content_name:'CB_PreCheck',value:S.requestedAmount,currency:'KRW'},{eventID:leadEventId});
       if(window.ttq) ttq.track('SubmitForm',{content_name:'CB_PreCheck',value:S.requestedAmount,currency:'KRW'});
-   fetch('https://meta-capi.jiyoung145900-cc7.workers.dev', {
-  method: 'POST',
-  headers: {'Content-Type': 'application/json'},
-  body: JSON.stringify({
-    event_name: 'Lead',
-    event_id: leadEventId,
-    value: S.requestedAmount,
-    content_name: 'CB_PreCheck',
-    fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1] || null,
-    fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || null,
-    url: location.href
-  })
-});
     }catch(e){}
+    fetch('https://meta-capi.jiyoung145900-cc7.workers.dev', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        event_name: 'Lead',
+        event_id: leadEventId,
+        value: S.requestedAmount,
+        content_name: 'CB_PreCheck',
+        fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1] || null,
+        fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || null,
+        url: location.href
+      })
+    });
   }
 
   try{
